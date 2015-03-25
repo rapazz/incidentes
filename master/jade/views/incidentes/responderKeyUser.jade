@@ -1,0 +1,163 @@
+h3 
+  .pull-right
+    .btn-group(dropdown='', is-open='language.listIsOpen')
+      button.btn.btn-default(type='button', dropdown-toggle="")
+        | {{language.selected}}
+        span.caret
+      ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+        li(ng-repeat='(localeId, langName) in language.available')
+          a(ng-click='language.set(localeId, $event)') {{langName}}
+  | {{'incidente.responderKeyUser.titulo' | translate}}
+  small {{'incidente.responderKeyUser.tituloDescripcion' | translate}}
+form(method='post',id='formResponderKeyUserIncidente',name ='formResponderKeyUserIncidente', validate-form='', novalidate='',ng-submit='guardar()' )  
+ .panel
+  .panel-body
+    h3.mt0 {{'incidente.responderKeyUser.campos.id' | translate}} {{incidente.idIncidente}}
+    hr
+    .row.mb-lg
+      .col-lg-8.col-xs-10.br.pv
+        .row
+          .col-md-10
+            h4 {{'incidente.responderKeyUser.campos.nombre' | translate}} 
+            address
+            | {{incidente.nombre}}
+          .col-md-2
+            h4  {{'incidente.editarConsultor.campos.sla' | translate}} 
+            span.label.label-purple {{incidente.sla}} 
+        .row
+          .col-md-10
+            h4  {{'incidente.responderKeyUser.campos.descripcion' | translate}} 
+            address
+            | {{incidente.descripcion}}
+        .row
+          .col-md-3
+            h4  {{'incidente.responderKeyUser.campos.fechaCreacion' | translate}} 
+            address
+            | {{incidente.fechaCreacion | date:'MM/dd/yyyy h:mma'}}
+          .col-md-3
+            h4  {{'incidente.responderKeyUser.campos.sistema' | translate}} 
+            address
+            | {{incidente.tipoIncidente.Nombre}}
+          .col-md-3
+            h4  {{'incidente.responderKeyUser.campos.modulo' | translate}} 
+            address
+            | {{incidente.subtipoincidente.Nombre}}
+        .row
+          .col-md-6
+            h4  {{'incidente.responderKeyUser.campos.estado' | translate}} 
+            .form-group
+              select.form-control(ng-model="incidente.idEstado",required, data-parsley-error-message="{{'incidente.editarConsultor.campos.errorEstado' | translate}}",ng-options="item.estado.EstadoId as item.estado.Nombre for item in  listas.estados")          
+               option(value='') -- Seleccione Estado--
+        .row
+          .col-md-6
+            h4  {{'incidente.responderKeyUser.campos.origenProblema' | translate}} 
+             address
+            | {{incidente.origenproblema.Nombre}}
+          .col-md-6
+            h4  {{'incidente.responderKeyUser.campos.codigoTermino' | translate}} 
+             address
+            | {{incidente.codigotermino.Nombre}}  
+        .row
+             .col-md-12
+               h4  {{'incidente.editarConsultor.campos.comentarioConsultor' | translate}} 
+               .form-group
+                 textarea.form-control(rows='4', ng-model='incidente.comentarioConsultor', name='comentario',required='',data-parsley-error-message="{{'incidente.editarConsultor.campos.errorComentarioConsultor' | translate}}")
+        .row   
+         .col-md-10
+           h4  {{'incidente.responderKeyUser.campos.tituloArchivo' | translate}}
+           address
+             li.list-inline(ng-repeat='item in incidente.adjuntos')
+              a(href='api/adjunto/obtenerarchivo/{{item.AdjuntoId}}'){{item.Nombre}}
+        .row
+              .col-md-10
+             .panel
+               .panel-body
+                h4.page-header.mt0 {{'incidente.crearIncidente.campos.tituloArchivo' | translate}}
+                div(nv-file-drop='', uploader='uploader')
+                  .box-placeholder.my-drop-zone(nv-file-over='', uploader='uploader', over-class='bg-purple')
+                      | {{'incidente.crearIncidente.campos.descripcionArchivo' | translate}}
+                // Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}"
+                fieldset
+                  p.lead.text-center(ng-if="!uploader.queue.length")  {{'incidente.crearIncidente.campos.mensajeArchivo' | translate}}
+                  div(ng-if="uploader.queue.length")
+                    table.table(ng-if="uploader.queue.length")
+                      thead
+                        tr
+                          th(width='50%') {{'incidente.crearIncidente.campos.tabla.archivoNombre' | translate}}
+                          th(ng-show='uploader.isHTML5') {{'incidente.crearIncidente.campos.tabla.archivoTamano' | translate}}
+                          th(ng-show='uploader.isHTML5') {{'incidente.crearIncidente.campos.tabla.progreso' | translate}}
+                          th {{'incidente.crearIncidente.campos.tabla.status' | translate}}
+                          th {{'incidente.crearIncidente.campos.tabla.acciones' | translate}}
+                      tbody
+                        tr(ng-repeat='item in uploader.queue')
+                          td
+                            strong {{ item.file.name }}
+                          td(ng-show='uploader.isHTML5', nowrap='') {{ item.file.size/1024/1024|number:2 }} MB
+                          td(ng-show='uploader.isHTML5')
+                            .progress.progress-xs(style='margin-bottom: 0;')
+                              .progress-bar(role='progressbar', ng-style="{ 'width': item.progress + '%' }")
+                          td.text-center
+                            span(ng-show='item.isSuccess')
+                              em.fa.fa-check.fa-fw
+                            span(ng-show='item.isCancel')
+                              em.fa.fa-ban-circle.fa-fw
+                            span(ng-show='item.isError')
+                              em.fa.fa-times.fa-fw
+                          td(nowrap='')
+                            button.btn.btn-danger.btn-xs(type='button', ng-click='item.remove()')
+                              span.icon-trash.mr
+                              |  {{'incidente.crearIncidente.campos.tabla.remover' | translate}}
+      .col-lg-4.col-xs-4.br.pv
+        .row
+          .p-xl
+            a.list-group-item(href='#')
+              .media-box
+                .pull-left
+                  img.media-box-object.img-circle.thumb64(src="{{incidente.ku.foto}}", alt="Image")
+                .media-box-body.clearfix
+                  small.pull-right 
+                  strong.media-box-heading.text-primary {{'incidente.responderKeyUser.campos.keyUser' | translate}} 
+                    span.circle.circle-success.circle-lg.text-left
+                | {{incidente.ku.nombre}}
+              p.mb-sm: small {{incidente.ku.empresa}}
+        .row(ng-show='incidente.idUsuarioConsultor >-1')
+          .p-xl
+            a.list-group-item(href='#')
+              .media-box
+                .pull-left
+                  img.media-box-object.img-circle.thumb64(src="{{incidente.consultor.foto}}", alt="Image")
+                .media-box-body.clearfix
+                  small.pull-right 
+                  strong.media-box-heading.text-primary {{'incidente.responderKeyUser.campos.consultor' | translate}} 
+                    span.circle.circle-success.circle-lg.text-left
+                | {{incidente.consultor.nombre}}
+               p.mb-sm: small {{incidente.ku.empresa}}
+    .row.mb-lg
+      .col-lg-8.col-xs-10
+        .panel.panel-default
+          .panel-heading
+            .panel-title {{'incidente.responderKeyUser.campos.comentarios' | translate}}
+          scrollable.list-group(height="450")
+           a.list-group-item(ng-repeat='item in incidente.historial')
+            .media-box
+              .pull-left
+                img.media-box-object.img-circle.thumb32(src='{{item.usuario.foto}}', alt="Image")
+              .media-box-body.clearfix
+                small.pull-right {{item.estado.Nombre}} {{item.fechaCreacion | date:'MM/dd/yyyy h:mma'}}
+                strong.media-box-heading.text-primary 
+                  span.circle.circle-success.circle-lg.text-left
+                  | {{item.usuario.nombre}}
+                p.mb-sm: {{item.comentarios}}
+  .panel-footer
+    fieldset
+     .pull-right
+      .form-group
+        .col-lg-offset-2.col-lg-10
+            button.btn.btn-primary(type='submit') {{'incidente.editarConsultor.botones.actualizar' | translate}}
+script(type="text/ng-template", id="dialogWithNestedConfirmDialogId2")
+    .ngdialog-message
+      h3.mt0 {{'incidente.editarConsultor.mensajeExito' | translate}} N° {{incidente.idIncidente}}
+      p
+        | {{'incidente.editarConsultor.mensajeDetalle' | translate}}
+      button.btn.btn-primary(type='button', ng-click="confirm(1)") Ok                              
+          

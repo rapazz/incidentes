@@ -1,0 +1,55 @@
+h3 
+  .pull-right
+    .btn-group(dropdown='', is-open='language.listIsOpen')
+      button.btn.btn-default(type='button', dropdown-toggle="")
+        | {{language.selected}}
+        span.caret
+      ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+        li(ng-repeat='(localeId, langName) in language.available')
+          a(ng-click='language.set(localeId, $event)') {{langName}}
+  | {{'administracion.usuarios.titulo' | translate}}
+  small {{'administracion.usuarios.descripcionTitulo' | translate}}
+.panel.panel-default
+  .panel-body
+   fieldset
+      .col-sm-10
+        typeah2ead(items='items', title='name', subtitle='abbreviation', codigo='idEmail', model='nombre', on-select='seleccionarUsuario()')
+   form(role='form',action='', novalidate='novalidate', ng-submit='actualizarUsuario()')
+      fieldset
+        .col-sm-6
+          .form-group
+            label{{'administracion.usuarios.campos.nombreCompleto' | translate}}
+            input.form-control(type='text',ng-model="nombre",disabled='')
+         .col-sm-4
+          .form-group
+          label{{'administracion.usuarios.campos.rut' | translate}}
+          input.form-control(type='text',ng-model="rut",disabled='')  
+      fieldset
+       .col-sm-3
+        .form-group
+          label {{'administracion.usuarios.campos.cargo' | translate}}
+          input.form-control(type='text',ng-model="cargo",disabled='') 
+       .col-sm-3
+        .form-group
+           label{{'administracion.usuarios.campos.email' | translate}}
+           input.form-control(type='text',ng-model="email",disabled='') 
+       .col-sm-4 
+        .form-group 
+          label {{'administracion.usuarios.campos.empresa' | translate}}
+          input.form-control(type='text',ng-model="empresa",disabled='') 
+      fieldset
+       .col-sm-10
+        label.checkbox.checkbox-inline(ng-repeat='item in roles')
+          input(type='checkbox', ng-model='arrayRoles[item.rolId]')
+          i
+          | {{item.nombre}}
+      .panel-footer
+        .pull-right
+          .form-group
+            .col-lg-offset-2.col-lg-10
+              button.btn.btn-primary(type='submit') {{'administracion.usuarios.botones.actualizar' | translate}}
+   
+  
+ 
+     
+      

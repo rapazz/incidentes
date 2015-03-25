@@ -1,0 +1,88 @@
+h3 
+  .pull-right
+    .btn-group(dropdown='', is-open='language.listIsOpen')
+      button.btn.btn-default(type='button', dropdown-toggle="")
+        | {{language.selected}}
+        span.caret
+      ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+        li(ng-repeat='(localeId, langName) in language.available')
+          a(ng-click='language.set(localeId, $event)') {{langName}}
+  | {{'incidente.crearIncidente.titulo' | translate}}
+  small {{'incidente.crearIncidente.tituloDescripcion' | translate}}
+.panel.panel-default
+  form(method='post',id='formCrearIncidente',name ='formCrearIncidente', validate-form='', novalidate='',ng-submit='grabarIncidente()' )
+   .panel-body
+     fieldset
+      .col-sm-6
+        .form-group
+          label.control-label
+            | {{'incidente.crearIncidente.campos.titulo' | translate}}
+          input.form-control(type='text',ng-model="incidente.nombre",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorTitulo' | translate}}")
+     fieldset
+      .col-sm-3
+        .form-group
+          label.control-label
+            | {{'incidente.crearIncidente.campos.sistema' | translate}}
+          select.form-control(ng-model="incidente.idTipoIncidente",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorSistema' | translate}}",ng-options="item.TipoIncidenteId as item.Nombre  for item in listas.sistema",ng-change="cargaModulo()")
+      .col-sm-3
+        .form-group
+          label.control-label
+            | {{'incidente.crearIncidente.campos.modulo' | translate}}
+          select.form-control(ng-model="incidente.idSubTipoIncidente",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorModulo' | translate}}",ng-options="item.SubTipoIncidenteId as item.Nombre  for item in listas.modulo")          
+     fieldset
+      .col-sm-10
+        .form-group
+          label.control-label
+            | {{'incidente.crearIncidente.campos.descripcion' | translate}}
+          textarea.form-control(rows="4",ng-model="incidente.descripcion",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorDescripcion' | translate}}")
+     fieldset
+      .col-md-10
+         .panel
+           .panel-body
+            h4.page-header.mt0 {{'incidente.crearIncidente.campos.tituloArchivo' | translate}}
+            div(nv-file-drop='', uploader='uploader')
+              .box-placeholder.my-drop-zone(nv-file-over='', uploader='uploader', over-class='bg-purple')
+                  | {{'incidente.crearIncidente.campos.descripcionArchivo' | translate}}
+            // Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}"
+            fieldset
+              p.lead.text-center(ng-if="!uploader.queue.length")  {{'incidente.crearIncidente.campos.mensajeArchivo' | translate}}
+              div(ng-if="uploader.queue.length")
+                table.table(ng-if="uploader.queue.length")
+                  thead
+                    tr
+                      th(width='50%') {{'incidente.crearIncidente.campos.tabla.archivoNombre' | translate}}
+                      th(ng-show='uploader.isHTML5') {{'incidente.crearIncidente.campos.tabla.archivoTamano' | translate}}
+                      th(ng-show='uploader.isHTML5') {{'incidente.crearIncidente.campos.tabla.progreso' | translate}}
+                      th {{'incidente.crearIncidente.campos.tabla.status' | translate}}
+                      th {{'incidente.crearIncidente.campos.tabla.acciones' | translate}}
+                  tbody
+                    tr(ng-repeat='item in uploader.queue')
+                      td
+                        strong {{ item.file.name }}
+                      td(ng-show='uploader.isHTML5', nowrap='') {{ item.file.size/1024/1024|number:2 }} MB
+                      td(ng-show='uploader.isHTML5')
+                        .progress.progress-xs(style='margin-bottom: 0;')
+                          .progress-bar(role='progressbar', ng-style="{ 'width': item.progress + '%' }")
+                      td.text-center
+                        span(ng-show='item.isSuccess')
+                          em.fa.fa-check.fa-fw
+                        span(ng-show='item.isCancel')
+                          em.fa.fa-ban-circle.fa-fw
+                        span(ng-show='item.isError')
+                          em.fa.fa-times.fa-fw
+                      td(nowrap='')
+                        button.btn.btn-danger.btn-xs(type='button', ng-click='item.remove()')
+                          span.icon-trash.mr
+                          |  {{'incidente.crearIncidente.campos.tabla.remover' | translate}}
+   .panel-footer
+     fieldset
+      .pull-right
+        .form-group
+          .col-lg-offset-2.col-lg-10
+             button.btn.btn-primary(type='submit') {{'incidente.botones.crear' | translate}}
+  script(type="text/ng-template", id="dialogWithNestedConfirmDialogId")
+    .ngdialog-message
+      h3.mt0 {{'incidente.crearIncidente.mensajeExito' | translate}} N° {{IncidenteId}}
+      p
+        | {{'incidente.crearIncidente.mensajeDetalle' | translate}}
+      button.btn.btn-primary(type='button', ng-click="confirm(1)") Save

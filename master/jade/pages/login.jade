@@ -1,0 +1,22 @@
+.block-center.mt-xl.wd-xl(ng-controller="loginController")
+  // START panel
+  .panel.panel-dark.panel-flat
+    .panel-heading.text-center
+      a(href="#")
+        img.block-center.img-rounded(src='app/img/logo.png', alt='Image')
+    .panel-body
+      p.text-center.pv Para entrar debes Loguearte.
+      ul.list-inline.intro-social-buttons
+       li
+        button.btn.btn-default.btn-lg(ng-click="loginOauth('google')")
+          i.fa.fa-google-plus.fa-fw
+          |  
+          span.network-name Login con Google
+  // END panel
+  .p-lg.text-center
+    span &copy; 
+    span(ng-bind="app.year") 
+    span  - 
+    span(ng-bind="app.name")
+    br
+    span(ng-bind="app.description")

@@ -1,0 +1,2 @@
+curl -XDELETE 172.24.0.40/contactos/
+curl -s -XPOST 172.24.0.40/_bulk --data-binary @json4.txt

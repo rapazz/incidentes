@@ -1,0 +1,86 @@
+h3 
+  .pull-right
+    .btn-group(dropdown='', is-open='language.listIsOpen')
+      button.btn.btn-default(type='button', dropdown-toggle="")
+        | {{language.selected}}
+        span.caret
+      ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+        li(ng-repeat='(localeId, langName) in language.available')
+          a(ng-click='language.set(localeId, $event)') {{langName}}
+  | {{'home.consultor.titulo' | translate}}
+  small {{'home.consultor.tituloDescripcion' | translate}}
+.row
+  .col-lg-3.col-sm-6
+    // START widget
+    .panel.widget.bg-primary(ng-click='cargarFiltro(1)')
+      .row.row-table
+        .col-xs-4.text-center.bg-primary-dark.pv-lg
+          em.icon-cloud-upload.fa-3x
+        .col-xs-8.pv-lg
+          .h2.mt0 {{dashboard.misCasos}}
+          .text-uppercase {{'home.consultor.campos.incidentes' | translate}}
+  .col-lg-3.col-md-6.col-sm-12
+    // START widget
+    .panel.widget.bg-green(ng-click='cargarFiltro(2)')
+      .row.row-table
+        .col-xs-4.text-center.bg-green-dark.pv-lg
+          em.icon-bubbles.fa-3x
+        .col-xs-8.pv-lg
+          .h2.mt0  {{dashboard.sinAsignar}}
+          .text-uppercase {{'home.consultor.campos.sinAsignar' | translate}}
+  .col-lg-3.col-md-6.col-sm-12
+    // START widget
+    .panel.widget.bg-warning(ng-click='cargarFiltro(3)')
+      .row.row-table
+        .col-xs-4.text-center.bg-warning-dark.pv-lg
+          em.icon-bubbles.fa-3x
+        .col-xs-8.pv-lg
+          .h2.mt0  {{dashboard.devolucion}}
+          .text-uppercase {{'home.consultor.campos.devolucion' | translate}}
+  .col-lg-3.col-md-6.col-sm-12
+    // START widget
+    .panel.widget.bg-warning(ng-click='cargarFiltro(4)')
+      .row.row-table
+        .col-xs-4.text-center.bg-warning-dark.pv-lg
+          em.icon-bubbles.fa-3x
+        .col-xs-8.pv-lg
+          .h2.mt0  {{dashboard.fueraSLA}}
+          .text-uppercase {{'home.consultor.campos.fueraSLA' | translate}}
+.row
+  .col-lg-12
+    // START panel
+    .panel.panel-default
+      .panel-heading
+        | {{'home.keyUser.tabla.titulo' | translate}}
+        // START table-responsive
+        .table-responsive
+          table#table-ext-3.table.table-striped.table-bordered.table-hover
+            thead
+              tr
+                th {{'home.keyUser.tabla.id' | translate}}
+                th {{'home.keyUser.tabla.nombre' | translate}}
+                th {{'home.keyUser.tabla.estado' | translate}}     
+                th {{'home.keyUser.tabla.ingreso' | translate}}
+                th {{'home.keyUser.tabla.sistema' | translate}}    
+                th {{'home.keyUser.tabla.modulo' | translate}}
+                th {{'home.keyUser.tabla.consultor' | translate}}   
+                th {{'home.keyUser.tabla.acciones' | translate}}
+            tbody
+              tr(ng-repeat='item in data | filter:miFiltro')
+                td {{item.idIncidente}}
+                td {{item.nombre}}
+                td {{item.estado.Nombre}}
+                td {{item.fechaCreacion | date:'MM/dd/yyyy h:mma'}}
+                td {{item.tipoIncidente.Nombre}}
+                td {{item.subtipoincidente.Nombre}}
+                td {{item.consultor.nombre}}               
+                td  
+                  a.btn.btn-primary(href='/#/app/incidentes/verIncidente/{{item.idIncidente}}')
+                    i.fa.fa-eye
+                  a.btn.btn-primary(ng-show='item.idEstado != 10 && item.idEstado != 99  && item.idEstado != 60  && item.idEstado != 30', href='/#/app/incidentes/editarConsultor/{{item.idIncidente}}')
+                    i.fa.fa-pencil-square-o                 
+                  a.btn.btn-primary(ng-show='item.idEstado==10', href='/#/app/incidentes/tomarIncidente/{{item.idIncidente}}')
+                    i.fa.fa-pencil-square-o
+
+        // END table-responsive
+    // END panel

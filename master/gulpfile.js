@@ -45,7 +45,7 @@ var W3C_OPTIONS = {
 };
 
 // production mode (see build task)
-var isProduction = true;
+var isProduction = false;
 var useSourceMaps = false;
 
 // ignore everything that begins with underscore

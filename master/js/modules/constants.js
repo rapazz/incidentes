@@ -31,7 +31,9 @@ App
     // jQuery based and standalone scripts
     scripts: {
       'modernizr':          ['vendor/modernizr/modernizr.js'],
+      'chartjs':            ['vendor/Chart.js/Chart.js'],
       'slimscroll':         ['vendor/slimScroll/jquery.slimscroll.min.js'],
+      'classyloader':       ['vendor/jquery-classyloader/js/jquery.classyloader.min.js'],
       'icons':              ['vendor/fontawesome/css/font-awesome.min.css',
                              'vendor/simple-line-icons/css/simple-line-icons.css'],
        'parsley':            ['vendor/parsleyjs/dist/parsley.min.js'],
@@ -53,5 +55,23 @@ App
       // { name: 'toaster', files: ['vendor/angularjs-toaster/toaster.js','vendor/angularjs-toaster/toaster.css'] }
     ]
 
+  })
+  .constant('APP_ANOS',{
+    "2015":2015,
+    "2016":2016
+  })
+  .constant('APP_MESES',{
+    "Enero":1,
+    "Febrero":2,
+    "Marzo":3,
+    "Abril":4,
+    "Mayo":5,
+    "Junio":6,
+    "Julio":7,
+    "Agosto":8,
+    "Septiembre":9,
+    "Octubre":10,
+    "Noviembre":11,
+    "Diciembre":12
   })
 ;

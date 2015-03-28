@@ -56,6 +56,13 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         templateUrl: helper.basepath('home/consultor.html'),
          controller: 'home.consultor'
     })
+    .state('app.homeSuperConsultor', {
+        url: '/home/superConsultor',
+        title: 'Dashboard',
+        templateUrl: helper.basepath('home/superConsultor.html'),
+        resolve: helper.resolveFor('classyloader','chartjs'),
+         controller: 'home.superConsultor'
+    })
     .state('app.singleview', {
         url: '/singleview',
         title: 'Single View',

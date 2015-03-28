@@ -1,0 +1,74 @@
+h3 
+  .pull-right
+    .btn-group(dropdown='', is-open='language.listIsOpen')
+      button.btn.btn-default(type='button', dropdown-toggle="")
+        | {{language.selected}}
+        span.caret
+      ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+        li(ng-repeat='(localeId, langName) in language.available')
+          a(ng-click='language.set(localeId, $event)') {{langName}}
+  | {{'home.superConsultor.titulo' | translate}}
+  small {{'home.superConsultor.tituloDescripcion' | translate}}
+.panel.panel-default
+  .panel-body
+   .row
+       .col-sm-1
+        .form-group
+          label.control-label
+            | {{'home.superConsultor.campos.mes' | translate}}
+          select.form-control(ng-model="incidente.idTipoIncidente",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorSistema' | translate}}",ng-options="item.id as item.mes  for item in meses",ng-change="cargaModulo()")
+       .col-sm-1
+        .form-group
+          label.control-label
+            | {{'home.superConsultor.campos.anno' | translate}}
+          select.form-control(ng-model="incidente.idTipoIncidente",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorSistema' | translate}}",ng-options="item.id as item.nombre  for item in anno",ng-change="cargaModulo()")  
+       .col-sm-2
+        .form-group
+          label.control-label
+            | {{'home.superConsultor.campos.empresa' | translate}}
+          select.form-control(ng-model="incidente.idTipoIncidente",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorSistema' | translate}}",ng-options="item.TipoIncidenteId as item.Nombre  for item in listas.sistema",ng-change="cargaModulo()")  
+   fieldset
+.panel.panel-default
+      .panel-heading Radial Size
+      .panel-body.text-center
+        .row
+          .col-md-3
+            .radial-bar.radial-bar-85.radial-bar-lg(data-label="85%")
+            p: code .radial-bar.radial-bar-85.radial-bar-lg
+          .col-md-3
+            .radial-bar.radial-bar-45(data-label="45%")
+          .col-md-3
+            .radial-bar.radial-bar-60.radial-bar-sm(data-label="60%")
+          .col-md-3
+            .radial-bar.radial-bar-20.radial-bar-xs(data-label="20%")  
+
+.container-fluid()
+  .row.mb-lg
+    .col-lg-6
+      h4 Line Chart 
+      div
+        canvas(linechart='', options='lineOptions', data='lineData', height='120', responsive='true')
+    .col-lg-6
+      h4 Bar Chart
+      div
+        canvas(barchart='', options='barOptions', data='barData', height='120', responsive='true')
+  .row.mb-lg
+    .col-lg-6
+      h4 Polar Area Chart
+      div
+        canvas(polarchart='', options='polarOptions', data='polarData', height='180', responsive='true')
+    .col-lg-6
+      h4 Radar Chart
+      div
+        canvas(radarchart='', options='radarOptions', data='radarData', height='180', responsive='true')
+  .row.mb-lg
+    .col-lg-6
+      h4 Pie Chart
+      div
+        canvas(doughnutchart='', options='pieOptions', data='pieData', height='80', responsive='true')
+    .col-lg-6
+      h4 Doughnut Chart
+      div
+        canvas(doughnutchart='', options='doughnutOptions', data='doughnutData', height='80', responsive='true')
+
+  

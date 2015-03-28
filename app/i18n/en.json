@@ -1,0 +1,176 @@
+{
+  "dashboard": {
+    "WELCOME": "Welcome to {{appName}}"
+  },
+  "topbar": {
+    "search": {
+      "PLACEHOLDER": "Type and hit enter.."
+    }
+  },
+  "sidebar": {
+    "WELCOME": "Welcome",
+    "heading": {
+      "HEADER": "Main ñlkñlkñ Navigation"
+    },
+    "nav": {
+      "SINGLEVIEW": "Single View",
+      "menu": {
+        "MENU": "Menu",
+        "SUBMENU": "Sub Menu"
+      }
+    }
+  },
+  "administracion":{
+      "usuarios":{
+          "titulo":"User Administrator",
+          "descripcionTitulo":"User Management Platform",
+          "campos": {
+            "nombreCompleto":"Full Name",
+            "rut":"DNI",
+            "cargo": "Office",
+            "email":"Email",
+            "empresa":"company",
+            "rolesUsuario":"User Roles",
+            "buscador":"Type Name or Occupation..."
+          },
+          "botones":{
+            "actualizar":"Update User",
+            "buscar":"Search"
+          }
+          
+      }
+  },
+  "incidente":{
+    "botones":{
+      "crear":"Crear Incidente"
+    },
+    "errorGeneral":"Se han Encontrado errores o falta de información",
+    "crearIncidente":{
+      "mensajeExito":"Se ha generado el ticket ",
+      "mensajeDetalle":"El Ticket sera atendido por uno de nuestros consultores",
+      "titulo":"Creacion de Incidente",
+      "tituloDescripcion":"Generación de un nuevo incidente para IT",
+      "campos":{
+        "titulo":"Titulo del Inicidente",
+        "errorTitulo":"Debe ingresar un titulo al incidente",
+        "sistema":"Nombre del Sistema",
+        "errorSistema":"Debe indicar un Sistema",
+        "modulo":"Modulo Asociado",
+        "errorModulo":"Debe indicar un Módulo",
+        "descripcion":"Descripción",
+        "errorDescripcion":"Debe Indicar una descripcion del Incidente",
+        "tituloArchivo":"Subir Archivos",
+        "descripcionArchivo":"Arrastra tus archivos para subirlos",
+        "mensajeArchivo":"No existen archivos pendiente para subir",
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño",
+          "progreso":"Avance",
+          "status":"Status",
+          "acciones":"acciones",
+          "subir":"Subir",
+          "cancelar":"Cancelar",
+          "remover":"Eliminar"
+        }
+      }
+      
+    },
+    "tomarIncidente":{
+     "titulo":"Tomar Incidente",
+      "tituloDescripcion":"Pagina para que un consultor atienda un incidente",
+      "campos":{
+        "id":"Incidente N° ",
+        "nombre":"Nombre",
+        "sistema":"Nombre del Sistema",
+        "modulo":"Modulo Asociado",
+        "descripcion":"Descripción",
+        "fechaCreacion":"Fecha Creación",
+        "tituloArchivo":"Adjuntos",
+        "keyUser":"Key User",
+        "estado":"Estado",
+        "sla":"SLA",
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño"
+        }
+      },
+      "botones":{
+        "tomarIncidente":"Tomar Incidente"
+      }
+  },
+    "ver":{
+     "titulo":"Tomar Incidente",
+      "tituloDescripcion":"Pagina para que un consultor atienda un incidente",
+      "campos":{
+        "id":"Incidente N° ",
+        "nombre":"Nombre",
+        "sistema":"Nombre del Sistema",
+        "modulo":"Modulo Asociado",
+        "descripcion":"Descripción",
+        "fechaCreacion":"Fecha Creación",
+        "tituloArchivo":"Adjuntos",
+        "keyUser":"Key User",
+        "consultor":"Consultor",
+        "estado":"Estado",
+        "sla":"SLA",
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño"
+        }
+      },
+      "botones":{
+        "tomarIncidente":"Tomar Incidente"
+      }
+  }
+  },
+    "home":{
+    "keyUser":{
+      "titulo":"Key User Control Panel",
+      "tituloDescripcion":"Table Summary of Significant system activities",
+      "campos":{
+        "incidentes":"Active incidents",
+        "pendientes":"Pending Reply",
+        "sinAsignar":"unassigned"
+      },
+        "tabla":{
+        "titulo":"Mis Casos Abiertos",
+        "id":"ID",
+        "nombre":"Nombre",
+        "estado":"Estado",
+        "ingreso":"Fecha Ingreso",
+        "sistema":"Sistema",
+        "modulo":"modulo",
+        "consultor":"Consultor",
+        "acciones":"acciones"
+      },
+      "mensajeExito":"Se ha generado el ticket ",
+      "mensajeDetalle":"El Ticket sera atendido por uno de nuestros consultores"
+    },
+     "consultor":{
+      "titulo":"Panel Control Consultor",
+      "tituloDescripcion":"Cuadro Resumen de las Principales actividades del sistema",
+      "campos":{
+        "incidentes":"Mis Incidentes",
+        "sinAsignar":"Sin Asignar",
+        "devolucion":"devolucion Proveedor",
+        "fueraSLA":"Fuera de SLA"
+      },
+      "tabla":{
+        "titulo":"Incidentes Abiertos",
+        "id":"ID",
+        "nombre":"Nombre",
+        "SLA":"SLA",
+        "estado":"Estado",
+        "ingreso":"Fecha Ingreso",
+        "sistema":"Sistema",
+        "modulo":"modulo",
+        "consultor":"Consultor",
+        "acciones":"acciones"
+      }
+    }
+       }
+  
+}
+ 
+
+

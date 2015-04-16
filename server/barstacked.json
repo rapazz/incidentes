@@ -1,0 +1,31 @@
+[{
+  "label": "Error Datos",
+  "color": "#EDF266",
+  "data": [
+    ["Web", 1],
+    ["SAP1", 5],
+    ["BMP", 5]
+  ]
+},
+{
+  "label": "Error Funcional",
+  "color": "#001AFF",
+  "data": [
+    ["Web", 1],
+    ["SAP1", 3],
+    ["BMP", 3]
+  ]
+}, 
+{
+  "label": "problema SAP",
+  "color": "#51bff2",
+  "data": [
+    ["Web", 1],
+    ["SAP1", 1],
+    ["BMP", 1]
+  ]
+}
+]
+
+
+

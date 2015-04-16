@@ -6,30 +6,176 @@ var mailer= require('./mailer');
 var moment = require('moment');
 var uid = require("node-uuid");
 var clients = require('../sockets/variables.js');
+var Sequelize = require("sequelize");
 
-
-exports.dashboardKU=function(req,res){
+exports.estatusActual=function(req,res){
     var dashboard ={};
-    models.incidente.count({ where: ["idusuarioKU = ?", req.params.id] }).then(function(c) {
-       dashboard.misCasos=c;
+    
+    models.incidente.findAll({
+         attributes: [[Sequelize.fn('COUNT', Sequelize.col('idIncidente')),'count'],
+         'idusuarioConsultor'
+         ],
+         group: 'idusuarioConsultor',
+         include :[{model:models.usuario,as:'consultor',attributes:['nombre']}]
+    }
+        ).success(function(indicadores){
+            
+            return res.json(200, indicadores); 
+            
+        })
     
    
-    models.incidente.count({ where:{idusuarioKU:req.params.id, idUsuarioConsultor:{$gt:-1}}  }).then(function(s) {   
-       dashboard.asignado=s;
+}
+
+exports.incidentesPorOrigenProblema = function(req,res){
+    var parametro = {}
+    parametro.mes = req.body.mes;
+    parametro.anno = req.body.anno;
+   
+    var consultaEmpresa ={} 
+    if (req.body.idEmpresa !=-1)
+    consultaEmpresa = {'idEmpresa':req.body.idEmpresa}
+
+     models.indicadoresIncidentes.findAll({where:parametro,
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('idIncidente')),'count'],
+         'idOrigenProblema',
+         'idTipoIncidente',
+         ],
+         group: ['idOrigenProblema','idTipoIncidente'],
+         order: 'count desc',
+      include :[
+          {model:models.usuario,as:'ku'
+       , where : Sequelize.and(consultaEmpresa)     
+          }, {model:models.tipoincidente,as:'tipoincidente'},
+           {model:models.origenproblema,as:'origenproblema'}]    
+    }).success(function(x) {
+
+ var j=[];
+ var colors =['#7266ba','#9289ca','#564aa3','#322C5B','#5C5877','#8A7DDF']
+ for (var i=0;i<=x.length-1;i++){
+     var g = x[i].idOrigenProblema
+     
+    if ( typeof  j[g] == "undefined")
+    {
+      var t={};   
+    t.label=x[i].origenproblema.Nombre
+    t.color=colors[i];
+    t.data=[]
+    j[g] = t; 
+    }
     
-    
-         models.incidente.count({ where:{idusuarioKU:req.params.id, idEstado:{$in:[30,60]}}  }).then(function(x) {   
-           dashboard.pendiente=x;
-            return res.json(200, dashboard);
-        
-            })
-        
-        })
-        
-    })
+ }
+ 
+ for (var i=0;i<=x.length-1;i++){
+      var g = x[i].idOrigenProblema
+var h =[x[i].tipoincidente.Nombre,x[i].dataValues.count]
+j[g].data.push(h)  
+ }
+ 
+   return   res.status(200).json(j);
+  });
+
+
+
+}
+
+
+exports.incidentesPorKeyUser= function(req,res){
+    var parametro = {}
+    parametro.mes = req.body.mes;
+    parametro.anno = req.body.anno;
+   
+    var consultaEmpresa ={} 
+    if (req.body.idEmpresa !=-1)
+    consultaEmpresa = {'idEmpresa':req.body.idEmpresa}
+   
+     models.indicadoresIncidentes.findAll({where:parametro,
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('idIncidente')),'count'],
+         'idUsuarioKU'
+         ],
+         group: 'idUsuarioKU',
+         order: 'count desc',
+      include :[
+          {model:models.usuario,as:'ku'
+       , where : Sequelize.and(consultaEmpresa)     
+          }]    
+    }).success(function(x) {
+   return   res.status(200).json(x);
+  });
     
 }
 
+exports.incidentesPorSistema= function(req,res){
+    var parametro = {}
+    parametro.mes = req.body.mes;
+    parametro.anno = req.body.anno;
+   
+    var consultaEmpresa ={} 
+    if (req.body.idEmpresa !=-1)
+    consultaEmpresa = {'idEmpresa':req.body.idEmpresa}
+   
+     models.indicadoresIncidentes.findAll({where:parametro,
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('idIncidente')),'count'],
+         'idTipoIncidente'
+         ],
+         group: 'idTipoIncidente',
+         order: 'count desc',
+      include :[
+         {model:models.tipoincidente,as:'tipoincidente'}
+          ]    
+    }).success(function(x) {
+   return   res.status(200).json(x);
+  });
+    
+}
+
+
+exports.porcentajeCumplimiento = function(req,res){
+    
+    
+    
+    var parametro = {}
+    parametro.mes = req.body.mes;
+    parametro.anno = req.body.anno;
+   
+    var consultaEmpresa ={} 
+    if (req.body.idEmpresa !=-1)
+    consultaEmpresa = {'idEmpresa':req.body.idEmpresa}
+    
+    
+    models.indicadoresIncidentes.findAll({where:parametro,
+    attributes: [[Sequelize.fn('COUNT', Sequelize.col('idIncidente')),'count'],
+     [Sequelize.fn('SUM', Sequelize.col('cumpleSLA')),'sum'],
+         'idusuarioConsultor'
+         ],
+         group: 'idusuarioConsultor',
+      include :[
+          {model:models.usuario,as:'ku'
+       , where : Sequelize.and(consultaEmpresa)     
+          },{model:models.usuario,as:'consultor'}]    
+    }).success(function(proyecto) {
+   
+   var totalCasos=0;
+   var totalCumpleSLA=0;
+   for( var i=0;i<=proyecto.length-1;i++){
+      totalCasos +=proyecto[i].dataValues.count
+   totalCumpleSLA +=proyecto[i].dataValues.sum 
+       
+   }
+
+   var cumplimiento={}
+   cumplimiento.totalCasos = totalCasos
+   cumplimiento.cumpleSLA = totalCumpleSLA
+   cumplimiento.porcentajeCumplimiento= 100*totalCumpleSLA/totalCasos
+   cumplimiento.detalleCasos=proyecto
+   
+   
+   
+   return   res.status(200).json(cumplimiento);
+   
+   
+  });
+}
 
 exports.incidentesKU = function(req, res) {
     

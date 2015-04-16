@@ -1,166 +1,106 @@
 /**=========================================================
  * Module: utils.js
- * jQuery Utility functions library 
- * adapted from the core of UIKit
+ * Utility library to use across the theme
  =========================================================*/
 
-(function($, window, doc){
+App.service('Utils', function($window, APP_MEDIAQUERY) {
     'use strict';
     
-    var $html = $("html"), $win = $(window);
+    var $html = angular.element("html"),
+        $win  = angular.element($window),
+        $body = angular.element('body');
 
-    $.support.transition = (function() {
+    return {
+      // DETECTION
+      support: {
+        transition: (function() {
+                var transitionEnd = (function() {
 
-        var transitionEnd = (function() {
+                    var element = document.body || document.documentElement,
+                        transEndEventNames = {
+                            WebkitTransition: 'webkitTransitionEnd',
+                            MozTransition: 'transitionend',
+                            OTransition: 'oTransitionEnd otransitionend',
+                            transition: 'transitionend'
+                        }, name;
 
-            var element = doc.body || doc.documentElement,
-                transEndEventNames = {
-                    WebkitTransition: 'webkitTransitionEnd',
-                    MozTransition: 'transitionend',
-                    OTransition: 'oTransitionEnd otransitionend',
-                    transition: 'transitionend'
-                }, name;
+                    for (name in transEndEventNames) {
+                        if (element.style[name] !== undefined) return transEndEventNames[name];
+                    }
+                }());
 
-            for (name in transEndEventNames) {
-                if (element.style[name] !== undefined) return transEndEventNames[name];
-            }
-        }());
+                return transitionEnd && { end: transitionEnd };
+            })(),
+        animation: (function() {
 
-        return transitionEnd && { end: transitionEnd };
-    })();
+            var animationEnd = (function() {
 
-    $.support.animation = (function() {
+                var element = document.body || document.documentElement,
+                    animEndEventNames = {
+                        WebkitAnimation: 'webkitAnimationEnd',
+                        MozAnimation: 'animationend',
+                        OAnimation: 'oAnimationEnd oanimationend',
+                        animation: 'animationend'
+                    }, name;
 
-        var animationEnd = (function() {
-
-            var element = doc.body || doc.documentElement,
-                animEndEventNames = {
-                    WebkitAnimation: 'webkitAnimationEnd',
-                    MozAnimation: 'animationend',
-                    OAnimation: 'oAnimationEnd oanimationend',
-                    animation: 'animationend'
-                }, name;
-
-            for (name in animEndEventNames) {
-                if (element.style[name] !== undefined) return animEndEventNames[name];
-            }
-        }());
-
-        return animationEnd && { end: animationEnd };
-    })();
-
-    $.support.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || function(callback){ window.setTimeout(callback, 1000/60); };
-    $.support.touch                 = (
-        ('ontouchstart' in window && navigator.userAgent.toLowerCase().match(/mobile|tablet/)) ||
-        (window.DocumentTouch && document instanceof window.DocumentTouch)  ||
-        (window.navigator['msPointerEnabled'] && window.navigator['msMaxTouchPoints'] > 0) || //IE 10
-        (window.navigator['pointerEnabled'] && window.navigator['maxTouchPoints'] > 0) || //IE >=11
-        false
-    );
-    $.support.mutationobserver      = (window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver || null);
-
-    $.Utils = {};
-
-    $.Utils.debounce = function(func, wait, immediate) {
-        var timeout;
-        return function() {
-            var context = this, args = arguments;
-            var later = function() {
-                timeout = null;
-                if (!immediate) func.apply(context, args);
-            };
-            var callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
-        };
-    };
-
-    $.Utils.removeCssRules = function(selectorRegEx) {
-        var idx, idxs, stylesheet, _i, _j, _k, _len, _len1, _len2, _ref;
-
-        if(!selectorRegEx) return;
-
-        setTimeout(function(){
-            try {
-              _ref = document.styleSheets;
-              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                stylesheet = _ref[_i];
-                idxs = [];
-                stylesheet.cssRules = stylesheet.cssRules;
-                for (idx = _j = 0, _len1 = stylesheet.cssRules.length; _j < _len1; idx = ++_j) {
-                  if (stylesheet.cssRules[idx].type === CSSRule.STYLE_RULE && selectorRegEx.test(stylesheet.cssRules[idx].selectorText)) {
-                    idxs.unshift(idx);
-                  }
+                for (name in animEndEventNames) {
+                    if (element.style[name] !== undefined) return animEndEventNames[name];
                 }
-                for (_k = 0, _len2 = idxs.length; _k < _len2; _k++) {
-                  stylesheet.deleteRule(idxs[_k]);
-                }
-              }
-            } catch (_error) {}
-        }, 0);
-    };
+            }());
 
-    $.Utils.isInView = function(element, options) {
+            return animationEnd && { end: animationEnd };
+        })(),
+        requestAnimationFrame: window.requestAnimationFrame ||
+                               window.webkitRequestAnimationFrame ||
+                               window.mozRequestAnimationFrame ||
+                               window.msRequestAnimationFrame ||
+                               window.oRequestAnimationFrame ||
+                               function(callback){ window.setTimeout(callback, 1000/60); },
+        touch: (
+            ('ontouchstart' in window && navigator.userAgent.toLowerCase().match(/mobile|tablet/)) ||
+            (window.DocumentTouch && document instanceof window.DocumentTouch)  ||
+            (window.navigator['msPointerEnabled'] && window.navigator['msMaxTouchPoints'] > 0) || //IE 10
+            (window.navigator['pointerEnabled'] && window.navigator['maxTouchPoints'] > 0) || //IE >=11
+            false
+        ),
+        mutationobserver: (window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver || null)
+      },
+      // UTILITIES
+      isInView: function(element, options) {
 
-        var $element = $(element);
+          var $element = $(element);
 
-        if (!$element.is(':visible')) {
+          if (!$element.is(':visible')) {
+              return false;
+          }
+
+          var window_left = $win.scrollLeft(),
+              window_top  = $win.scrollTop(),
+              offset      = $element.offset(),
+              left        = offset.left,
+              top         = offset.top;
+
+          options = $.extend({topoffset:0, leftoffset:0}, options);
+
+          if (top + $element.height() >= window_top && top - options.topoffset <= window_top + $win.height() &&
+              left + $element.width() >= window_left && left - options.leftoffset <= window_left + $win.width()) {
+            return true;
+          } else {
             return false;
-        }
-
-        var window_left = $win.scrollLeft(),
-            window_top  = $win.scrollTop(),
-            offset      = $element.offset(),
-            left        = offset.left,
-            top         = offset.top;
-
-        options = $.extend({topoffset:0, leftoffset:0}, options);
-
-        if (top + $element.height() >= window_top && top - options.topoffset <= window_top + $win.height() &&
-            left + $element.width() >= window_left && left - options.leftoffset <= window_left + $win.width()) {
-          return true;
-        } else {
-          return false;
-        }
+          }
+      },
+      langdirection: $html.attr("dir") == "rtl" ? "right" : "left",
+      isTouch: function () {
+        return $html.hasClass('touch');
+      },
+      isSidebarCollapsed: function () {
+        return $body.hasClass('aside-collapsed');
+      },
+      isSidebarToggled: function () {
+        return $body.hasClass('aside-toggled');
+      },
+      isMobile: function () {
+        return $win.width() < APP_MEDIAQUERY.tablet;
+      }
     };
-
-    $.Utils.options = function(string) {
-
-        if ($.isPlainObject(string)) return string;
-
-        var start = (string ? string.indexOf("{") : -1), options = {};
-
-        if (start != -1) {
-            try {
-                options = (new Function("", "var json = " + string.substr(start) + "; return JSON.parse(JSON.stringify(json));"))();
-            } catch (e) {}
-        }
-
-        return options;
-    };
-
-    $.Utils.events       = {};
-    $.Utils.events.click = $.support.touch ? 'tap' : 'click';
-
-    $.langdirection = $html.attr("dir") == "rtl" ? "right" : "left";
-
-    $(function(){
-
-        // Check for dom modifications
-        if(!$.support.mutationobserver) return;
-
-        // Install an observer for custom needs of dom changes
-        var observer = new $.support.mutationobserver($.Utils.debounce(function(mutations) {
-            $(doc).trigger("domready");
-        }, 300));
-
-        // pass in the target node, as well as the observer options
-        observer.observe(document.body, { childList: true, subtree: true });
-
-    });
-
-    // add touch identifier class
-    $html.addClass($.support.touch ? "touch" : "no-touch");
-
-}(jQuery, window, document));
+});

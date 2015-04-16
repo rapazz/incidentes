@@ -1,16 +1,20 @@
 var models  = require('../model');
 var express = require('express');
+var mailer= require('./mailer');
 
 
-exports.index = function(req, res) {
-  models.empresa.findAll({
+
+
+
+
+exports.mail = function(req,res){
     
-  }).success(function(roles) {
-   
-   return res.json(200, roles);
-   
-  });
+mailer.enviarPrueba();
+ return res.json(200, 'hola');
+
+
 }
+
 
 
 //listas Departamentos por Empresa
@@ -23,6 +27,18 @@ exports.listarDepartamento = function(req, res) {
    
   });
 }
+
+
+
+//listas Departamentos por Empresa
+exports.listarEmpresas = function(req, res) {
+  models.empresa.findAll({ }).success(function(empresa) {
+   res.header("Content-Type", "application/json; charset=utf-8");
+   return res.json(200, empresa);
+   
+  });
+}
+
 
 
 exports.listarEstadoProyecto = function(req, res) {

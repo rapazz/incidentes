@@ -4,6 +4,44 @@ var models  = require('../model');
 var config = require('../../config/environment');
 
 
+exports.enviarPrueba = function(){
+    
+
+//generaro lista de usuarios 
+// igualo campos a valores 
+var transport = nodemailer.createTransport(smtpTransport({
+        service: "Gmail",
+          auth: {
+          user: 'moises.bravo@rapazz.cl',
+          pass: 'P1lenrafe'
+        }
+      }));
+
+    
+    
+     var salida = {
+        from:'moises.bravo@rapazz.cl',
+        to:  'moises.bravo@kcl.cl',
+       // to:  'moises.bravo@rapazz.cl',
+        subject: 'prueba de correo',
+        html: '<b>hola Mundo </b>'
+      }
+      
+      transport.sendMail(salida, function(error, response){  //callback
+        if(error){
+          console.log(error);
+        }else{
+          console.log("Message sent: " + response.message);
+        }
+
+     
+      });    
+    
+}
+
+
+
+
 exports.EnvioEmail = function(tipoEmail,datos) {
 
 models.emailTemplate.find ({where:{idTemplate:tipoEmail}}).success(function(x){
@@ -17,7 +55,7 @@ models.emailTemplate.find ({where:{idTemplate:tipoEmail}}).success(function(x){
 var transport = nodemailer.createTransport(smtpTransport({
         host: config.mailer.host,
         port: config.mailer.port,
-
+        service: "Gmail",
           auth: {
           user: config.mailer.user,
           pass: config.mailer.pass

@@ -44,10 +44,13 @@ App
                              'vendor/Flot/jquery.flot.pie.js',
                              'vendor/Flot/jquery.flot.time.js',
                              'vendor/Flot/jquery.flot.categories.js',
-                             'vendor/flot-spline/js/jquery.flot.spline.min.js']
+                             'vendor/flot-spline/js/jquery.flot.spline.min.js',
+                             'vendor/Flot/jquery.flot.stack.js']
     },
     // Angular based script (use the right module name)
     modules: [
+      {name: 'toaster',                   files: ['vendor/angularjs-toaster/toaster.js',
+                                                 'vendor/angularjs-toaster/toaster.css']},
       {name: 'angularFileUpload',         files: ['vendor/angular-file-upload/angular-file-upload.js']},
       {name: 'ngDialog',                  files: ['vendor/ngDialog/js/ngDialog.min.js',
                                                  'vendor/ngDialog/css/ngDialog.min.css',

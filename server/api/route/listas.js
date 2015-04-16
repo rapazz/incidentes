@@ -6,8 +6,10 @@ var config = require('../../config/environment');
 //var auth = require('../../auth/auth.service');
 
 var router = express.Router();
+router.get('/mail', controller.mail);
 
-router.get('/empresa', controller.index);
+
+router.get('/empresa', controller.listarEmpresas);
 router.get('/incidente/tipoInicidente', controller.tipoIncidente);
 router.get('/incidente/origenProblema', controller.origenProblema);
 router.get('/incidente/codigoTermino', controller.codigoTermino);

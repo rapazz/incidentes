@@ -114,8 +114,10 @@ exports.getMenu = function(req, res) {
 
 exports.create = function(req, res) {
 
-
-  models.usuario.create({
+models.empresa.find({where:{rut:req.body.usuario.rutEmpresa}}).success(function(empresa){
+ 
+ 
+   models.usuario.create({
 
    nombre: req.body.usuario.nombre,
   email:  req.body.usuario.email,
@@ -123,7 +125,8 @@ exports.create = function(req, res) {
   fechaActualizacion: new Date(),
   fechaUltLogin:   new Date(),
   rolesMenu:  JSON.stringify(req.body.usuario.rolesMenu),
-  estado:1
+  estado:1,
+  idEmpresa:empresa.idEmpresa
 
   }).success(function(usuario) {
 
@@ -134,6 +137,11 @@ exports.create = function(req, res) {
    return res.json(401, usuario);
 
   });
+ 
+ 
+} )
+
+
 
 }
 

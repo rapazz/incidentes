@@ -16,6 +16,16 @@ module.exports = function(sequelize, DataTypes) {
   foto:DataTypes.STRING
 
   },
+   {
+    classMethods: {
+      associate: function(models) {
+
+        usuario.belongsTo(models.empresa,{foreignKey:'idEmpresa', as:'empresa'})
+        
+            }
+                 }
+     
+   },
   {
   tableName: 'usuario', // this will define the table's name
   timestamps: false           // this will deactivate the timestamp columns

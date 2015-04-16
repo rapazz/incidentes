@@ -27,7 +27,8 @@ $scope.nombre = response._source.nombre;
 $scope.email = response._source.email;
 $scope.rut =response._source.rut,
 $scope.cargo =response._source.cargo;
-$scope.empresa =response._source.empresa;
+$scope.rutEmpresa =response._source.rutEmpresa.trim();
+$scope.empresa = response._source.empresa;
 
 
   	$http.get('/api/usuario/'+ response._source.email).success(function(roles) {
@@ -60,6 +61,7 @@ $scope.actualizarUsuario= function (){
   usuario.fechaUltLogin= new Date();
   usuario.rolesMenu=cargaRoles();
   usuario.estado=1;
+  usuario.rutEmpresa = $scope.rutEmpresa
 	
 	if ($scope.usuarioId >0)
 	$http.post('/api/usuario/update', {usuario:usuario}).

@@ -40,7 +40,7 @@ console.log(config.root)
     app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, '')));
-    app.set('appPath', 'app');
+    app.set('appPath',  config.root+ '/app');
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last
   }

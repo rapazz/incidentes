@@ -40,7 +40,7 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         abstract: true,
         templateUrl: helper.basepath('app.html'),
         controller: 'AppController',
-        resolve: helper.resolveFor('modernizr', 'icons','slimscroll')
+        resolve: helper.resolveFor('modernizr', 'icons','slimscroll','classyloader','toaster')
     })
     .state('app.homeKu', {
         url: '/home/keyUser',
@@ -60,7 +60,7 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         url: '/home/superConsultor',
         title: 'Dashboard',
         templateUrl: helper.basepath('home/superConsultor.html'),
-        resolve: helper.resolveFor('classyloader','chartjs'),
+        resolve: helper.resolveFor('chartjs','flot-chart','flot-chart-plugins'),
          controller: 'home.superConsultor'
     })
     .state('app.singleview', {
@@ -126,6 +126,27 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         module: 'private',
         controller: 'administracion.usuarios',
         templateUrl: helper.basepath('Administracion/usuarios.html')
+    })
+     .state('app.codigoTermino', {
+        url: '/administracion/codigoTermino',
+        title: "Codigos de Termino",
+        module: 'private',
+        controller: 'administracion.codigoTermino',
+        templateUrl: helper.basepath('Administracion/codigoTermino.html')
+    })
+    .state('app.origenProblema', {
+        url: '/administracion/origenProblema',
+        title: "origen Problema",
+        module: 'private',
+        controller: 'administracion.origenProblema',
+        templateUrl: helper.basepath('Administracion/origenProblema.html')
+    })
+     .state('app.tipoIncidente', {
+        url: '/administracion/tipoIncidente',
+        title: "Tipo Sistema",
+        module: 'private',
+        controller: 'administracion.tipoIncidente',
+        templateUrl: helper.basepath('Administracion/tipoIncidente.html')
     })
     // 
     // CUSTOM RESOLVES

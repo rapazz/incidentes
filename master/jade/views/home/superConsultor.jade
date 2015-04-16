@@ -9,66 +9,102 @@ h3
           a(ng-click='language.set(localeId, $event)') {{langName}}
   | {{'home.superConsultor.titulo' | translate}}
   small {{'home.superConsultor.tituloDescripcion' | translate}}
-.panel.panel-default
-  .panel-body
-   .row
-       .col-sm-1
+.row
+ .col-sm-6
+  .panel.panel-transparent 
+    .panel-body
+      .row
+       .col-sm-3
         .form-group
           label.control-label
             | {{'home.superConsultor.campos.mes' | translate}}
-          select.form-control(ng-model="incidente.idTipoIncidente",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorSistema' | translate}}",ng-options="item.id as item.mes  for item in meses",ng-change="cargaModulo()")
-       .col-sm-1
+          select.form-control(ng-model="dashboard.mes",required,ng-options="item.id as item.mes  for item in meses")
+       .col-sm-3
         .form-group
           label.control-label
             | {{'home.superConsultor.campos.anno' | translate}}
-          select.form-control(ng-model="incidente.idTipoIncidente",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorSistema' | translate}}",ng-options="item.id as item.nombre  for item in anno",ng-change="cargaModulo()")  
-       .col-sm-2
+          select.form-control(ng-model="dashboard.anno",required,ng-options="item.id as item.nombre  for item in anno")  
+       .col-sm-4
         .form-group
           label.control-label
             | {{'home.superConsultor.campos.empresa' | translate}}
-          select.form-control(ng-model="incidente.idTipoIncidente",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorSistema' | translate}}",ng-options="item.TipoIncidenteId as item.Nombre  for item in listas.sistema",ng-change="cargaModulo()")  
-   fieldset
-.panel.panel-default
-      .panel-heading Radial Size
-      .panel-body.text-center
-        .row
-          .col-md-3
-            .radial-bar.radial-bar-85.radial-bar-lg(data-label="85%")
-            p: code .radial-bar.radial-bar-85.radial-bar-lg
-          .col-md-3
-            .radial-bar.radial-bar-45(data-label="45%")
-          .col-md-3
-            .radial-bar.radial-bar-60.radial-bar-sm(data-label="60%")
-          .col-md-3
-            .radial-bar.radial-bar-20.radial-bar-xs(data-label="20%")  
+          select.form-control(ng-model="dashboard.idEmpresa",required, data-parsley-error-message="{{'home.superConsultor.campos.errorEmpresa' | translate}}",ng-options="item.idEmpresa as item.nombre  for item in listas.empresa")     
+           option(value='') -- Seleccione Empresa--
+       .col-sm-2
+         .form-group
+          .pull-right
+            br          
+            button.btn.btn-oval.btn-success(type='button',ng-click="actualizarDashboard()") {{'home.superConsultor.botones.actualizar' | translate}}
+ .col-sm-6
+  .panel.widget
+          .row.row-table
+            .col-md-2.col-sm-3.col-xs-6.pv.text-center.br.bg-info-light(ng-repeat='item in dashboard.online')
+              .h2.m0.text-bold {{item.count}}
+              .text-uppercase(ng-show='item.consultor==null') Sin Asignar
+              .text-uppercase(ng-show='item.consultor!=null'){{item.consultor.nombre.split(',')[0]}}
+            .col-md-4.col-sm-4.hidden-xs.pv.text-center
+              .row
+               .col-sm-8
+                .text-info.text-sm En Tiempo
+               .col.sm-4
+                .text-info.text-sm 8
+              .row
+               .col-sm-8
+                .text-info.text-sm Proximo Vencer
+               .col.sm-4
+                .text-info.text-sm 8
+              .row
+               .col-sm-8
+                .text-info.text-sm Fuera SLA
+               .col.sm-4
+                .text-info.text-sm 8                
+.row(ng-show='dashboard.totalArea[0].totalCasos>0')
+ .col-xs-12.col-md-12
+  .well
+     .row
+      .col-xs-6.col-md-3(ng-repeat='t in dashboard.totalArea')
+        h4.text-center
+         small Total MES
+        canvas.center-block(classyloader="",data-trigger-in-view="true",  data-diameter="70", data-font-size="20px", data-percentage="{{t.porcentajeCumplimiento}}", data-speed="10", data-line-color="{{colorByName('green')}}", data-remaining-line-color="#edf2f6", data-line-width="9")
+      .col-xs-6.col-md-3(ng-repeat='item in dashboard.porcentajeMes',ng-show='item.consultor!=null') 
+        h4.text-center
+         small(ng-show='item.consultor!=null') {{item.consultor.nombre.split(',')[0]}}
+        canvas.center-block(ng-show='item.consultor!=null',classyloader="",  data-diameter="50", data-font-size="20px", data-percentage="{{100*item.sum/item.count}}", data-speed="10", data-line-color="{{colorByName('gray-dark')}}", data-remaining-line-color="#edf2f6", data-line-width="8")
+.row
+  .col-md-3
+    // START panel tab
+    .panel.panel-transparent
+     .panel-heading
+       em.fa.fa-clock-o.fa-fw
+       | Casos Ingresados
+     .panel-body
+            // START list group
+           scrollable.list-group(height="250")
+             // START list group item
+             a.list-group-item(href='#',ng-repeat="t in dashboard.incidentesKeyUser" )
+               .media-box
+                 .pull-left
+                   img.media-box-object.img-circle.thumb32(src="{{t.ku.foto}}", alt="Image")
+                 .media-box-body.clearfix
+                   small.pull-right {{t.count}}
+                   strong.media-box-heading.text-primary 
+                     span.circle.circle-success.circle-lg.text-left
+                     | {{t.ku.nombre}}
+             // END list group item
+                 // END list group
+                 .panel-footer.text-right
+                  a.btn.btn-default.btn-sm(href='#') View All Activity 
 
-.container-fluid()
-  .row.mb-lg
-    .col-lg-6
-      h4 Line Chart 
-      div
-        canvas(linechart='', options='lineOptions', data='lineData', height='120', responsive='true')
-    .col-lg-6
-      h4 Bar Chart
-      div
-        canvas(barchart='', options='barOptions', data='barData', height='120', responsive='true')
-  .row.mb-lg
-    .col-lg-6
-      h4 Polar Area Chart
-      div
-        canvas(polarchart='', options='polarOptions', data='polarData', height='180', responsive='true')
-    .col-lg-6
-      h4 Radar Chart
-      div
-        canvas(radarchart='', options='radarOptions', data='radarData', height='180', responsive='true')
-  .row.mb-lg
-    .col-lg-6
-      h4 Pie Chart
-      div
-        canvas(doughnutchart='', options='pieOptions', data='pieData', height='80', responsive='true')
-    .col-lg-6
-      h4 Doughnut Chart
-      div
-        canvas(doughnutchart='', options='doughnutOptions', data='doughnutData', height='80', responsive='true')
+  .col-md-4
+   .panel.panel-transparent
+    .panel-title.text-center Casos por Resolución
+    .panel-body
+     div
+      flot(dataset='barStackeData', options='barStackedOptions', height="300px")
+  .col-md-4
+   .panel.panel-transparent
+    .panel-title.text-center Casos por Sistema
+    .panel-body
+     div
+      canvas(barchart='', options='barOptions', data='dashboard.incidentesPorSistema', height='180', responsive='true')
 
-  

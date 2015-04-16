@@ -14,7 +14,7 @@ if (typeof $ === 'undefined') { throw new Error('This application\'s JavaScript 
 // APP START
 // ----------------------------------- 
 
-var App = angular.module('angle', ['ngRoute', 'ngAnimate', 'ngStorage', 'ngCookies', 'pascalprecht.translate', 'ui.bootstrap', 'ui.router', 'oc.lazyLoad', 'cfp.loadingBar', 'ngSanitize', 'ngResource','elasticsearch','btford.socket-io'])
+var App = angular.module('angle', ['ngRoute', 'ngAnimate', 'ngStorage', 'ngCookies', 'pascalprecht.translate', 'ui.bootstrap', 'ui.router', 'oc.lazyLoad', 'cfp.loadingBar', 'ngSanitize', 'ngResource','elasticsearch','btford.socket-io','ui.utils'])
           .run(["$rootScope", "$state", "$stateParams",  '$window', '$templateCache','Auth','$location','mySocket', function ($rootScope, $state, $stateParams, $window, $templateCache,Auth,$location,mySocket) {
               // Set reference to access them from any scope
               $rootScope.$state = $state;
@@ -77,6 +77,9 @@ var App = angular.module('angle', ['ngRoute', 'ngAnimate', 'ngStorage', 'ngCooki
                   empresa:user.empresa
                   };
              var roles = JSON.parse(user.rolesMenu)
+             if (roles.indexOf(80)>0)
+                $state.go('app.homeSuperConsultor',null, {notify:true});
+                else 
              if (roles.indexOf(40)>0)
                 $state.go('app.homeKu',null, {notify:true});
              else 

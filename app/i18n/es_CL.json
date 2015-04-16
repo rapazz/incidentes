@@ -38,6 +38,72 @@
             "buscar":"Buscar"
           }
           
+      },
+       "codigoTermino":{
+          "titulo":"Administracion de Codigos de Termino",
+          "descripcionTitulo":"Administracion de Mensajes de Cierre",
+          "campos": {
+            "nombre":"Nombre",
+            "nombreValidacion":"debe ingresar el Nombre",
+            "nombreAyuda":"Ingrese el nombre del codigo",
+            "estado":"Estado"
+          },
+          "tabla":{
+          "id":"ID",
+          "nombre":"Nombre",
+          "estado":"Estado",
+          "fechaCreacion":"Fecha Creación",
+          "acciones":"Acciones"
+        },
+          "botones":{
+            "actualizar":"Actualizar Usuario",
+            "nuevo":"Crear Registro"
+          }
+          
+      },
+      "origenProblema":{
+          "titulo":"Administracion de Origen de Problemas",
+          "descripcionTitulo":"Administracion de Origen de Problemas",
+          "campos": {
+            "nombre":"Nombre",
+            "nombreValidacion":"debe ingresar el Nombre",
+            "nombreAyuda":"Ingrese el nombre del Origen del Problema",
+            "estado":"Estado"
+          },
+          "tabla":{
+          "id":"ID",
+          "nombre":"Nombre",
+          "estado":"Estado",
+          "fechaCreacion":"Fecha Creación",
+          "acciones":"Acciones"
+        },
+          "botones":{
+            "actualizar":"Actualizar Registro",
+            "nuevo":"Crear Registro"
+          }
+          
+      },
+      "tipoIncidente":{
+          "titulo":"Administracion de Tipos de Sistemas",
+          "descripcionTitulo":"Administracion de tipos de Sistemas",
+          "campos": {
+            "nombre":"Nombre",
+            "nombreValidacion":"debe ingresar el Nombre",
+            "nombreAyuda":"Ingrese el nombre del Tipo de Sistema",
+            "estado":"Estado"
+          },
+          "tabla":{
+          "id":"ID",
+          "nombre":"Nombre",
+          "estado":"Estado",
+          "fechaCreacion":"Fecha Creación",
+          "acciones":"Acciones"
+        },
+          "botones":{
+            "actualizar":"Actualizar Registro",
+            "nuevo":"Crear Registro"
+          }
+          
       }
   },
   "incidente":{
@@ -233,12 +299,16 @@
       }
     },
     "superConsultor":{
-            "titulo":"Panel Control Key USer",
+            "titulo":"Dashboard Super Consultor",
       "tituloDescripcion":"Cuadro Resumen de las Principales actividades del sistema",
       "campos":{
         "mes":"Mes",
         "anno":"Año",
-        "empresa":"Empresa"
+        "empresa":"Empresa",
+        "errorEmpresa":"Debe seleccionar la Empresa"
+      },
+      "botones":{
+        "actualizar":"Actualizar"
       }
     }
   }

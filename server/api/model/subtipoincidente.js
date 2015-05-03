@@ -10,13 +10,13 @@ var subtipoincidente = sequelize.define('subtipoincidente', {
     TipoIncidenteId: DataTypes.INTEGER
     //userid:    { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
 },
-    /*{
+    {
         classMethods:{
             associate:function(models){
-                SubTipoIncidente.hasOne(models.Incidente, { foreignKey: 'TipoIncidenteId'} );
+                subtipoincidente.belongsTo(models.tipoincidente, { foreignKey: 'TipoIncidenteId'} );
             }
         }
-    },*/
+    },
     {
     tableName: 'subtipoincidente', // this will define the table's name
     timestamps: false           // this will deactivate the timestamp columns

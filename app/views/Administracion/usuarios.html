@@ -1,0 +1,73 @@
+<h3>
+   <div class="pull-right">
+      <div dropdown="" is-open="language.listIsOpen" class="btn-group">
+         <button type="button" dropdown-toggle="" class="btn btn-default">{{language.selected}}
+            <span class="caret"></span>
+         </button>
+         <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+            <li ng-repeat="(localeId, langName) in language.available"><a ng-click="language.set(localeId, $event)">{{langName}}</a>
+            </li>
+         </ul>
+      </div>
+   </div>{{'administracion.usuarios.titulo' | translate}}
+   <small>{{'administracion.usuarios.descripcionTitulo' | translate}}</small>
+</h3>
+<div class="panel panel-default">
+   <div class="panel-body">
+      <fieldset>
+         <div class="col-sm-10">
+            <typeah2ead items="items" title="name" subtitle="abbreviation" codigo="idEmail" model="nombre" on-select="seleccionarUsuario()"></typeah2ead>
+         </div>
+      </fieldset>
+      <form role="form" action="" novalidate="novalidate" ng-submit="actualizarUsuario()">
+         <fieldset>
+            <div class="col-sm-6">
+               <div class="form-group">
+                  <label>{{'administracion.usuarios.campos.nombreCompleto' | translate}}</label>
+                  <input type="text" ng-model="nombre" disabled="" class="form-control" />
+               </div>
+            </div>
+            <div class="col-sm-4">
+               <div class="form-group"></div>
+               <label>{{'administracion.usuarios.campos.rut' | translate}}</label>
+               <input type="text" ng-model="rut" disabled="" class="form-control" />
+            </div>
+         </fieldset>
+         <fieldset>
+            <div class="col-sm-3">
+               <div class="form-group">
+                  <label>{{'administracion.usuarios.campos.cargo' | translate}}</label>
+                  <input type="text" ng-model="cargo" disabled="" class="form-control" />
+               </div>
+            </div>
+            <div class="col-sm-3">
+               <div class="form-group">
+                  <label>{{'administracion.usuarios.campos.email' | translate}}</label>
+                  <input type="text" ng-model="email" disabled="" class="form-control" />
+               </div>
+            </div>
+            <div class="col-sm-4">
+               <div class="form-group">
+                  <label>{{'administracion.usuarios.campos.empresa' | translate}}</label>
+                  <input type="text" ng-model="empresa" disabled="" class="form-control" />
+               </div>
+            </div>
+         </fieldset>
+         <fieldset>
+            <div class="col-sm-10">
+               <label ng-repeat="item in roles" class="checkbox checkbox-inline">
+                  <input type="checkbox" ng-model="arrayRoles[item.rolId]" /><i></i>{{item.nombre}}</label>
+            </div>
+         </fieldset>
+         <div class="panel-footer">
+            <div class="pull-right">
+               <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                     <button type="submit" class="btn btn-primary">{{'administracion.usuarios.botones.actualizar' | translate}}</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

@@ -8,9 +8,9 @@
     }
   },
   "sidebar": {
-    "WELCOME": "Welcome",
+    "WELCOME": "Welcoopkpoipome",
     "heading": {
-      "HEADER": "Main ñlkñlkñ Navigation"
+      "HEADER": "Main Navigation"
     },
     "nav": {
       "SINGLEVIEW": "Single View",
@@ -22,20 +22,115 @@
   },
   "administracion":{
       "usuarios":{
-          "titulo":"User Administrator",
-          "descripcionTitulo":"User Management Platform",
+          "titulo":"Administracion de usuarios",
+          "descripcionTitulo":"Administracion de usuarios de la plataforma",
           "campos": {
-            "nombreCompleto":"Full Name",
-            "rut":"DNI",
-            "cargo": "Office",
+            "nombreCompleto":"Nombre Completo",
+            "rut":"Rut",
+            "cargo": "Cargo",
             "email":"Email",
-            "empresa":"company",
-            "rolesUsuario":"User Roles",
-            "buscador":"Type Name or Occupation..."
+            "empresa":"Empresa",
+            "rolesUsuario":"Roles usuario",
+            "buscador":"Ingrese nombre o Cargo..."
           },
           "botones":{
-            "actualizar":"Update User",
-            "buscar":"Search"
+            "actualizar":"Actualizar Usuario",
+            "buscar":"Buscar"
+          }
+          
+      },
+       "codigoTermino":{
+          "titulo":"Administracion de Codigos de Termino",
+          "descripcionTitulo":"Administracion de Mensajes de Cierre",
+          "campos": {
+            "nombre":"Nombre",
+            "nombreValidacion":"debe ingresar el Nombre",
+            "nombreAyuda":"Ingrese el nombre del codigo",
+            "estado":"Estado"
+          },
+          "tabla":{
+          "id":"ID",
+          "nombre":"Nombre",
+          "estado":"Estado",
+          "fechaCreacion":"Fecha Creación",
+          "acciones":"Acciones"
+        },
+          "botones":{
+            "actualizar":"Actualizar Código",
+            "nuevo":"Crear Registro"
+          }
+          
+      },
+      "origenProblema":{
+          "titulo":"Administracion de Origen de Problemas",
+          "descripcionTitulo":"Administracion de Origen de Problemas",
+          "campos": {
+            "nombre":"Nombre",
+            "nombreValidacion":"debe ingresar el Nombre",
+            "nombreAyuda":"Ingrese el nombre del Origen del Problema",
+            "estado":"Estado"
+          },
+          "tabla":{
+          "id":"ID",
+          "nombre":"Nombre",
+          "estado":"Estado",
+          "fechaCreacion":"Fecha Creación",
+          "acciones":"Acciones"
+        },
+          "botones":{
+            "actualizar":"Actualizar Registro",
+            "nuevo":"Crear Registro"
+          }
+          
+      },
+      "tipoIncidente":{
+          "titulo":"Administracion de Tipos de Sistemas",
+          "descripcionTitulo":"Administracion de tipos de Sistemas",
+          "campos": {
+            "nombre":"Nombre",
+            "nombreValidacion":"debe ingresar el Nombre",
+            "nombreAyuda":"Ingrese el nombre del Tipo de Sistema",
+             "sla":"SLA",
+            "slaValidacion":"debe ingresar el SLA",
+            "slaAyuda":"Ingrese el tiempo de respuesta",
+            "estado":"Estado"
+          },
+          "tabla":{
+          "id":"ID",
+          "nombre":"Nombre",
+          "estado":"Estado",
+          "fechaCreacion":"Fecha Creación",
+          "acciones":"Acciones"
+        },
+          "botones":{
+            "actualizar":"Actualizar Registro",
+            "nuevo":"Crear Registro"
+          }
+          
+      },
+       "subTipoincidente":{
+          "titulo":"Administracion de Tipos de Sistemas",
+          "descripcionTitulo":"Administracion de tipos de Sistemas",
+          "campos": {
+            "nombre":"Nombre",
+            "nombreValidacion":"debe ingresar el Nombre",
+            "nombreAyuda":"Ingrese el nombre del Tipo de Sistema",
+             "tipoIncidente":"Tipo Inicidente",
+            "tipoIncidenteValidacion":"debe ingresar el tipo de Incidente",
+            "tipoIncidenteAyuda":"Ingrese el tipo de Incidente",
+            "estado":"Estado"
+          },
+          "tabla":{
+          "id":"ID",
+          "nombre":"Nombre",
+          "estado":"Estado",
+          "tipoIncidente":"Tipo Incidente",
+          "fechaCreacion":"Fecha Creación",
+          "acciones":"Acciones"
+        },
+          "botones":{
+            "actualizar":"Actualizar Registro",
+            "nuevo":"Crear Registro"
           }
           
       }
@@ -51,7 +146,7 @@
       "titulo":"Creacion de Incidente",
       "tituloDescripcion":"Generación de un nuevo incidente para IT",
       "campos":{
-        "titulo":"Titulo del Inicidente",
+        "titulo":"Titulo del Incidente",
         "errorTitulo":"Debe ingresar un titulo al incidente",
         "sistema":"Nombre del Sistema",
         "errorSistema":"Debe indicar un Sistema",
@@ -75,14 +170,14 @@
       }
       
     },
-    "tomarIncidente":{
+     "tomarIncidente":{
      "titulo":"Tomar Incidente",
       "tituloDescripcion":"Pagina para que un consultor atienda un incidente",
       "campos":{
         "id":"Incidente N° ",
         "nombre":"Nombre",
-        "sistema":"Nombre del Sistema",
-        "modulo":"Modulo Asociado",
+        "sistema":"Sistema",
+        "modulo":"Modulo",
         "descripcion":"Descripción",
         "fechaCreacion":"Fecha Creación",
         "tituloArchivo":"Adjuntos",
@@ -99,8 +194,8 @@
       }
   },
     "ver":{
-     "titulo":"Tomar Incidente",
-      "tituloDescripcion":"Pagina para que un consultor atienda un incidente",
+     "titulo":"Ver Incidente",
+      "tituloDescripcion":"Vista general del incidente",
       "campos":{
         "id":"Incidente N° ",
         "nombre":"Nombre",
@@ -112,7 +207,10 @@
         "keyUser":"Key User",
         "consultor":"Consultor",
         "estado":"Estado",
+        "origenProblema":"Origen del Problema",
+        "codigoTermino":"Codigo de Termino",
         "sla":"SLA",
+          "comentarios":"Eventos",
         "tabla":{
           "archivoNombre":"Nombre",
           "archivoTamano":"Tamaño"
@@ -121,18 +219,81 @@
       "botones":{
         "tomarIncidente":"Tomar Incidente"
       }
+  },
+    "responderKeyUser":{
+     "titulo":"Responder Incidente",
+      "tituloDescripcion":"Incidente esperando respuesta",
+      "campos":{
+        "id":"Incidente N° ",
+        "nombre":"Nombre",
+        "sistema":"Nombre del Sistema",
+        "modulo":"Modulo Asociado",
+        "descripcion":"Descripción",
+        "fechaCreacion":"Fecha Creación",
+        "tituloArchivo":"Adjuntos",
+        "keyUser":"Key User",
+        "consultor":"Consultor",
+        "estado":"Estado",
+        "origenProblema":"Origen del Problema",
+        "codigoTermino":"Codigo de Termino",
+        "sla":"SLA",
+          "comentarios":"Eventos",
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño"
+        }
+      },
+      "botones":{
+        "tomarIncidente":"Tomar Incidente"
+      }
+  },  
+   "editarConsultor":{
+      "mensajeExito":"Se ha actualizado el ticket ",
+      "mensajeDetalle":"",
+     "titulo":"Editar Incidente",
+      "tituloDescripcion":"Vista general del incidente",
+      "campos":{
+        "slaTranscurrido":"Tiempo",
+        "id":"Incidente N° ",
+        "nombre":"Nombre",
+        "sistema":"Sistema",
+        "modulo":"Modulo Asociado",
+        "errorModulo":"Debe Especificar un modulo",
+        "descripcion":"Descripción",
+        "fechaCreacion":"Fecha Creación",
+        "tituloArchivo":"Adjuntos",
+        "keyUser":"Key User",
+        "origenProblema":"Origen del Problema",
+        "errorOrigenProblema":"Error Origen Problema",
+        "codigoTermino":"Codigo de Termino",
+        "errorCodigoTermino":"Debe especificar un codigo de Termino",
+        "consultor":"consultor",
+        "errorConsultor":"Debe especificar un consultor",
+        "estado":"Estado",
+        "errorEstado":"Debe especificar un Estado",
+        "sla":"SLA",
+        "comentarioConsultor":"Comentarios Consultor",
+        "errorComentarioConsultor":"Debe Especificar un Comentario",
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño"
+        }
+      },
+      "botones":{
+        "actualizar":"actualizar Incidente"
+      }
   }
   },
-    "home":{
+  "home":{
     "keyUser":{
-      "titulo":"Key User Control Panel",
-      "tituloDescripcion":"Table Summary of Significant system activities",
+      "titulo":"Panel Control Key USer",
+      "tituloDescripcion":"Cuadro Resumen de las Principales actividades del sistema",
       "campos":{
-        "incidentes":"Active incidents",
-        "pendientes":"Pending Reply",
-        "sinAsignar":"unassigned"
+        "incidentes":"Incidentes Activos",
+        "pendientes":"Pendientes de Responder",
+        "sinAsignar":"Consultor Asignado"
       },
-        "tabla":{
+      "tabla":{
         "titulo":"Mis Casos Abiertos",
         "id":"ID",
         "nombre":"Nombre",
@@ -142,9 +303,7 @@
         "modulo":"modulo",
         "consultor":"Consultor",
         "acciones":"acciones"
-      },
-      "mensajeExito":"Se ha generado el ticket ",
-      "mensajeDetalle":"El Ticket sera atendido por uno de nuestros consultores"
+      }
     },
      "consultor":{
       "titulo":"Panel Control Consultor",
@@ -167,10 +326,22 @@
         "consultor":"Consultor",
         "acciones":"acciones"
       }
+    },
+    "superConsultor":{
+            "titulo":"Dashboard Super Consultor",
+      "tituloDescripcion":"Cuadro Resumen de las Principales actividades del sistema",
+      "campos":{
+        "mes":"Mes",
+        "anno":"Año",
+        "empresa":"Empresa",
+        "errorEmpresa":"Debe seleccionar la Empresa"
+      },
+      "botones":{
+        "actualizar":"Actualizar"
+      }
     }
-       }
-  
+  }
 }
- 
+
 
 

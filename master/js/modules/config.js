@@ -148,6 +148,13 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         controller: 'administracion.tipoIncidente',
         templateUrl: helper.basepath('Administracion/tipoIncidente.html')
     })
+     .state('app.subTipoIncidente', {
+        url: '/administracion/subTipoIncidente',
+        title: "Tipo Sistema",
+        module: 'private',
+        controller: 'administracion.subTipoIncidente',
+        templateUrl: helper.basepath('Administracion/subTipoIncidente.html')
+    })
     // 
     // CUSTOM RESOLVES
     //   Add your own resolves properties

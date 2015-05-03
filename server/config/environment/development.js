@@ -23,10 +23,11 @@ module.exports = {
 },
 mailer: {
   host:'email-smtp.us-east-1.amazonaws.com',
+  service:"Gmail",
   port:2588,
-  user:'AKIAJGAHAGBMT56FERRA',
-  pass:'AvWUG/8d5fopPAJSUbGUmytmGziTjuyCMLURN8aUi8dK',
-  mailDefecto: 'ckuknow@gmail.com'
+  user:'moises.bravo@rapazz.cl',
+  pass:'P1lenrafe',
+  mailDefecto: 'moises.bravo@rapazz.cl'
   
   
 },

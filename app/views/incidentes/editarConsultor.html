@@ -1,0 +1,249 @@
+<h3>
+   <div class="pull-right">
+      <div dropdown="" is-open="language.listIsOpen" class="btn-group">
+         <button type="button" dropdown-toggle="" class="btn btn-default">{{language.selected}}
+            <span class="caret"></span>
+         </button>
+         <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+            <li ng-repeat="(localeId, langName) in language.available"><a ng-click="language.set(localeId, $event)">{{langName}}</a>
+            </li>
+         </ul>
+      </div>
+   </div>{{'incidente.editarConsultor.titulo' | translate}}
+   <small>{{'incidente.editarConsultor.tituloDescripcion' | translate}}</small>
+</h3>
+<form method="post" id="formCrearIncidente" name="formCrearIncidente" validate-form="" novalidate="" ng-submit="guardar()">
+   <div class="panel">
+      <div class="panel-body">
+         <h3 class="mt0">{{'incidente.editarConsultor.campos.id' | translate}} {{incidente.idIncidente}}</h3>
+         <hr/>
+         <div class="row mb-lg">
+            <div class="col-lg-8 col-xs-10 br pv">
+               <div class="row">
+                  <div class="col-md-8">
+                     <h4>{{'incidente.editarConsultor.campos.nombre' | translate}}</h4>
+                     <address></address>{{incidente.nombre}}</div>
+                  <div class="col-md-2">
+                     <h4>{{'incidente.editarConsultor.campos.sla' | translate}}</h4>
+                     <span class="label label-purple">{{incidente.sla}}</span>
+                  </div>
+                  <div class="col-md-2">
+                     <h4>{{'incidente.editarConsultor.campos.slaTranscurrido' | translate}}</h4>
+                     <span class="label label-purple">{{incidente.tiempoTranscurrido}}</span>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-10">
+                     <h4>{{'incidente.editarConsultor.campos.descripcion' | translate}}</h4>
+                     <address></address>{{incidente.descripcion}}</div>
+               </div>
+               <div class="row">
+                  <div class="col-md-3">
+                     <h4>{{'incidente.editarConsultor.campos.fechaCreacion' | translate}}</h4>
+                     <address></address>{{incidente.fechaCreacion | date:'MM/dd/yyyy h:mma'}}</div>
+                  <div class="col-md-3">
+                     <h4>{{'incidente.editarConsultor.campos.sistema' | translate}}</h4>
+                     <address></address>{{incidente.tipoIncidente.Nombre}}</div>
+                  <div class="col-md-3">
+                     <h4>{{'incidente.editarConsultor.campos.modulo' | translate}}</h4>
+                     <div class="form-group">
+                        <select ng-model="incidente.idSubTipoIncidente" required="required" data-parsley-error-message="{{'incidente.editarConsultor.campos.errorModulo' | translate}}" ng-options="item.SubTipoIncidenteId as item.Nombre  for item in listas.modulo"
+                        class="form-control"></select>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <h4>{{'incidente.editarConsultor.campos.estado' | translate}}</h4>
+                     <div class="form-group">
+                        <select ng-model="incidente.idEstado" required="required" data-parsley-error-message="{{'incidente.editarConsultor.campos.errorEstado' | translate}}" ng-options="item.estado.EstadoId as item.estado.Nombre for item in  listas.estados"
+                        class="form-control">
+                           <option value="">-- Seleccione Estado--</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div ng-show="incidente.idEstado==80" class="col-md-6">
+                     <h4>{{'incidente.editarConsultor.campos.consultor' | translate}}</h4>
+                     <div class="form-group">
+                        <select ng-model="incidente.idConsultor" name="consultor" ng-options="item.usuarioId as item.nombre for item in  listas.consultor" data-parsley-error-message="{{'incidente.editarConsultor.campos.errorConsultor' | translate}}" class="input-sm">
+                           <option value="">-- Seleccione Consultor--</option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <h4>{{'incidente.editarConsultor.campos.origenProblema' | translate}}</h4>
+                     <div class="form-group">
+                        <select ng-model="incidente.idOrigenProblema" required="" name="origenProblema" data-parsley-error-message="{{'incidente.editarConsultor.campos.errorOrigenProblema' | translate}}" ng-options="item.OrigenProblemaId as item.Nombre  for item in listas.origenProblema"
+                        class="input-sm">
+                           <option value="">-- Seleccione Origen Problema --</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <h4>{{'incidente.editarConsultor.campos.codigoTermino' | translate}}</h4>
+                     <div class="form-group">
+                        <select ng-model="incidente.idCodigoTermino" name="codigoTermino" ng-options="item.CodigoTerminoId as item.Nombre for item in  listas.codigoTermino" data-parsley-error-message="{{'incidente.editarConsultor.campos.errorCodigoTermino' | translate}}"
+                        required="" class="input-sm">
+                           <option value="">-- Seleccione Codigo Termino --</option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-12">
+                     <h4>{{'incidente.editarConsultor.campos.comentarioConsultor' | translate}}</h4>
+                     <div class="form-group">
+                        <textarea rows="4" ng-model="incidente.comentarioConsultor" name="comentario" required="" data-parsley-error-message="{{'incidente.editarConsultor.campos.errorComentarioConsultor' | translate}}" class="form-control"></textarea>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-10">
+                     <h4>{{'incidente.editarConsultor.campos.tituloArchivo' | translate}}</h4>
+                     <address>
+                        <li ng-repeat="item in incidente.adjuntos" class="list-inline"><a href="api/adjunto/obtenerarchivo/{{item.AdjuntoId}}">{{item.Nombre}}</a>
+                        </li>
+                     </address>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-10"></div>
+               </div>
+               <div class="panel">
+                  <div class="panel-body">
+                     <h4 class="page-header mt0">{{'incidente.crearIncidente.campos.tituloArchivo' | translate}}</h4>
+                     <div nv-file-drop="" uploader="uploader">
+                        <div nv-file-over="" uploader="uploader" over-class="bg-purple" class="box-placeholder my-drop-zone">{{'incidente.crearIncidente.campos.descripcionArchivo' | translate}}</div>
+                     </div>
+                     <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}"-->
+                     <fieldset>
+                        <p ng-if="!uploader.queue.length" class="lead text-center">{{'incidente.crearIncidente.campos.mensajeArchivo' | translate}}</p>
+                        <div ng-if="uploader.queue.length">
+                           <table ng-if="uploader.queue.length" class="table">
+                              <thead>
+                                 <tr>
+                                    <th width="50%">{{'incidente.crearIncidente.campos.tabla.archivoNombre' | translate}}</th>
+                                    <th ng-show="uploader.isHTML5">{{'incidente.crearIncidente.campos.tabla.archivoTamano' | translate}}</th>
+                                    <th ng-show="uploader.isHTML5">{{'incidente.crearIncidente.campos.tabla.progreso' | translate}}</th>
+                                    <th>{{'incidente.crearIncidente.campos.tabla.status' | translate}}</th>
+                                    <th>{{'incidente.crearIncidente.campos.tabla.acciones' | translate}}</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr ng-repeat="item in uploader.queue">
+                                    <td>
+                                       <strong>{{ item.file.name }}</strong>
+                                    </td>
+                                    <td ng-show="uploader.isHTML5" nowrap="">{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                    <td ng-show="uploader.isHTML5">
+                                       <div style="margin-bottom: 0;" class="progress progress-xs">
+                                          <div role="progressbar" ng-style="{ 'width': item.progress + '%' }" class="progress-bar"></div>
+                                       </div>
+                                    </td>
+                                    <td class="text-center">
+                                       <span ng-show="item.isSuccess">
+                                          <em class="fa fa-check fa-fw"></em>
+                                       </span>
+                                       <span ng-show="item.isCancel">
+                                          <em class="fa fa-ban-circle fa-fw"></em>
+                                       </span>
+                                       <span ng-show="item.isError">
+                                          <em class="fa fa-times fa-fw"></em>
+                                       </span>
+                                    </td>
+                                    <td nowrap="">
+                                       <button type="button" ng-click="item.remove()" class="btn btn-danger btn-xs">
+                                          <span class="icon-trash mr"></span>{{'incidente.crearIncidente.campos.tabla.remover' | translate}}</button>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </fieldset>
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-4 col-xs-4 br pv">
+               <div class="row">
+                  <div class="p-xl">
+                     <a href="#" class="list-group-item">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <img src="{{incidente.ku.foto}}" alt="Image" class="media-box-object img-circle thumb64" />
+                           </div>
+                           <div class="media-box-body clearfix">
+                              <small class="pull-right"></small>
+                              <strong class="media-box-heading text-primary">{{'incidente.ver.campos.keyUser' | translate}}
+                                 <span class="circle circle-success circle-lg text-left"></span>
+                              </strong>
+                           </div>{{incidente.ku.nombre}}</div>
+                        <p class="mb-sm">
+                           <small>{{incidente.ku.empresa}}</small>
+                        </p>
+                     </a>
+                  </div>
+               </div>
+               <div ng-show="incidente.idUsuarioConsultor &gt;-1" class="row">
+                  <div class="p-xl">
+                     <a href="#" class="list-group-item">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <img src="{{incidente.consultor.foto}}" alt="Image" class="media-box-object img-circle thumb64" />
+                           </div>
+                           <div class="media-box-body clearfix">
+                              <small class="pull-right"></small>
+                              <strong class="media-box-heading text-primary">{{'incidente.ver.campos.consultor' | translate}}
+                                 <span class="circle circle-success circle-lg text-left"></span>
+                              </strong>
+                           </div>{{incidente.consultor.nombre}}</div>
+                        <p class="mb-sm">
+                           <small>{{incidente.ku.empresa}}</small>
+                        </p>
+                     </a>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row mb-lg">
+            <div class="col-lg-8 col-xs-10">
+               <div class="panel panel-default">
+                  <div class="panel-heading">
+                     <div class="panel-title">{{'incidente.ver.campos.comentarios' | translate}}</div>
+                  </div>
+                  <scrollable height="450" class="list-group">
+                     <a ng-repeat="item in incidente.historial" class="list-group-item">
+                        <div class="media-box">
+                           <div class="pull-left">
+                              <img src="{{item.usuario.foto}}" alt="Image" class="media-box-object img-circle thumb32" />
+                           </div>
+                           <div class="media-box-body clearfix">
+                              <small class="pull-right">{{item.estado.Nombre}} {{item.fechaCreacion | date:'MM/dd/yyyy h:mma'}}</small>
+                              <strong class="media-box-heading text-primary">
+                                 <span class="circle circle-success circle-lg text-left"></span>{{item.usuario.nombre}}</strong>
+                              <p class="mb-sm">{{item.comentarios}}</p>
+                           </div>
+                        </div>
+                     </a>
+                  </scrollable>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="panel-footer">
+         <fieldset>
+            <div class="pull-right">
+               <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                     <button type="submit" class="btn btn-primary">{{'incidente.editarConsultor.botones.actualizar' | translate}}</button>
+                  </div>
+               </div>
+            </div>
+         </fieldset>
+      </div>
+   </div>
+</form>
+<script type="text/ng-template" id="dialogWithNestedConfirmDialogId2">
+   <div class="ngdialog-message"><h3 class="mt0">{{'incidente.editarConsultor.mensajeExito' | translate}} N° {{incidente.idIncidente}}</h3><p>{{'incidente.editarConsultor.mensajeDetalle' | translate}}</p><button type="button" ng-click="confirm(1)" class="btn btn-primary">Ok            </button></div>
+</script>

@@ -1,0 +1,163 @@
+<h3>
+   <div class="pull-right">
+      <div dropdown="" is-open="language.listIsOpen" class="btn-group">
+         <button type="button" dropdown-toggle="" class="btn btn-default">{{language.selected}}
+            <span class="caret"></span>
+         </button>
+         <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+            <li ng-repeat="(localeId, langName) in language.available"><a ng-click="language.set(localeId, $event)">{{langName}}</a>
+            </li>
+         </ul>
+      </div>
+   </div>{{'home.superConsultor.titulo' | translate}}
+   <small>{{'home.superConsultor.tituloDescripcion' | translate}}</small>
+</h3>
+<div class="row">
+   <div class="col-sm-6">
+      <div class="panel panel-transparent">
+         <div class="panel-body">
+            <div class="row">
+               <div class="col-sm-3">
+                  <div class="form-group">
+                     <label class="control-label">{{'home.superConsultor.campos.mes' | translate}}</label>
+                     <select ng-model="dashboard.mes" required="required" ng-options="item.id as item.mes  for item in meses" class="form-control"></select>
+                  </div>
+               </div>
+               <div class="col-sm-3">
+                  <div class="form-group">
+                     <label class="control-label">{{'home.superConsultor.campos.anno' | translate}}</label>
+                     <select ng-model="dashboard.anno" required="required" ng-options="item.id as item.nombre  for item in anno" class="form-control"></select>
+                  </div>
+               </div>
+               <div class="col-sm-4">
+                  <div class="form-group">
+                     <label class="control-label">{{'home.superConsultor.campos.empresa' | translate}}</label>
+                     <select ng-model="dashboard.idEmpresa" required="required" data-parsley-error-message="{{'home.superConsultor.campos.errorEmpresa' | translate}}" ng-options="item.idEmpresa as item.nombre  for item in listas.empresa"
+                     class="form-control">
+                        <option value="">-- Seleccione Empresa--</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="col-sm-2">
+                  <div class="form-group">
+                     <div class="pull-right">
+                        <br/>
+                        <button type="button" ng-click="actualizarDashboard()" class="btn btn-oval btn-success">{{'home.superConsultor.botones.actualizar' | translate}}</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-sm-6">
+      <div class="panel widget">
+         <div class="row row-table">
+            <div ng-repeat="item in dashboard.online" class="col-md-2 col-sm-3 col-xs-6 pv text-center br bg-info-light">
+               <div class="h2 m0 text-bold">{{item.count}}</div>
+               <div ng-show="item.consultor==null" class="text-uppercase">Sin Asignar</div>
+               <div ng-show="item.consultor!=null" class="text-uppercase">{{item.consultor.nombre.split(',')[0]}}</div>
+            </div>
+            <div class="col-md-4 col-sm-4 hidden-xs pv text-center">
+               <div class="row">
+                  <div class="col-sm-8">
+                     <div class="text-info text-sm">En Tiempo</div>
+                  </div>
+                  <div class="col sm-4">
+                     <div class="text-info text-sm">8</div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-sm-8">
+                     <div class="text-info text-sm">Proximo Vencer</div>
+                  </div>
+                  <div class="col sm-4">
+                     <div class="text-info text-sm">8</div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-sm-8">
+                     <div class="text-info text-sm">Fuera SLA</div>
+                  </div>
+                  <div class="col sm-4">
+                     <div class="text-info text-sm">8</div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div ng-show="dashboard.totalArea[0].totalCasos&gt;0" class="row">
+   <div class="col-xs-12 col-md-12">
+      <div class="well">
+         <div class="row">
+            <div ng-repeat="t in dashboard.totalArea" class="col-xs-6 col-md-3">
+               <h4 class="text-center">
+                  <small>Total MES</small>
+               </h4>
+               <canvas classyloader="" data-trigger-in-view="true" data-diameter="70" data-font-size="20px" data-percentage="{{t.porcentajeCumplimiento}}" data-speed="10" data-line-color="{{colorByName('green')}}" data-remaining-line-color="#edf2f6" data-line-width="9"
+               class="center-block"></canvas>
+            </div>
+            <div ng-repeat="item in dashboard.porcentajeMes" ng-show="item.consultor!=null" class="col-xs-6 col-md-3">
+               <h4 class="text-center">
+                  <small ng-show="item.consultor!=null">{{item.consultor.nombre.split(',')[0]}}</small>
+               </h4>
+               <canvas ng-show="item.consultor!=null" classyloader="" data-diameter="50" data-font-size="20px" data-percentage="{{100*item.sum/item.count}}" data-speed="10" data-line-color="{{colorByName('gray-dark')}}" data-remaining-line-color="#edf2f6"
+               data-line-width="8" class="center-block"></canvas>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="row">
+   <div class="col-md-3">
+      <!-- START panel tab-->
+      <div class="panel panel-transparent">
+         <div class="panel-heading">
+            <em class="fa fa-clock-o fa-fw"></em>Casos Ingresados</div>
+         <div class="panel-body">
+            <!-- START list group-->
+         </div>
+         <scrollable height="250" class="list-group">
+            <!-- START list group item-->
+            <a href="#" ng-repeat="t in dashboard.incidentesKeyUser" class="list-group-item">
+               <div class="media-box">
+                  <div class="pull-left">
+                     <img src="{{t.ku.foto}}" alt="Image" class="media-box-object img-circle thumb32" />
+                  </div>
+                  <div class="media-box-body clearfix">
+                     <small class="pull-right">{{t.count}}</small>
+                     <strong class="media-box-heading text-primary">
+                        <span class="circle circle-success circle-lg text-left"></span>{{t.ku.nombre}}</strong>
+                  </div>
+               </div>
+            </a>
+            <!-- END list group item// END list group
+.panel-footer.text-right
+ a.btn.btn-default.btn-sm(href='#') View All Activity 
+-->
+         </scrollable>
+      </div>
+   </div>
+   <div class="col-md-4">
+      <div class="panel panel-transparent">
+         <div class="panel-title text-center">Casos por Resolución</div>
+         <div class="panel-body">
+            <div>
+               <flot dataset="barStackeData" options="barStackedOptions" height="300px"></flot>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-md-4">
+      <div class="panel panel-transparent">
+         <div class="panel-title text-center">Casos por Sistema</div>
+         <div class="panel-body">
+            <div>
+               <canvas barchart="" options="barOptions" data="dashboard.incidentesPorSistema" height="180" responsive="true"></canvas>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

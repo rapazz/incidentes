@@ -56,7 +56,7 @@
           "acciones":"Acciones"
         },
           "botones":{
-            "actualizar":"Actualizar Usuario",
+            "actualizar":"Actualizar Código",
             "nuevo":"Crear Registro"
           }
           
@@ -90,12 +90,41 @@
             "nombre":"Nombre",
             "nombreValidacion":"debe ingresar el Nombre",
             "nombreAyuda":"Ingrese el nombre del Tipo de Sistema",
+             "sla":"SLA",
+            "slaValidacion":"debe ingresar el SLA",
+            "slaAyuda":"Ingrese el tiempo de respuesta",
             "estado":"Estado"
           },
           "tabla":{
           "id":"ID",
           "nombre":"Nombre",
           "estado":"Estado",
+          "fechaCreacion":"Fecha Creación",
+          "acciones":"Acciones"
+        },
+          "botones":{
+            "actualizar":"Actualizar Registro",
+            "nuevo":"Crear Registro"
+          }
+          
+      },
+       "subTipoincidente":{
+          "titulo":"Administracion de Tipos de Sistemas",
+          "descripcionTitulo":"Administracion de tipos de Sistemas",
+          "campos": {
+            "nombre":"Nombre",
+            "nombreValidacion":"debe ingresar el Nombre",
+            "nombreAyuda":"Ingrese el nombre del Tipo de Sistema",
+             "tipoIncidente":"Tipo Inicidente",
+            "tipoIncidenteValidacion":"debe ingresar el tipo de Incidente",
+            "tipoIncidenteAyuda":"Ingrese el tipo de Incidente",
+            "estado":"Estado"
+          },
+          "tabla":{
+          "id":"ID",
+          "nombre":"Nombre",
+          "estado":"Estado",
+          "tipoIncidente":"Tipo Incidente",
           "fechaCreacion":"Fecha Creación",
           "acciones":"Acciones"
         },
@@ -117,7 +146,7 @@
       "titulo":"Creacion de Incidente",
       "tituloDescripcion":"Generación de un nuevo incidente para IT",
       "campos":{
-        "titulo":"Titulo del Inicidente",
+        "titulo":"Titulo del Incidente",
         "errorTitulo":"Debe ingresar un titulo al incidente",
         "sistema":"Nombre del Sistema",
         "errorSistema":"Debe indicar un Sistema",

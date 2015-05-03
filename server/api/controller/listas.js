@@ -79,7 +79,7 @@ exports.listarParametros = function(req, res) {
 exports.tipoIncidente = function(req, res) {
   models.tipoincidente.findAll({
 
-  }).success(function(tipos) {
+  }).success(function(tipos) {where:{esActivo:1}
 res.header("Content-Type", "application/json; charset=utf-8");
    return res.json(200, tipos);
 
@@ -91,7 +91,7 @@ res.header("Content-Type", "application/json; charset=utf-8");
 
 
 exports.subTipoIncidente = function(req, res) {
-  models.subtipoincidente.findAll({where:{TipoIncidenteId:req.params.id}
+  models.subtipoincidente.findAll({where:{TipoIncidenteId:req.params.id,esActivo:1}
 
   }).success(function(tipos) {
 res.header("Content-Type", "application/json; charset=utf-8");
@@ -102,7 +102,7 @@ res.header("Content-Type", "application/json; charset=utf-8");
 
 
 exports.codigoTermino = function(req, res) {
-  models.codigotermino.findAll({
+  models.codigotermino.findAll({where:{esActivo:1}
 
   }).success(function(tipos) {
 res.header("Content-Type", "application/json; charset=utf-8");
@@ -112,7 +112,7 @@ res.header("Content-Type", "application/json; charset=utf-8");
 }
 
 exports.origenProblema = function(req, res) {
-  models.origenproblema.findAll({
+  models.origenproblema.findAll({where:{esActivo:1}
 
   }).success(function(tipos) {
    res.header("Content-Type", "application/json; charset=utf-8");

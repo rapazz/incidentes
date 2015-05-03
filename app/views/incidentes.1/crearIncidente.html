@@ -1,0 +1,125 @@
+<h3>
+   <div class="pull-right">
+      <div dropdown="" is-open="language.listIsOpen" class="btn-group">
+         <button type="button" dropdown-toggle="" class="btn btn-default">{{language.selected}}
+            <span class="caret"></span>
+         </button>
+         <ul role="menu" class="dropdown-menu dropdown-menu-right animated fadeInUpShort">
+            <li ng-repeat="(localeId, langName) in language.available"><a ng-click="language.set(localeId, $event)">{{langName}}</a>
+            </li>
+         </ul>
+      </div>
+   </div>{{'incidente.crearIncidente.titulo' | translate}}
+   <small>{{'incidente.crearIncidente.tituloDescripcion' | translate}}</small>
+</h3>
+<div class="panel panel-default">
+   <form method="post" id="formCrearIncidente" name="formCrearIncidente" validate-form="" novalidate="" ng-submit="grabarIncidente()">
+      <div class="panel-body">
+         <fieldset>
+            <div class="col-sm-6">
+               <div class="form-group">
+                  <label class="control-label">{{'incidente.crearIncidente.campos.titulo' | translate}}</label>
+                  <input type="text" ng-model="incidente.nombre" required="required" data-parsley-error-message="{{'incidente.crearIncidente.campos.errorTitulo' | translate}}" class="form-control"
+                  />
+               </div>
+            </div>
+         </fieldset>
+         <fieldset>
+            <div class="col-sm-3">
+               <div class="form-group">
+                  <label class="control-label">{{'incidente.crearIncidente.campos.sistema' | translate}}</label>
+                  <select ng-model="incidente.idTipoIncidente" required="required" data-parsley-error-message="{{'incidente.crearIncidente.campos.errorSistema' | translate}}" ng-options="item.TipoIncidenteId as item.Nombre  for item in listas.sistema"
+                  ng-change="cargaModulo()" class="form-control"></select>
+               </div>
+            </div>
+            <div class="col-sm-3">
+               <div class="form-group">
+                  <label class="control-label">{{'incidente.crearIncidente.campos.modulo' | translate}}</label>
+                  <select ng-model="incidente.idSubTipoIncidente" required="required" data-parsley-error-message="{{'incidente.crearIncidente.campos.errorModulo' | translate}}" ng-options="item.SubTipoIncidenteId as item.Nombre  for item in listas.modulo"
+                  class="form-control"></select>
+               </div>
+            </div>
+         </fieldset>
+         <fieldset>
+            <div class="col-sm-10">
+               <div class="form-group">
+                  <label class="control-label">{{'incidente.crearIncidente.campos.descripcion' | translate}}</label>
+                  <textarea rows="4" ng-model="incidente.descripcion" required="required" data-parsley-error-message="{{'incidente.crearIncidente.campos.errorDescripcion' | translate}}"
+                  class="form-control"></textarea>
+               </div>
+            </div>
+         </fieldset>
+         <fieldset>
+            <div class="col-md-10">
+               <div class="panel">
+                  <div class="panel-body">
+                     <h4 class="page-header mt0">{{'incidente.crearIncidente.campos.tituloArchivo' | translate}}</h4>
+                     <div nv-file-drop="" uploader="uploader">
+                        <div nv-file-over="" uploader="uploader" over-class="bg-purple" class="box-placeholder my-drop-zone">{{'incidente.crearIncidente.campos.descripcionArchivo' | translate}}</div>
+                     </div>
+                     <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}"-->
+                     <fieldset>
+                        <p ng-if="!uploader.queue.length" class="lead text-center">{{'incidente.crearIncidente.campos.mensajeArchivo' | translate}}</p>
+                        <div ng-if="uploader.queue.length">
+                           <table ng-if="uploader.queue.length" class="table">
+                              <thead>
+                                 <tr>
+                                    <th width="50%">{{'incidente.crearIncidente.campos.tabla.archivoNombre' | translate}}</th>
+                                    <th ng-show="uploader.isHTML5">{{'incidente.crearIncidente.campos.tabla.archivoTamano' | translate}}</th>
+                                    <th ng-show="uploader.isHTML5">{{'incidente.crearIncidente.campos.tabla.progreso' | translate}}</th>
+                                    <th>{{'incidente.crearIncidente.campos.tabla.status' | translate}}</th>
+                                    <th>{{'incidente.crearIncidente.campos.tabla.acciones' | translate}}</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr ng-repeat="item in uploader.queue">
+                                    <td>
+                                       <strong>{{ item.file.name }}</strong>
+                                    </td>
+                                    <td ng-show="uploader.isHTML5" nowrap="">{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                    <td ng-show="uploader.isHTML5">
+                                       <div style="margin-bottom: 0;" class="progress progress-xs">
+                                          <div role="progressbar" ng-style="{ 'width': item.progress + '%' }" class="progress-bar"></div>
+                                       </div>
+                                    </td>
+                                    <td class="text-center">
+                                       <span ng-show="item.isSuccess">
+                                          <em class="fa fa-check fa-fw"></em>
+                                       </span>
+                                       <span ng-show="item.isCancel">
+                                          <em class="fa fa-ban-circle fa-fw"></em>
+                                       </span>
+                                       <span ng-show="item.isError">
+                                          <em class="fa fa-times fa-fw"></em>
+                                       </span>
+                                    </td>
+                                    <td nowrap="">
+                                       <button type="button" ng-click="item.remove()" class="btn btn-danger btn-xs">
+                                          <span class="icon-trash mr"></span>{{'incidente.crearIncidente.campos.tabla.remover' | translate}}</button>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </fieldset>
+                  </div>
+               </div>
+            </div>
+         </fieldset>
+      </div>
+      <div class="panel-footer">
+         <fieldset>
+            <div class="pull-right">
+               <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                     <button type="submit" class="btn btn-primary">{{'incidente.botones.crear' | translate}}</button>
+                  </div>
+               </div>
+            </div>
+         </fieldset>
+      </div>
+   </form>
+   <script type="text/ng-template" id="dialogWithNestedConfirmDialogId">
+      <div class="ngdialog-message"><h3 class="mt0">{{'incidente.crearIncidente.mensajeExito' | translate}} N° {{IncidenteId}}</h3><p>{{'incidente.crearIncidente.mensajeDetalle' | translate}}</p><button type="button" ng-click="confirm(1)" class="btn btn-primary">Save</button></div>
+   </script>
+</div>

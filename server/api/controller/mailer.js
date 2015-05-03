@@ -2,13 +2,42 @@ var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var models  = require('../model');
 var config = require('../../config/environment');
+var moment = require('moment');
+
+
+
+ function enviarEmail(x){
+    
+
+var transport = nodemailer.createTransport(smtpTransport({
+        service: "Gmail",
+          auth: {
+          user: config.mailer.user,
+          pass: config.mailer.pass
+        }
+      }));
+    
+ var salida = {
+        from: config.mailer.mailDefecto,
+        to:  x.to,
+        subject: x.subject,
+        html: x.body
+      }
+
+  transport.sendMail(salida, function(error, response){  //callback
+        if(error){
+          console.log(error);
+        }else{
+          console.log("Message sent: " + response.message);
+        }
+
+     
+      });     
+}
 
 
 exports.enviarPrueba = function(){
-    
-
-//generaro lista de usuarios 
-// igualo campos a valores 
+  
 var transport = nodemailer.createTransport(smtpTransport({
         service: "Gmail",
           auth: {
@@ -45,10 +74,7 @@ var transport = nodemailer.createTransport(smtpTransport({
 exports.EnvioEmail = function(tipoEmail,datos) {
 
 models.emailTemplate.find ({where:{idTemplate:tipoEmail}}).success(function(x){
-    
-
-
-
+  
 //generaro lista de usuarios 
 // igualo campos a valores 
 
@@ -108,6 +134,61 @@ var url = 'http://sistemagestion-rapazz.c9.io/#/proyecto'
 
 };
 
+
+
+exports.emailNuevoIncidente = function(datos){
+ models.emailTemplate.find ({where:{idTemplate:5}}).success(function(x){
+     
+     console.log(config.root)
+   var linkIncidente = 'http://plantillanueva-rapazz.c9.io/#/app/incidentes/verIncidente/' +datos.idIncidente
+    var cuerpoEmail = x.cuerpo 
+     cuerpoEmail = cuerpoEmail.replace(new RegExp('{{nombreUsuario}}', 'g'),datos.ku.nombre);
+     cuerpoEmail = cuerpoEmail.replace(new RegExp('{{fechaCreacion}}', 'g'),moment(datos.fechaCreacion).zone('-03:00').format('DD-MM-YYYY H:mm a'));
+          cuerpoEmail = cuerpoEmail.replace(new RegExp('{{SLA}}', 'g'),datos.sla);
+    cuerpoEmail = cuerpoEmail.replace(new RegExp('{{idIncidente}}', 'g'),datos.idIncidente);
+    cuerpoEmail = cuerpoEmail.replace(new RegExp('{{nombre}}', 'g'),datos.nombre); 
+      cuerpoEmail = cuerpoEmail.replace(new RegExp('{{linkIncidente}}', 'g'),linkIncidente); 
+      cuerpoEmail = cuerpoEmail.replace(new RegExp('{{urlSite}}', 'g'),'http://plantillanueva-rapazz.c9.io'); 
+
+    var datosUsuario = {}
+    
+    datosUsuario.to = datos.ku.email
+    datosUsuario.subject = x.asunto
+    datosUsuario.body = cuerpoEmail
+     
+ 
+  
+  enviarEmail(datosUsuario);    
+     
+ });   
+
+}
+
+exports.emailAsignarConsultorIncidente = function(datos){
+ models.emailTemplate.find ({where:{idTemplate:6}}).success(function(x){
+     
+   var linkIncidente = 'http://plantillanueva-rapazz.c9.io/#/app/incidentes/verIncidente/' +datos.idIncidente
+    var cuerpoEmail = x.cuerpo 
+     cuerpoEmail = cuerpoEmail.replace(new RegExp('{{nombreUsuario}}', 'g'),datos.ku.nombre);
+      cuerpoEmail = cuerpoEmail.replace(new RegExp('{{nombreConsultor}}', 'g'),datos.consultor.nombre); 
+    cuerpoEmail = cuerpoEmail.replace(new RegExp('{{idIncidente}}', 'g'),datos.idIncidente);
+    cuerpoEmail = cuerpoEmail.replace(new RegExp('{{nombre}}', 'g'),datos.nombre); 
+      cuerpoEmail = cuerpoEmail.replace(new RegExp('{{linkIncidente}}', 'g'),linkIncidente); 
+      cuerpoEmail = cuerpoEmail.replace(new RegExp('{{urlSite}}', 'g'),'http://plantillanueva-rapazz.c9.io'); 
+
+    var datosUsuario = {}
+    
+    datosUsuario.to = datos.ku.email
+    datosUsuario.subject = x.asunto
+    datosUsuario.body = cuerpoEmail
+     
+ 
+  
+  enviarEmail(datosUsuario);    
+     
+ });   
+
+}
 
 
 exports.EnvioEmailIniciativa = function(tipoEmail,datos) {
@@ -177,68 +258,3 @@ var url = 'http://sistemagestion-rapazz.c9.io/#/'
 
 
 
-exports.envioEmailIncidente = function(tipoEmail,datos) {
-
-models.emailTemplate.find ({where:{idTemplate:tipoEmail}}).success(function(x){
-    
-
-
-
-//generaro lista de usuarios 
-// igualo campos a valores 
-
-var transport = nodemailer.createTransport(smtpTransport({
-        host: config.mailer.host,
-        port: config.mailer.port,
-
-          auth: {
-          user: config.mailer.user,
-          pass: config.mailer.pass
-        }
-      }));
-var url = 'http://sistemagestion-rapazz.c9.io/#/'
-  
-        var cuerpoEmail = x.cuerpo 
-       
-       cuerpoEmail = cuerpoEmail.replace(new RegExp('{{idIncidente}}', 'g'),datos.idIncidente);
-       cuerpoEmail = cuerpoEmail.replace(new RegExp('{{nombre}}', 'g'),datos.nombre);
-       
-       cuerpoEmail = cuerpoEmail.replace(new RegExp('{{estadoNombre}}', 'g'), datos.estado.Nombre);
-          cuerpoEmail = cuerpoEmail.replace(new RegExp('{{nombreSolicitante}}', 'g'), datos.ku.nombre);
-                    cuerpoEmail = cuerpoEmail.replace(new RegExp('{{nombreConsultor}}', 'g'), datos.consultor.nombre);
-       cuerpoEmail = cuerpoEmail.replace(new RegExp('{{aprobar}}', 'g'), url +'/niciativa/editar/' + datos.idProyecto);
-          cuerpoEmail = cuerpoEmail.replace(new RegExp('{{linkAprobacion}}', 'g'), url +'/incidente/ver' + datos.idIncidente);
-       
-     //  cuerpoEmail = cuerpoEmail.replace(new RegExp('{{guid}}', 'g'), datos.equipoProyecto[i].guid);   
-       
-   
-     var salida = {
-        from: config.mailer.mailDefecto,
-        to:  datos.ku.email,
-       // to:  'moises.bravo@rapazz.cl',
-        subject: x.asunto  + ' ' +datos.idIncidente,
-        html: cuerpoEmail
-      }
-      
-      transport.sendMail(salida, function(error, response){  //callback
-        if(error){
-          console.log(error);
-        }else{
-          console.log("Message sent: " + response.message);
-        }
-
-     
-      });
-   
-   //  smtpTransport.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
-   
-   
-   
-    
-    
-    
-})
-
-
-
-};

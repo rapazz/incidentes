@@ -5,16 +5,17 @@ $scope.listas.estado=[];
 $scope.habilitarGrabar = -1 
 $scope.listas.estado.push({id:1,nombre:'Activo'});
 $scope.listas.estado.push({id:0,nombre:'Inactivo'});
- $http.get('/api/administracion/listartipoIncidente').
+ $http.get('/api/administracion/tipoIncidente/listar').
         success(function(data) {
           $scope.data = data;
  });    
   
   
 $scope.seleccionar = function(item){
-$scope.tipoIncidente.id= item.tipoIncidenteId;
+$scope.tipoIncidente.id= item.TipoIncidenteId;
 $scope.tipoIncidente.estado = item.EsActivo;
 $scope.tipoIncidente.nombre =item.Nombre
+$scope.tipoIncidente.sla =item.sla
 $scope.habilitarGrabar = 0;
 }
    
@@ -47,9 +48,9 @@ $scope.actualizarRegistro = function(){
 $scope.tipoIncidente.id= 0;
 $scope.tipoIncidente.estado =1;
 $scope.tipoIncidente.nombre ='';
-
+$scope.tipoIncidente.sla ='';
 $scope.habilitarGrabar = -1;
- $http.get('/api/administracion/listartipoIncidente').
+ $http.get('/api/administracion/tipoIncidente/listar').
         success(function(data) {
           $scope.data = data;
  });    
@@ -83,7 +84,7 @@ $scope.tipoIncidente.estado =1;
 $scope.tipoIncidente.nombre ='';
 
 $scope.habilitarGrabar = -1;
- $http.get('/api/administracion/listartipoIncidente').
+ $http.get('/api/administracion/tipoIncidente/listar').
         success(function(data) {
           $scope.data = data;
  });    

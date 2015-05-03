@@ -8,23 +8,74 @@ var uid = require("node-uuid");
 var clients = require('../sockets/variables.js');
 var Sequelize = require("sequelize");
 
+
+
+
+
 exports.estatusActual=function(req,res){
     var dashboard ={};
     
+    models.usuario.findAll({where:["rolesMenu like ?", '%30%'],attributes: ['usuarioId', 'nombre']
+ 
+ } ).success(function(usuario) {
+
+
     models.incidente.findAll({
          attributes: [[Sequelize.fn('COUNT', Sequelize.col('idIncidente')),'count'],
          'idusuarioConsultor'
          ],
-         group: 'idusuarioConsultor',
-         include :[{model:models.usuario,as:'consultor',attributes:['nombre']}]
+         group: 'idusuarioConsultor'
     }
         ).success(function(indicadores){
             
-            return res.json(200, indicadores); 
+      
+        var resultadoArray = [];
+        var sinAsignar = 0
+            for (var i=0;i<=usuario.length-1;i++)
+            {
+                 var resultado = {}
+                 resultado.consultor=usuario[i];
+                 var encontro = 0
+                 
+             for (var x=0;x<=indicadores.length-1;x++)
+             {
+               console.log(indicadores[x].dataValues.idusuarioConsultor)
+                 if (indicadores[x].dataValues.idusuarioConsultor==-1)
+                 {
+                     encontro=1;
+                       sinAsignar = indicadores[x].dataValues.count 
+                         
+                       
+                 }
+                 else 
+                 if (indicadores[x].dataValues.idusuarioConsultor==usuario[i].dataValues.usuarioId)
+                    {
+                        console.log(indicadores[x].dataValues.count)
+                        encontro=1;
+                        resultado.count = indicadores[x].dataValues.count 
+                         
+                        x= indicadores.length;
+                    }
+             }
+              if  (encontro ==0)
+               resultado.count =0;
+              resultadoArray.push(resultado)
+              
+              
+            }
+            if (sinAsignar>0)
+            {
+              var resultado = {}
+              resultado.consultor = null;
+              resultado.count =sinAsignar;
+               resultadoArray.push(resultado)
+        }
+            return res.json(200, resultadoArray); 
             
         })
     
-   
+ });
+     
 }
 
 exports.incidentesPorOrigenProblema = function(req,res){
@@ -271,9 +322,6 @@ exports.verIncidente = function(req, res) {
    
    // busca Diferencia en SLA
    
-   var now = moment();
-    
-   //proyecto.dataValues.tiempoTranscurrido = Math.round(now.diff(proyecto.fechaCreacion, 'hours', true));
     
    return res.json(200, proyecto);
    
@@ -284,9 +332,7 @@ exports.verIncidente = function(req, res) {
 
 
 exports.crear = function(req, res) {
-
   var inc = req.body;
-
   var idi = req.body["IdInterno"];
   var usuario = req.body["usuario"];
 
@@ -310,8 +356,6 @@ models.tipoincidente.find({where: {TipoIncidenteId:inc.idTipoIncidente}
 
   }).success(function(x) {
 
-
-
       var h ={}
    h.idIncidente = x.idIncidente;
     h.usuarioId=x.idUsuarioKU;
@@ -319,15 +363,34 @@ models.tipoincidente.find({where: {TipoIncidenteId:inc.idTipoIncidente}
    h.fechaCreacion =  new Date();
   h.idAccion = 1;
   historial.insertarHistorial(h)
-
   var j = {}
   j.idIncidente = x.idIncidente;
   j.guid = idi;
-
 //adjunto.actualizarAdjunto(j)
-
 //Agregar llamada a webSocket
- clients[x.idUsuarioKU].emit("hola", 'hello');
+// clients[x.idUsuarioKU].emit("hola", 'hello');
+
+
+// Carga datos Incidentes.
+models.incidente.find({where:{idIncidente:x.idIncidente},
+  include :[{model:models.usuario,as:'ku'},
+  {model:models.tipoincidente, as:'tipoIncidente' },
+  {model:models.subtipoincidente, as:'subtipoincidente' },
+  {model:models.estado, as:'estado' }
+  ]
+  }).success(function(p) {
+   mailer.emailNuevoIncidente(p)
+   // busca Diferencia en SLA
+   
+    
+   
+   
+  });
+
+
+
+
+
    return res.json(200, x);
 
   });
@@ -364,6 +427,23 @@ exports.tomarIncidente = function(req, res) {
    h.fechaCreacion =  new Date();
   h.idAccion = 2;
   historial.insertarHistorial(h)
+
+// Carga datos Incidentes.
+models.incidente.find({where:{idIncidente:x.idIncidente},
+  include :[{model:models.usuario,as:'ku'},{model:models.usuario,as:'consultor'},
+  {model:models.tipoincidente, as:'tipoIncidente' },
+  {model:models.subtipoincidente, as:'subtipoincidente' },
+  {model:models.estado, as:'estado' }
+  ]
+  }).success(function(p) {
+   mailer.emailAsignarConsultorIncidente(p)
+   // busca Diferencia en SLA
+   
+    
+   
+   
+  });
+
 
  return res.json(200, x);
       });

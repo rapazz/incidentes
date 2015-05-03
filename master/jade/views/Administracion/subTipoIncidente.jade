@@ -1,0 +1,59 @@
+h3 
+  .pull-right
+    .btn-group(dropdown='', is-open='language.listIsOpen')
+      button.btn.btn-default(type='button', dropdown-toggle="")
+        | {{language.selected}}
+        span.caret
+      ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+        li(ng-repeat='(localeId, langName) in language.available')
+          a(ng-click='language.set(localeId, $event)') {{langName}}
+  | {{'administracion.subTipoincidente.titulo' | translate}}
+  small {{'administracion.subTipoincidente.descripcionTitulo' | translate}}
+.row
+ .col-sm-4
+  .panel.panel-default
+    .panel-heading 
+     .pull-right
+       toaster-container(toaster-options="{'position-class': 'toast-top-right', 'close-button':true}")
+       a.btn.btn-info(ng-click='nuevoRegistro()') +
+    .panel-body
+      form(role='form',ng-submit='actualizarRegistro()')
+       .form-group
+         label {{'administracion.subTipoincidente.campos.nombre' | translate}}
+         input.form-control(type='text',ng-model='subTipoIncidente.nombre', required,data-parsley-error-message="{{'administracion.subTipoincidente.campos.nombreValidacion' | translate}}",placeholder="{{'administracion.subTipoincidente.campos.nombreAyuda' | translate}}")
+       .form-group
+         label {{'administracion.subTipoincidente.campos.tipoIncidente' | translate}}
+                  select.form-control(ng-model="subTipoIncidente.TipoIncidenteId",ng-options="item.TipoIncidenteId as item.Nombre  for item in listas.sistema") 
+       .form-group
+         label {{'administracion.subTipoincidente.campos.estado' | translate}}
+         select.form-control(ng-model="subTipoIncidente.estado",ng-options="item.id as item.nombre  for item in listas.estado") 
+       button.btn.btn-sm.btn-default(ng-show='habilitarGrabar==0',type='submit') {{'administracion.subTipoincidente.botones.actualizar' | translate}}
+       button.btn.btn-sm.btn-info(ng-show='habilitarGrabar==1',type='button',ng-click='crearRegistro()') {{'administracion.subTipoincidente.botones.nuevo' | translate}} 
+ .col-sm-8
+    .panel.panel-default
+      .panel-heading
+        | {{'home.keyUser.tabla.titulo' | translate}}
+        
+        // START table-responsive
+        .table-responsive
+          table#table-ext-3.table.table-striped.table-bordered.table-hover
+            thead
+              tr
+                th {{'administracion.subTipoincidente.tabla.id' | translate}}
+                th {{'administracion.subTipoincidente.tabla.nombre' | translate}}
+                th {{'administracion.subTipoincidente.tabla.tipoIncidente' | translate}}   
+                th {{'administracion.subTipoincidente.tabla.estado' | translate}}     
+                th {{'administracion.subTipoincidente.tabla.fechaCreacion' | translate}}
+                th {{'administracion.subTipoincidente.tabla.acciones' | translate}}
+            tbody
+              tr(ng-repeat='item in data | filter:miFiltro')
+                td {{item.subTipoincidenteId}}
+                td {{item.Nombre}}
+                td {{item.tipoincidente.Nombre}}
+                td {{item.EsActivo}}
+                td {{item.FechaCreacion | date:'MM/dd/yyyy h:mma'}}
+                td  
+                  a.btn.btn-primary(ng-click='seleccionar(item)')
+                    i.fa.fa-pencil-square-o                 
+
+        // END table-responsive

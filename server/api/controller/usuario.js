@@ -1,6 +1,7 @@
 var models  = require('../model');
 var express = require('express');
-
+var elastic = require('elasticsearch');
+var config = require('../../config/environment');
 
 
 //Metodo standar para buscar usuario por Mail 
@@ -46,6 +47,105 @@ exports.buscarUsuarioEmail = function(profile,callback) {
   
 }
 
+exports.buscaryCrear=  function(email,foto, callback){
+
+    //Busca usuarios en Base Local
+
+    //var email =req.params.id
+    models.usuario.find({
+        where: {
+            email: email
+
+        }
+
+    }).then(function(usuario) {
+
+        if (usuario==null){
+            buscarExterno(email,function(x){
+                crearUsuarioBase(x,callback(y))
+                 })
+        }
+        else
+        {
+
+            if (foto!=usuario.foto)
+                usuario.updateAttributes({
+                    foto:foto
+                }).success(function(x) {
+
+                    usuario.foto =foto;
+
+                })
+
+            callback(usuario)
+
+        }
+
+    })
+
+
+}
+
+function buscarExterno(email,callback){
+    var client = new elastic.Client({
+        host: config.baseUsuarios.host
+
+    });
+var usuario={}
+    client.get({
+        index: config.baseUsuarios.index,
+        type: config.baseUsuarios.type,
+        id:email
+    }).then(function (resp) {
+
+        models.empresa.find({
+            where: {
+                rut: resp._source.rutEmpresa.trim()
+
+            }
+
+        }).then(function(empresa) {
+
+            usuario.idEmpresa=empresa.idEmpresa;
+            usuario.email=resp._source.email;
+            usuario.nombre=resp._source.nombre;
+            callback(usuario);
+        })
+
+
+
+    }, function (err) {
+        console.trace(err.message);
+    });
+
+
+
+}
+
+function crearUsuarioBase(user,callback){
+var rolBase = JSON.stringify([20])
+
+    models.usuario.create({
+
+        nombre: user.nombre,
+        email:  user.email,
+        fechaCreacion:new Date(),
+        fechaActualizacion: new Date(),
+        fechaUltLogin:   null,
+        rolesMenu:  rolBase,
+        estado:1,
+        home:'app.default',
+        idEmpresa:user.idEmpresa
+
+    }).success(function(usuario) {
+
+callback(usuario);
+
+    })
+
+
+
+}
 
 //Obtiene el Menu del usuario
 exports.getMenu = function(req, res) {
@@ -112,6 +212,8 @@ exports.getMenu = function(req, res) {
   });
 }
 
+
+
 exports.create = function(req, res) {
 
 models.empresa.find({where:{rut:req.body.usuario.rutEmpresa}}).success(function(empresa){
@@ -126,6 +228,7 @@ models.empresa.find({where:{rut:req.body.usuario.rutEmpresa}}).success(function(
   fechaUltLogin:   new Date(),
   rolesMenu:  JSON.stringify(req.body.usuario.rolesMenu),
   estado:1,
+  home:req.body.usuario.home,
   idEmpresa:empresa.idEmpresa
 
   }).success(function(usuario) {
@@ -153,8 +256,8 @@ models.usuario.find({where: {'usuarioId': req.body.usuario.usuarioId,'email': re
 
  user.rolesMenu =  JSON.stringify(req.body.usuario.rolesMenu);
 user.fechaActualizacion =  new Date();
-
-  user.save(['rolesMenu','fechaActualizacion']).success(function(usuario) {
+user.dashboard = req.body.usuario.home.nombre;
+  user.save(['rolesMenu','fechaActualizacion','dashboard']).success(function(usuario) {
 
    return res.json(200, usuario);
 })

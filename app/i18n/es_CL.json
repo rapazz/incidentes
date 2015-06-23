@@ -31,7 +31,8 @@
             "email":"Email",
             "empresa":"Empresa",
             "rolesUsuario":"Roles usuario",
-            "buscador":"Ingrese nombre o Cargo..."
+            "buscador":"Ingrese nombre o Cargo...",
+            "home":"Definir Home"
           },
           "botones":{
             "actualizar":"Actualizar Usuario",
@@ -339,6 +340,327 @@
       "botones":{
         "actualizar":"Actualizar"
       }
+    },
+    "bp":{
+      "titulo":"Panel Control BP",
+      "tituloDescripcion":"Cuadro Resumen de las Principales actividades del sistema",
+      "campos":{
+        "iniciativas":"Iniciativas",
+        "preEvaluacion":"En Evaluación",
+        "devolucion":"En Ejecución"
+      },
+      "tabla":{
+        "titulo":"Mis Proyectos",
+        "id":"ID",
+        "nombre":"Nombre",
+        "empresa":"Empresa",
+        "solicitante":"solicitante",
+        "fechaCreacion":"Creación",
+        "estado":"Estado",
+        "acciones":"acciones"
+      }
+    },
+    "jefeProyecto":{
+      "mensaje":"Generacion de Pre-Aprobación",
+      "mensajeDetalle":"Esta seguro que desea  cambiar De Etapa la Iniciativa a Pre-Evaluación",
+      "mensajeEvaluacion":"Generacion de Evaluaciòn",
+      "mensajeDetalleEvaluacion":"Esta seguro que desea  cambiar De Etapa de Pre-Evaluación a Evaluación",
+      "titulo":"Panel Control Jefe Proyecto",
+      "tituloDescripcion":"Cuadro Resumen de las Principales actividades del sistema",
+      "campos":{
+        "iniciativa":"Iniciativa Aprobada",
+        "preEvaluacion":"Pre-Evaluación",
+        "evaluacion":"Evaluación",
+        "ejecucion":"Ejecución"
+      },
+      "tabla":{
+        "titulo":"Mis Proyectos",
+        "id":"ID",
+        "nombre":"Nombre",
+        "empresa":"Empresa",
+        "solicitante":"solicitante",
+        "fechaCreacion":"Creación",
+        "etapa":"Etapa",
+        "estado":"Estado",
+        "acciones":"acciones"
+      }
+    }
+  },
+  "proyecto":{
+    "crearIniciativa":{
+      "mensajeExito":"Se ha generado una nueva inciativa ",
+      "mensajeDetalle":"esta ya se encuentra asignada al BP para su revisión",
+      "titulo":"Creación de Iniciativa",
+      "tituloDescripcion":"completa tu idea para que sea evaluada por IT",
+      "campos":{
+        "titulo":"Titulo",
+        "errorTitulo":"Debe ingresar un Titulo",
+        "resumenEjecutivo":"Resumen ejecutivo",
+        "errorResumen":"Debe ingresar un Resumen Ejecutivo",
+        "empresa":"Empresa Solicitante",
+        "errorEmpresa":"Debe seleccionar una empresa",
+        "departamento":"Departamento",
+        "errorDepartamento":"Debe seleccionar un departamento",
+        "adjunto":"Adjunto",
+        "tituloArchivo":"Subir Archivos",
+        "descripcionArchivo":"Arrastra tus archivos para subirlos",
+        "mensajeArchivo":"No existen archivos pendiente para subir",
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño",
+          "progreso":"Avance",
+          "status":"Status",
+          "acciones":"acciones",
+          "subir":"Subir",
+          "cancelar":"Cancelar",
+          "remover":"Eliminar"
+        }
+      },
+      "botones":{
+        "crear":"Crear Iniciativa"
+      }
+    },
+    "aprobarIniciativa":{
+      "mensajeExito":"Se ha generado una nueva inciativa ",
+      "mensajeDetalle":"esta ya se encuentra asignada al BP para su revisión",
+      "titulo":"Creación de Iniciativa",
+      "tituloDescripcion":"completa tu idea para que sea evaluada por IT",
+      "campos":{
+        "id":"Identificador de Iniciativa ",
+        "titulo":"Titulo",
+        "resumenEjecutivo":"Resumen Ejecutivo",
+        "empresa":"Empresa Solicitante",
+        "fechaCreacion":"Fecha Creación",
+        "departamento":"Departamento",
+        "adjunto":"Adjunto",
+        "estado":"Estado",
+        "etapa":"Etapa",
+        "solicitante":"Solicitante",
+        "aprobacion":"Estado Aprobación",
+        "errorEstado":"Debe seleccionar una opción de aprobación",
+        "jp":"Jefe de Proyecto",
+        "errorJp":"debe Seleccionar un JP",
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño",
+          "progreso":"Avance",
+          "status":"Status",
+          "acciones":"acciones",
+          "subir":"Subir",
+          "cancelar":"Cancelar",
+          "remover":"Eliminar"
+        }
+      },
+      "botones":{
+        "actualizar":"Actualizar Iniciativa"
+      }
+    },
+    "verIniciativa":{
+      "mensajeExito":"Se ha generado una nueva inciativa ",
+      "mensajeDetalle":"esta ya se encuentra asignada al BP para su revisión",
+      "titulo":"Creación de Iniciativa",
+      "tituloDescripcion":"completa tu idea para que sea evaluada por IT",
+      "campos":{
+        "id":"Identificador de Iniciativa ",
+        "titulo":"Titulo",
+        "resumenEjecutivo":"Resumen Ejecutivo",
+        "empresa":"Empresa Solicitante",
+        "fechaCreacion":"Fecha Creación",
+        "departamento":"Departamento",
+        "adjunto":"Adjunto",
+        "estado":"Estado",
+        "etapa":"Etapa",
+        "solicitante":"Solicitante",
+        "aprobacion":"Estado Aprobación",
+        "jp":"Jefe de Proyecto",
+        "bp":"Business Parther",
+        "historial":"Historial del Proyecto",
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño",
+          "progreso":"Avance",
+          "status":"Status",
+          "acciones":"acciones",
+          "subir":"Subir",
+          "cancelar":"Cancelar",
+          "remover":"Eliminar"
+        }
+      },
+      "botones":{
+        "actualizar":"Actualizar Iniciativa"
+      }
+    },
+    "preEvaluacion":{
+      "mensajeExito":"Se envio la Pre-Evaluaciòn a aprobación al equipo de Proyecto",
+      "mensajeDetalle":"Se envio un correo electronico a cad participante.",
+      "titulo":"Pre- Evaluación",
+      "tituloDescripcion":"Generacion del documento de Pre-Evaluación",
+      "datosGenerales":"Datos Generales del Proyecto",
+      "especificacion":"Especificación del Proyecto",
+      "datosEconomicos":"Datos Economicos del Proyecto USD",
+      "equipoProyecto":"Equipo de Proyecto",
+      "adjuntos":"Archivos adjuntos",
+      "entregables":"Listado de Entegables",
+      "campos":{
+        "titulo":"Titulo",
+        "errorTitulo":"Debe ingresar un Titulo",
+        "resumenEjecutivo":"Resumen ejecutivo",
+        "errorResumen":"Debe ingresar un Resumen Ejecutivo",
+        "empresa":"Empresa Solicitante",
+        "departamento":"Departamento",
+        "bp":"Bussines Partner",
+        "jp":"jefe de Proyecto",
+        "fechaCreacion":"Fecha Solicitud",
+        "estado":"Estado Proyecto",
+        "etapa":"Etapa Proyecto",
+        "adjunto":"Adjunto",
+        "tituloArchivo":"Subir Archivos",
+        "descripcionArchivo":"Arrastra tus archivos para subirlos",
+        "mensajeArchivo":"No existen archivos pendiente para subir",
+        "fechaEstimada":"Fecha Estimada Comienzo",
+        "errorFechaEstimada":"Debe especificar una fecha de comienzo",
+        "duracion":"Duración en semanas",
+        "errorDuracion":"Debe especificar la duración del proyecto",
+        "tipoProyecto":"Tipo de Proyecto",
+        "errorTipoProyecto":"Debe seleccionar 1 o mas tipo de proyecto",
+        "tipoEntregable":"Tipo entregable",
+        "semanaEntrega":"Semana entrega",
+        "complejidad":"Complejidad del proyecto",
+        "errorComplejidad":"Debe especificar la complejidad del proyecto",
+        "costoOneOff":"Costo One Off",
+        "errorCostoOneOff":"Debe especificar un costo Aproximado del Proyecto",
+        "costoOnGoing":"Costo On Going",
+        "beneficios":"Beneficio valorizado del Proyecto",
+        "beneficiosIntangible":"Beneficio Intangible",
+        "nombreEquipo":"Nombre del participante",
+        "rol":"Rol en Proyecto",
+        "hh":"Horas semanales",
+        "nombreAdjunto":"Agregar Adjuntos",
+        "tipoAdjunto":"Tipo de Adjunto",
+
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño",
+          "tipo":"Tipo Anexo",
+          "progreso":"Avance",
+          "status":"Status",
+          "acciones":"acciones",
+          "subir":"Subir",
+          "cancelar":"Cancelar",
+          "remover":"Eliminar"
+        }
+      },
+      "botones":{
+        "crear":"Completar Pre-Evaluación",
+        "agregarEquipo":"Agregar",
+        "agregarEntregable":"Agregar Entregable"
+      }
+    },
+    "verProyecto":{
+      "titulo":"Documento de Proyecto",
+      "tituloDescripcion":"Vista de Proyecto",
+      "datosGenerales":"Datos Generales del Proyecto",
+      "especificacion":"Especificación del Proyecto",
+      "datosEconomicos":"Datos Economicos del Proyecto USD",
+      "equipoProyecto":"Equipo de Proyecto",
+      "adjuntos":"Archivos adjuntos",
+      "avance": "Avance del Proyecto",
+      "campos":{
+        "titulo":"Titulo",
+        "resumenEjecutivo":"Resumen ejecutivo",
+        "empresa":"Empresa Solicitante",
+        "departamento":"Departamento",
+        "bp":"Bussines Partner",
+        "jp":"jefe de Proyecto",
+        "fechaCreacion":"Fecha Solicitud",
+        "estado":"Estado Proyecto",
+        "etapa":"Etapa Proyecto",
+        "adjunto":"Adjunto",
+        "fechaEstimada":"Fecha Estimada Comienzo",
+        "duracion":"Duración en semanas",
+        "tipoProyecto":"Tipo de Proyecto",
+        "complejidad":"Complejidad del proyecto",
+        "costoOneOff":"Costo One Off",
+        "costoOnGoing":"Costo On Going",
+        "beneficios":"Beneficio valorizado del Proyecto",
+        "beneficiosIntangible":"Beneficio Intangible",
+        "nombreEquipo":"Nombre del participante",
+        "rol":"Rol en Proyecto",
+        "hh":"Horas semanales",
+        "nombreAdjunto":"Agregar Adjuntos",
+        "tipoAdjunto":"Tipo de Adjunto",
+        "fechaUltimoInforme": "Fecha publicación Avance",
+        "comentarioAvance":"Comentarios Avance",
+        "avance":"Avance del proyecto",
+        "salud":"Salud del proyecto",
+        "tabla":{
+          "archivoNombre":"Nombre",
+          "archivoTamano":"Tamaño",
+          "tipo":"Tipo Anexo",
+          "progreso":"Avance",
+          "status":"Status",
+          "acciones":"acciones",
+          "subir":"Subir",
+          "cancelar":"Cancelar",
+          "remover":"Eliminar"
+        }
+      },
+      "botones":{
+        "crear":"Completar Pre-Evaluación",
+        "aprobar":"Aprobar Documento",
+        "rechazar":"Rechzar Documento",
+        "agregarEquipo":"Agregar"
+      }
+    },
+    "versiones":{
+      "titulo":"Versiones del Proyecto",
+      "tituloDescripcion":"Versiones generadas por cada etapa del proyecto",
+      "datosGenerales":"Datos Generales del Proyecto",
+      "especificacion":"Especificación del Proyecto",
+      "datosEconomicos":"Datos Economicos del Proyecto USD",
+      "equipoProyecto":"Equipo de Proyecto",
+      "adjuntos":"Archivos adjuntos",
+      "tabla":{
+        "id":"ID",
+        "titulo":"Versiones",
+        "fechaCreacion":"Fecha Creación",
+        "etapa":"Etapa",
+        "usuario":"Usuario",
+        "acciones":"acciones"
+      }
+
+    },
+    "avance":{
+      "mensajeExito":"Se a actualizado correctamente el Proyecto",
+      "mensajeDetalle":"su BP ha sido notificado",
+      "titulo":"Informar Avance del Proyecto",
+      "tituloDescripcion":"Informar sobre el estado de avance del proyecto",
+      "datosGenerales":"Datos Generales del Proyecto",
+      "especificacion":"Especificación del Proyecto",
+      "datosEconomicos":"Datos Economicos del Proyecto USD",
+      "equipoProyecto":"Equipo de Proyecto",
+      "adjuntos":"Archivos adjuntos",
+      "campos":{
+        "saludProyecto": "Salud Proyecto",
+        "errorSalud":"Debe especificar la salud del proyecto",
+        "avance": "% Avance",
+        "errorAvance":"Debe especificar el avance",
+        "comentarios": "Comentarios",
+        "errorComentario":"Debe especificar un comentario"
+      },
+      "tabla":{
+        "titulo":"Entregables del Proyecto",
+        "tipoEntregable":"Tipo Entregable",
+        "fechaEstimada":"Fecha Estimada",
+        "semanaEntrega":"Semana Entrega",
+        "adjunto":"adjunto",
+        "estado":"Estado",
+        "acciones":"acciones"
+      },
+      "botones":{
+        "actualizar":"Informar Avance"
+      }
+
     }
   }
 }

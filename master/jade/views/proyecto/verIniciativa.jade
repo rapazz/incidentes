@@ -1,0 +1,68 @@
+h3
+    .pull-right
+        .btn-group(dropdown='', is-open='language.listIsOpen')
+            button.btn.btn-default(type='button', dropdown-toggle="")
+                | {{language.selected}}
+                span.caret
+            ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+                li(ng-repeat='(localeId, langName) in language.available')
+                    a(ng-click='language.set(localeId, $event)') {{langName}}
+    | {{'proyecto.verIniciativa.titulo' | translate}}
+    small {{'proyecto.verIniciativa.tituloDescripcion' | translate}}
+.panel
+    .panel-body
+        h1.lead.text-muted.text-center {{proyecto.nombre}}
+        hr
+        .row.mb-lg
+            .col-lg-12.col-xs-6.br.pv
+                .row
+                    .col-md-3
+                        h4.lead.text-muted {{'proyecto.verIniciativa.campos.fechaCreacion' | translate}}
+                        span.lead.text-muted
+                        | {{proyecto.fechaCreacion | date:'MM/dd/yyyy h:mma'}}
+                    .col-md-5
+                        h4.lead.text-muted  {{'proyecto.verIniciativa.campos.empresa' | translate}}
+                        span.lead.text-muted
+                        | {{proyecto.empresa.nombre}}
+                    .col-md-3
+                        h4.lead.text-muted {{'proyecto.verIniciativa.campos.departamento' | translate}}
+                        span
+                        | {{proyecto.departamento.nombre}}
+                .row
+                    .col-md-12
+                        h4.lead.text-muted  {{'proyecto.verIniciativa.campos.resumenEjecutivo' | translate}}
+                        span
+                            | {{proyecto.resumenEjecutivo}}
+                .row
+                    .col-md-3
+                        h4.lead.text-muted  {{'proyecto.verIniciativa.campos.aprobacion' | translate}}
+                        span
+                            | {{proyecto.estadoProyecto.nombre}}
+                    .col-md-4
+                        h4.lead.text-muted  {{'proyecto.verIniciativa.campos.bp' | translate}}
+                        span
+                            | {{proyecto.usuarioBp.nombre}}
+                    .col-md-3
+                        h4.lead.text-muted  {{'proyecto.verIniciativa.campos.jp' | translate}}
+                        span
+                            | {{proyecto.jefeProyecto.nombre}}
+        .row.mb-lg
+            hr
+            h1.lead.text-muted.text-center  {{'proyecto.verIniciativa.campos.historial' | translate}}
+            scrollable.list-group(height="200")
+               a.list-group-item(ng-repeat='item in proyecto.historial')
+                            .media-box
+                                .pull-left
+                                    img.media-box-object.img-circle.thumb32(src='{{item.usuario.foto}}', alt="Image")
+                                .media-box-body.clearfix
+                                    small.pull-right Etapa:{{item.etapa.nombre}} {{item.fechaCreacion | date:'MM/dd/yyyy h:mma'}}
+                                    strong.media-box-heading.text-primary
+                                        span.circle.circle-success.circle-lg.text-left
+                                        | {{item.usuario.nombre}}
+                                    p.mb-sm Estado: {{item.estadoProyecto.nombre}}
+
+    .panel-footer
+      .row
+        .pull-right
+            a.btn.btn-default( ng-click='cargarHome()')
+                em.icon-home.fa-x Home

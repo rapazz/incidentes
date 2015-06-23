@@ -3,7 +3,8 @@
 module.exports = function(sequelize, DataTypes) {
   var rol = sequelize.define("rol", {
     rolId: {type: DataTypes.INTEGER, primaryKey: true },
-  nombre: DataTypes.STRING
+  nombre: DataTypes.STRING,
+          home:DataTypes.STRING
   }, 
   {
   tableName: 'rol', // this will define the table's name

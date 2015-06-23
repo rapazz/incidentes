@@ -1,0 +1,61 @@
+accordion(close-others='true')
+    accordion-group(is-open='true',ng-repeat='proyecto in proyectos')
+        accordion-heading
+            .list-group
+                a(href="#").list-group-item
+                    table.wd-wide
+                        tbody: tr
+                            td.wd-sm
+                                .ph
+                                    h4.media-box-heading {{proyecto.nombre}}
+                            td.wd-sm.hidden-xs.hidden-sm
+                                .ph
+                                    p.m0 {{proyecto.etapa.nombre}}
+                                    small.text-muted {{proyecto.estadoProyecto.nombre}}
+                            td.wd-sm.hidden-xs.hidden-sm
+                                .ph
+                                    small.text-muted One-Off
+                                    small.text {{proyecto.costoOneOff}} USD
+                                    br
+                                    small.text-muted On-Going
+                                    small.text {{proyecto.costoOnGoing}} USD
+                                    br
+                                    small.text-muted Beneficios
+                                    small.text {{proyecto.beneficios}} USD
+                            td.wd-sm.hidden-xs.hidden-sm
+                                .ph
+                                    small.text Tipo Proyecto
+                                    h3.media-box-heading {{proyecto.tProyecto.nombre}}
+                            td.wd-sm.hidden-xs.hidden-sm
+                                .ph
+                                    p.m0 Fecha de Inicio
+                                    small.text-muted  {{proyecto.fechaEstimadaComienzo | date:'MM/dd/yyyy'}}
+                            td.wd-xs.hidden-xs.hidden-sm
+                                .ph
+                                    p.m0 Duracion
+                                    small.text-muted  {{proyecto.duracionSemana}}
+                            td.wd-lg.hidden-xs.hidden-sm
+                                .ph
+                                    p.m0 8 hh
+                                    small.text-muted Bravo Castillo, Moises Andres
+                            td.wd-xs.hidden-xs.hidden-sm
+                                .ph
+                                    p.m0 Entregables
+                                    small.text-muted 1 de 9
+                            td.wd-sm
+                                .ph
+                                    p.m0.text-muted
+                                    progressbar.m1.progress-xs(value='10', type='success') 10%
+        table
+            .tbody: tr
+                td.wd-sm
+                    .ph
+                        h4.media-box-heading Suspender
+                        button.btn.btn-danger.btn-xs(type='button', ng-click='item.remove()') Suspender
+                td.wd-lg
+                    .ph
+                        h4.media-box-heading Prioridad
+                        small.text-muted
+                            select(ng-model="proyecto.prioridad",required, data-parsley-error-message="{{'incidente.crearIncidente.campos.errorModulo' | translate}}",ng-options="item.id as item.nombre  for item in listas.prioridad")
+                                option(value='') -- Sin Prioridad--
+                        button.btn.btn-info.btn-xs(type='button', ng-click='item.remove()') actualizar

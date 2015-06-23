@@ -29,7 +29,14 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
 
 
   // default route
-//  $urlRouterProvider.otherwise('/login');
+// $urlRouterProvider.otherwise('/');
+
+    $urlRouterProvider.otherwise( function($injector, $location) {
+        var $state = $injector.get("$state");
+        $state.go("login");
+    });
+
+
 
   // 
   // Application Routes
@@ -42,6 +49,14 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         controller: 'AppController',
         resolve: helper.resolveFor('modernizr', 'icons','slimscroll','classyloader','toaster')
     })
+    $stateProvider
+        .state('ext', {
+            url: '/ext',
+            abstract: true,
+            templateUrl: helper.basepath('ext.html'),
+            controller: 'AppController',
+            resolve: helper.resolveFor('modernizr', 'icons','slimscroll','classyloader','toaster')
+        })
     .state('app.homeKu', {
         url: '/home/keyUser',
         title: 'Dashboard',
@@ -63,17 +78,30 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         resolve: helper.resolveFor('chartjs','flot-chart','flot-chart-plugins'),
          controller: 'home.superConsultor'
     })
-    .state('app.singleview', {
-        url: '/singleview',
-        title: 'Single View',
-         module: 'private',
-        templateUrl: helper.basepath('singleview.html')
-    })
-    .state('app.submenu', {
-        url: '/submenu', 
-        title: 'Submenu',
-        templateUrl: helper.basepath('submenu.html')
-    })
+      .state('app.homeBp', {
+          url: '/home/bp',
+          title: 'Dashboard',
+          module: 'private',
+          templateUrl: helper.basepath('home/bp.html'),
+          controller: 'home.bp'
+      })
+      .state('app.director', {
+            url: '/home/director',
+            title: 'Director',
+            module: 'private',
+            controller: 'home.director',
+            templateUrl: helper.basepath('home/director.html'),
+            resolve: helper.resolveFor('chartjs','flot-chart','flot-chart-plugins')
+        })
+      .state('app.homeJefeProyecto', {
+          url: '/home/jefeProyecto',
+          title: 'Dashboard',
+          module: 'private',
+          templateUrl: helper.basepath('home/jefeProyecto.html'),
+          controller: 'home.jefeProyecto',
+          resolve: helper.resolveFor('ngDialog')
+      })
+
       .state('app.crearIncidente', {
         url: '/incidentes/crearIncidente',
         templateUrl: helper.basepath('incidentes/crearIncidente.html'),
@@ -148,13 +176,70 @@ function ($stateProvider, $urlRouterProvider, $controllerProvider, $compileProvi
         controller: 'administracion.tipoIncidente',
         templateUrl: helper.basepath('Administracion/tipoIncidente.html')
     })
-     .state('app.subTipoIncidente', {
-        url: '/administracion/subTipoIncidente',
-        title: "Tipo Sistema",
-        module: 'private',
-        controller: 'administracion.subTipoIncidente',
-        templateUrl: helper.basepath('Administracion/subTipoIncidente.html')
-    })
+      .state('app.crearIniciativa', {
+          url: '/proyecto/crearIniciativa',
+          title: "crear Iniciativa",
+          module: 'private',
+          controller: 'proyecto.crearIniciativa',
+          templateUrl: helper.basepath('proyecto/crearIniciativa.html'),
+          resolve: helper.resolveFor('parsley','angularFileUpload','filestyle','ngDialog')
+      })
+      .state('app.aprobarIniciativa', {
+          url: '/proyecto/aprobarIniciativa/:id',
+          templateUrl: helper.basepath('proyecto/aprobarIniciativa.html'),
+          module: 'private',
+          controller: 'proyecto.aprobarIniciativa',
+          resolve: helper.resolveFor('slimscroll')
+      })
+      .state('app.verIniciativa', {
+          url: '/proyecto/verIniciativa/:id',
+          templateUrl: helper.basepath('proyecto/verIniciativa.html'),
+          module: 'private',
+          controller: 'proyecto.verIniciativa',
+          resolve: helper.resolveFor('slimscroll')
+      })
+      .state('app.preEvaluacion', {
+          url: '/proyecto/preEvaluacion/:id',
+          templateUrl: helper.basepath('proyecto/preEvaluacion.html'),
+          module: 'private',
+          controller: 'proyecto.preEvaluacion',
+          resolve: helper.resolveFor('parsley','angularFileUpload','filestyle','ngDialog')
+      })
+       .state('app.avanzarProyecto', {
+            url: '/proyecto/avance/:id',
+            templateUrl: helper.basepath('proyecto/avance.html'),
+            module: 'private',
+            controller: 'proyecto.avance',
+            resolve: helper.resolveFor('parsley','angularFileUpload','filestyle','ngDialog')
+       })
+      .state('app.verProyecto', {
+          url: '/proyecto/verProyecto/:id',
+          templateUrl: helper.basepath('proyecto/verProyecto.html'),
+          module: 'private',
+          controller: 'proyecto.verProyecto',
+          resolve: helper.resolveFor('parsley','filestyle','ngDialog')
+      })
+      .state('app.versionesProyecto', {
+          url: '/proyecto/versiones/:id',
+          templateUrl: helper.basepath('proyecto/versiones.html'),
+          module: 'private',
+          controller: 'proyecto.versiones',
+          resolve: helper.resolveFor('parsley','filestyle','ngDialog')
+
+      })
+        .state('app.dashboard', {
+            url: '/home/dashboard',
+            module: 'private',
+            controller: 'home.dashboard'
+
+        })
+      .state('ext.aprobarProyecto', {
+          url: '/proyecto/aprobacion/:id',
+          templateUrl: helper.basepath('proyecto/verProyecto.html'),
+          module: 'public',
+          controller: 'proyecto.aprobarEmail',
+          resolve: helper.resolveFor('parsley','filestyle','ngDialog')
+      })
     // 
     // CUSTOM RESOLVES
     //   Add your own resolves properties

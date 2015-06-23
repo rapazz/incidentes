@@ -1,0 +1,100 @@
+h3
+    .pull-right
+        .btn-group(dropdown='', is-open='language.listIsOpen')
+            button.btn.btn-default(type='button', dropdown-toggle="")
+                | {{language.selected}}
+                span.caret
+            ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+                li(ng-repeat='(localeId, langName) in language.available')
+                    a(ng-click='language.set(localeId, $event)') {{langName}}
+    | {{'home.jefeProyecto.titulo' | translate}}
+    small {{'home.jefeProyecto.tituloDescripcion' | translate}}
+fieldset
+.row
+    .col-lg-3.col-md-6.col-sm-12
+        // START widget
+        .panel.widget.bg-warning(ng-click='cargarFiltro(1)')
+            .row.row-table
+                .col-xs-12.pv-lg.text-center
+                    .h2.mt0  {{dashboard.iniciativaAprobada}}
+                    .text-uppercase {{'home.jefeProyecto.campos.iniciativa' | translate}}
+    .col-lg-3.col-md-6.col-sm-12
+        // START widget
+        .panel.widget.bg-green(ng-click='cargarFiltro(2)')
+            .row.row-table
+
+                .col-xs-12.pv-lg.text-center
+                    .h2.mt0  {{dashboard.preEvaluacion}}
+                    .text-uppercase {{'home.jefeProyecto.campos.preEvaluacion' | translate}}
+    .col-lg-3.col-md-6.col-sm-12
+        // START widget
+        .panel.widget.bg-primary(ng-click='cargarFiltro(3)')
+            .row.row-table
+
+                .col-xs-12.pv-lg.text-center
+                    .h2.mt0  {{dashboard.evaluacion}}
+                    .text-uppercase {{'home.jefeProyecto.campos.evaluacion' | translate}}
+    .col-lg-3.col-md-6.col-sm-12
+        // START widget
+        .panel.widget.bg-warning(ng-click='cargarFiltro(4)')
+            .row.row-table
+                .col-xs-12.pv-lg.text-center
+                    .h2.mt0  {{dashboard.ejecucion}}
+                    .text-uppercase {{'home.jefeProyecto.campos.ejecucion' | translate}}
+.row
+    .col-lg-12
+        // START panel
+        .panel.panel-default
+            .panel-heading
+                | {{'home.jefeProyecto.tabla.titulo' | translate}}
+                // START table-responsive
+                .table-responsive
+                    table#table-ext-3.table.table-striped.table-bordered.table-hover
+                        thead
+                            tr
+                                th {{'home.jefeProyecto.tabla.id' | translate}}
+                                th {{'home.jefeProyecto.tabla.nombre' | translate}}
+                                th {{'home.jefeProyecto.tabla.empresa' | translate}}
+                                th {{'home.jefeProyecto.tabla.solicitante' | translate}}
+                                th {{'home.jefeProyecto.tabla.fechaCreacion' | translate}}
+                                th {{'home.jefeProyecto.tabla.etapa' | translate}}
+                                th {{'home.jefeProyecto.tabla.estado' | translate}}
+                                th {{'home.jefeProyecto.tabla.acciones' | translate}}
+                        tbody
+                            tr(ng-repeat='item in data | filter:miFiltro')
+                                td {{item.idProyecto}}
+                                td {{item.nombre}}
+                                td {{item.empresa.nombre}}
+                                td {{item.usuario.nombre}}
+                                td {{item.fechaCreacion | date:'MM/dd/yyyy h:mma'}}
+                                td {{item.etapa.nombre}}
+                                td {{item.estadoProyecto.nombre}}
+                                td
+                                    a.btn.btn-info(ng-show='item.idEstadoProyecto==2', href='/#/app/proyecto/verIniciativa/{{item.idProyecto}}')
+                                        em.icon-eye.fa-1x
+                                    a.btn.btn-info(ng-show='item.idEtapaProyecto>1', href='/#/app/proyecto/verProyecto/{{item.idProyecto}}')
+                                        em.icon-doc.fa-1x
+                                    a.btn.btn-success(ng-show='item.idEstadoProyecto==2', ng-click='generarPreEvaluacion(item.idProyecto)')
+                                        em.icon-note
+                                    a.btn.btn-success(ng-show='item.idEtapaProyecto==2', ng-click='generarEvaluacion(item.idProyecto,item.idEstadoProyecto)')
+                                        em.icon-note
+                                    a.btn.btn-default(ng-show='item.idEtapaProyecto==3', ng-click='generarEjecucion(item.idProyecto,item.idEstadoProyecto)')
+                                        em.icon-note
+                                    a.btn.btn-default(ng-show='item.idEtapaProyecto==4', href='/#/app/proyecto/avance/{{item.idProyecto}}')
+                                        em.icon-handbag
+                                    a.btn.btn-default(href='/#/app/proyecto/verHistorial/{{item.idProyecto}}')
+                                        em.icon-book-open
+                                    a.btn.btn-warning(href='/#/app/proyecto/versiones/{{item.idProyecto}}')
+                                        em.icon-layers
+script(type="text/ng-template", id="dialogVentanaPreAprobacion")
+    .ngdialog-message
+        h3.mt0 {{'home.jefeProyecto.mensaje' | translate}} N° {{id}}
+        p
+            | {{'home.jefeProyecto.mensajeDetalle' | translate}}
+        button.btn.btn-primary(type='button', ng-click="confirm(1)") Avanzar
+script(type="text/ng-template", id="dialogVentanaEvaluacion")
+    .ngdialog-message
+        h3.mt0 {{'home.jefeProyecto.mensajeEvaluacion' | translate}} N° {{id}}
+        p
+            | {{'home.jefeProyecto.mensajeDetalleEvaluacion' | translate}}
+        button.btn.btn-primary(type='button', ng-click="confirm(1)") Avanzar

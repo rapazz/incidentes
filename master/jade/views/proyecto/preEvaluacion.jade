@@ -1,0 +1,275 @@
+//
+   Created by mbravo on 05-05-15.
+h3
+    .pull-right
+    | {{'proyecto.preEvaluacion.titulo' | translate}}
+    small {{'proyecto.preEvaluacion.tituloDescripcion' | translate}}
+form(method='post',id='formPreAprobacion',name ='formPreAprobacion', validate-form='', novalidate='',ng-submit='enviarAprobacionProyecto()' )
+ .panel.panel-default
+
+        .panel-body
+          fieldset
+            .panel.panel-info
+              .panel-heading
+                h4 {{'proyecto.preEvaluacion.datosGenerales' | translate}}
+              .panel-body
+                fieldset
+                    .col-sm-8
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.preEvaluacion.campos.titulo' | translate}}
+                            input.form-control(type='text',ng-model="proyecto.nombre",required, data-parsley-error-message="{{'proyecto.preEvaluacion.campos.errorTitulo' | translate}}")
+
+                    .col-sm-4
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.preEvaluacion.campos.fechaCreacion' | translate}}
+                            p.form-control-static {{proyecto.fechaCreacion | date:'MM/dd/yyyy h:mma'}}
+                fieldset
+                    .col-sm-4
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.preEvaluacion.campos.empresa' | translate}}
+                            p.form-control-static {{proyecto.empresa.nombre}}
+                    .col-sm-4
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.preEvaluacion.campos.departamento' | translate}}
+                            p.form-control-static {{proyecto.departamento.nombre}}
+                fieldset
+                    .col-sm-4
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.preEvaluacion.campos.estado' | translate}}
+                            p.form-control-static {{proyecto.estadoProyecto.nombre}}
+                    .col-sm-4
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.preEvaluacion.campos.etapa' | translate}}
+                            p.form-control-static {{proyecto.etapa.nombre}}
+                fieldset
+                    .col-sm-4
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.preEvaluacion.campos.bp' | translate}}
+                            p.form-control-static {{proyecto.usuarioBp.nombre}}
+                    .col-sm-4
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.preEvaluacion.campos.jp' | translate}}
+                            p.form-control-static {{proyecto.jefeProyecto.nombre}}
+                fieldset
+                    .col-sm-10
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.preEvaluacion.campos.resumenEjecutivo' | translate}}
+                            textarea.form-control(rows="6",ng-model="proyecto.resumenEjecutivo",required, data-parsley-error-message="{{'proyecto.preEvaluacion.campos.errorResumenEjecutivo' | translate}}")
+          fieldset
+                .panel.panel-info
+                    .panel-heading
+                        h4 {{'proyecto.preEvaluacion.especificacion' | translate}}
+                    .panel-body
+                        fieldset
+                            .col-sm-4
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.fechaEstimada' | translate}}
+                                    input.form-control(type='date',ng-model="proyecto.fechaEstimadaComienzo",required, data-parsley-error-message="{{'proyecto.preEvaluacion.campos.errorFechaEstimada' | translate}}")
+                            .col-sm-4
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.duracion' | translate}}
+                                    input.form-control(type='number',ng-model="proyecto.duracionSemana",required, data-parsley-error-message="{{'proyecto.preEvaluacion.campos.errorDuracion' | translate}}")
+                        fieldset
+                            .col-sm-4
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.tipoProyecto' | translate}}
+                                    select.form-control(ng-model="proyecto.tipoProyecto",required, data-parsley-error-message="{{'proyecto.crearIniciativa.campos.errorTipoProyecto' | translate}}",ng-options="item.id as item.nombre  for item in listas.tipoProyecto")
+                                        option(value='') -- Seleccione Tipo Proyecto --
+                            .col-sm-4
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.complejidad' | translate}}
+                                    select.form-control(ng-model="proyecto.idComplejidad",required, data-parsley-error-message="{{'proyecto.crearIniciativa.campos.errorComplejidad' | translate}}",ng-options="item.id as item.nombre  for item in listas.complejidad")
+                                        option(value='') -- Seleccione Complejidad --
+
+
+
+
+
+          fieldset
+                .panel.panel-info
+                    .panel-heading
+                        h4 {{'proyecto.preEvaluacion.datosEconomicos' | translate}}
+                    .panel-body
+                        fieldset
+                            .col-sm-4
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.costoOneOff' | translate}}
+                                    input.form-control(type='number',ng-model="proyecto.costoOneOff",required, data-parsley-error-message="{{'proyecto.preEvaluacion.campos.errorCostoOneOff' | translate}}")
+                            .col-sm-4
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.costoOnGoing' | translate}}
+                                    input.form-control(type='number',ng-model="proyecto.costoOnGoing")
+                            .col-sm-4
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.beneficios' | translate}}
+                                    input.form-control(type='number',ng-model="proyecto.beneficios")
+
+                        fieldset
+                            .col-sm-12
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.beneficiosIntangible' | translate}}
+                                    textarea.form-control(rows="3",ng-model="proyecto.beneficioIntangible")
+          fieldset
+                .panel.panel-info
+                    .panel-heading
+                        h4 {{'proyecto.preEvaluacion.equipoProyecto' | translate}}
+                    .panel-body
+                        fieldset
+                            .col-sm-6
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.nombreEquipo' | translate}}
+                                    typeah2ead(items='items', title='name', subtitle='abbreviation', codigo='idEmail', model='nombreEquipo', on-select='seleccionarUsuario()')
+                            .col-sm-2
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.rol' | translate}}
+                                        select.form-control(ng-model="rolEquipo",ng-options="item as item.nombre  for item in listas.rolEquipo")
+                                            option(value='') -- Seleccione rol --
+                            .col-sm-2
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.hh' | translate}}
+                                    input.form-control(type='number',ng-model="hh")
+                            .col-sm-2
+                                .form-group
+                                    label.control-label
+                                    button.btn.btn-default(type='button',ng-click='agregarEquipo()') {{'proyecto.preEvaluacion.botones.agregarEquipo' | translate}}
+                        fieldset
+                            table
+                            .col.todo-item-list
+                                .lead.text-muted.text-center(ng-show='!arrEquipo.length') Sin seleccionar Equipo
+                                a.list-group-item(ng-repeat='item in arrEquipo')
+                                    .media-box
+                                        .media-box-body.clearfix(ng-click='quitarEquipo(item.email)')
+                                            small.pull-right(ng-show='item.estadoAutorizacion==0').text-warning.m0 Pendiente
+                                            small.pull-right(ng-show='item.estadoAutorizacion==1').text-sucess.m0 Aprobado
+                                            small.pull-right(ng-show='item.estadoAutorizacion==2').text-danger.m0 Rechazado
+                                            strong.media-box-heading.text-primary
+                                                span.circle.circle-success.circle-lg.text-left
+                                                | {{item.nombre}}
+                                            p.mb-sm: small {{item.cargo.nombre}}
+                                                | (HH): {{item.hh}}
+          fieldset(ng-show='proyecto.idEtapaProyecto==3')
+                .panel.panel-info
+                    .panel-heading
+                        h4 {{'proyecto.preEvaluacion.entregables' | translate}}
+                    .panel-body
+                        fieldset
+                            .col-sm-4
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.tipoEntregable' | translate}}
+                                        select.form-control(ng-model="tipoEntregable",ng-options="item as item.nombre  for item in listas.tipoEntregable")
+                                            option(value='') -- Seleccione tipo Entregable --
+                            .col-sm-2
+                                .form-group
+                                    label.control-label
+                                        | {{'proyecto.preEvaluacion.campos.semanaEntrega' | translate}}
+                                    input.form-control(type='number',ng-model="semanaEntrega")
+                            .col-sm-2
+                                    a.btn.btn-info(ng-click='agregarEntregable()') {{'proyecto.preEvaluacion.botones.agregarEntregable' | translate}}
+                        fieldset
+                            .col.todo-item-list
+                                .lead.text-muted.text-center(ng-show='!arrEntregable.length') Sin agregar Entregable
+                                a.list-group-item(ng-repeat='item in arrEntregable')
+                                    .media-box
+                                        .media-box-body.clearfix(ng-click='quitarEntregable(item.tipoEntregable.id)')
+                                            small.pull-right(ng-show='item.estado==0').text-warning.m0 Pendiente
+                                            small.pull-right(ng-show='item.estado==1').text-sucess.m0 Entregado
+
+
+                                            strong.media-box-heading.text-primary
+                                                span.circle.circle-success.circle-lg.text-left
+                                                | {{item.tipoEntregable.nombre}}
+                                            p.mb-sm.small Semana Entrega:
+                                                strong {{item.semanaEntrega }}
+                                            small.pull-right Fecha Entrega {{item.fechaEstimada | date:'MM/dd/yyyy h:mma'}}
+
+
+    fieldset
+            .panel.panel-info
+                .panel-heading
+                    h4 {{'proyecto.preEvaluacion.adjuntos' | translate}}
+                .panel-body
+                    fiedset
+                        table.table
+                            thead
+                                tr
+                                    th(width='50%') {{'proyecto.preEvaluacion.campos.tabla.archivoNombre' | translate}}
+                                    th {{'proyecto.preEvaluacion.campos.tabla.tipo' | translate}}
+
+                            tbody
+                                tr(ng-repeat='item in arrAdjuntos')
+                                    td
+                                        strong
+                                         a(href='/api/adjunto/proyecto/obtenerarchivo/{{item.urlArchivo}}'){{item.descripcion}}
+                                    td {{item.tipoAdjunto.nombre}}
+
+                    fieldset
+                        .col-sm-6
+                            .form-group
+                                label.control-label
+                                    | {{'proyecto.preEvaluacion.campos.nombreAdjunto' | translate}}
+                                input(type='file', nv-file-select='', uploader='uploader')
+
+                    fieldset
+                      p.lead.text-center(ng-if="!uploader.queue.length")  {{'proyecto.preEvaluacion.campos.mensajeArchivo' | translate}}
+                      div(ng-if="uploader.queue.length")
+                          table.table(ng-if="uploader.queue.length")
+                              thead
+                                  tr
+                                      th(width='50%') {{'proyecto.preEvaluacion.campos.tabla.archivoNombre' | translate}}
+                                      th(ng-show='uploader.isHTML5') {{'proyecto.preEvaluacion.campos.tabla.archivoTamano' | translate}}
+                                      th(ng-show='uploader.isHTML5') {{'proyecto.preEvaluacion.campos.tabla.progreso' | translate}}
+                                      th {{'proyecto.preEvaluacion.campos.tabla.status' | translate}}
+                                      th {{'proyecto.preEvaluacion.campos.tabla.acciones' | translate}}
+                              tbody
+                                  tr(ng-repeat='item in uploader.queue')
+                                      td
+                                          strong {{ item.file.name }}
+                                      td(ng-show='uploader.isHTML5', nowrap='') {{ item.file.size/1024/1024|number:2 }} MB
+                                      td(ng-show='uploader.isHTML5')
+                                          .progress.progress-xs(style='margin-bottom: 0;')
+                                              .progress-bar(role='progressbar', ng-style="{ 'width': item.progress + '%' }")
+                                      td.text-center
+                                          select.form-control(ng-model="item.tipoAnexo",ng-options="item as item.nombre  for item in listas.tipoAnexos")
+                                              option(value='') -- Seleccione Tipo Anexo --
+                                      td(nowrap='')
+                                          button.btn.btn-success.btn-xs(type='button', ng-click='item.upload()')
+                                              span.icon-trash.mr
+                                              |  {{'proyecto.preEvaluacion.campos.tabla.subir' | translate}}
+                                          button.btn.btn-danger.btn-xs(type='button', ng-click='item.remove()')
+                                              span.icon-trash.mr
+                                              |  {{'proyecto.preEvaluacion.campos.tabla.remover' | translate}}
+
+
+ .panel-footer
+            fieldset
+                .pull-right
+                    .form-group
+                        .col-lg-offset-2.col-lg-10
+                            button.btn.btn-primary(type='submit') {{'proyecto.preEvaluacion.botones.crear' | translate}}
+    script(type="text/ng-template", id="dialogWithNestedConfirmDialogId")
+     .ngdialog-message
+        h3.mt0 {{'proyecto.preEvaluacion.mensajeExito' | translate}}
+        p
+            | {{'proyecto.preEvaluacion.mensajeDetalle' | translate}}
+        button.btn.btn-primary(type='button', ng-click="confirm(1)") Ok

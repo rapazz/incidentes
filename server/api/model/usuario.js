@@ -13,7 +13,8 @@ module.exports = function(sequelize, DataTypes) {
       rolesMenu: DataTypes.STRING,
   estado: DataTypes.INTEGER,
   idEmpresa:DataTypes.INTEGER,
-  foto:DataTypes.STRING
+  foto:DataTypes.STRING,
+  dashboard:DataTypes.STRING
 
   },
    {

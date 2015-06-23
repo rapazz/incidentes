@@ -6,6 +6,8 @@ $scope.mensajeExito = false;
 	$scope.usuarioId =0;
 	$scope.activarBoton =false;
 	$scope.arrayRoles={};
+    $scope.dashboard =[];
+
 
 $http.get('/api/listas/listarRoles').success(function(roles) {
 		
@@ -33,10 +35,13 @@ $scope.empresa = response._source.empresa;
 
   	$http.get('/api/usuario/'+ response._source.email).success(function(roles) {
   	  if (roles !=undefined){
+       $scope.home =roles.home;
   	  $scope.usuarioId =roles.usuarioId;
 		var a = JSON.parse(roles.rolesMenu)
      for (var i=0;i<= a.length -1;i++)
-     	     	$scope.arrayRoles[a[i]]=true;
+         $scope.arrayRoles[a[i]] = true;
+
+          $scope.actualizaListaDashboard(roles.dashboard)
   	  }
      
     });
@@ -52,6 +57,7 @@ $scope.actualizarUsuario= function (){
 	
 	var usuario = {}
 	console.log('aca si ')
+    console.log( $scope.home)
 	usuario.nombre =$scope.nombre;
 	usuario.email =$scope.email;
 	
@@ -62,7 +68,8 @@ $scope.actualizarUsuario= function (){
   usuario.rolesMenu=cargaRoles();
   usuario.estado=1;
   usuario.rutEmpresa = $scope.rutEmpresa
-	
+usuario.home = $scope.home;
+
 	if ($scope.usuarioId >0)
 	$http.post('/api/usuario/update', {usuario:usuario}).
   success(function(data, status, headers, config) {
@@ -88,7 +95,20 @@ $scope.mensajeExito = true;
 	
 }
 
+$scope.actualizaListaDashboard=function(x){
+    console.log(x);
+    $scope.dashboard=[];
+    for (var i=0;i<=$scope.roles.length -1;i++)
+        if ($scope.arrayRoles[$scope.roles[i].rolId]==true) {
+            $scope.dashboard.push({id: $scope.roles[i].rolId, nombre: $scope.roles[i].home})
+            if (x!=null)
+            {
+              if ($scope.roles[i].home==x)
+                  $scope.home = {id: $scope.roles[i].rolId, nombre: $scope.roles[i].home}
 
+            }
+        }
+    }
 
 function cargaRoles(){
   var arrRoles =[]

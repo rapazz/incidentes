@@ -1,0 +1,83 @@
+h3
+    .pull-right
+        .btn-group(dropdown='', is-open='language.listIsOpen')
+            button.btn.btn-default(type='button', dropdown-toggle="")
+                | {{language.selected}}
+                span.caret
+            ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+                li(ng-repeat='(localeId, langName) in language.available')
+                    a(ng-click='language.set(localeId, $event)') {{langName}}
+    | {{'home.bp.titulo' | translate}}
+    small {{'home.bp.tituloDescripcion' | translate}}
+fieldset
+.row
+    .col-lg-3.col-sm-6
+        // START widget
+        .panel.widget.bg-primary(ng-click='cargarFiltro(1)')
+            .row.row-table
+                .col-xs-4.text-center.bg-primary-dark.pv-lg
+                    em.icon-cloud-upload.fa-3x
+                .col-xs-8.pv-lg
+                    .h2.mt0 {{dashboard.iniciativa}}
+                    .text-uppercase {{'home.bp.campos.iniciativas' | translate}}
+    .col-lg-3.col-md-6.col-sm-12
+        // START widget
+        .panel.widget.bg-green(ng-click='cargarFiltro(2)')
+            .row.row-table
+                .col-xs-4.text-center.bg-green-dark.pv-lg
+                    em.icon-bubbles.fa-3x
+                .col-xs-8.pv-lg
+                    .h2.mt0  {{dashboard.evaluacion}}
+                    .text-uppercase {{'home.bp.campos.preEvaluacion' | translate}}
+    .col-lg-3.col-md-6.col-sm-12
+        // START widget
+        .panel.widget.bg-warning(ng-click='cargarFiltro(3)')
+            .row.row-table
+                .col-xs-4.text-center.bg-warning-dark.pv-lg
+                    em.icon-bubbles.fa-3x
+                .col-xs-8.pv-lg
+                    .h2.mt0  {{dashboard.ejecucion}}
+                    .text-uppercase {{'home.bp.campos.devolucion' | translate}}
+
+.row
+    .col-lg-12
+        // START panel
+        .panel.panel-default
+            .panel-heading
+                | {{'home.bp.tabla.titulo' | translate}}
+                // START table-responsive
+                .table-responsive
+                    table#table-ext-3.table.table-striped.table-bordered.table-hover
+                        thead
+                            tr
+                                th {{'home.jefeProyecto.tabla.id' | translate}}
+                                th {{'home.jefeProyecto.tabla.nombre' | translate}}
+                                th {{'home.jefeProyecto.tabla.empresa' | translate}}
+                                th {{'home.jefeProyecto.tabla.solicitante' | translate}}
+                                th {{'home.jefeProyecto.tabla.fechaCreacion' | translate}}
+                                th {{'home.jefeProyecto.tabla.etapa' | translate}}
+                                th {{'home.jefeProyecto.tabla.estado' | translate}}
+                                th {{'home.jefeProyecto.tabla.acciones' | translate}}
+                        tbody
+                            tr(ng-repeat='item in data | filter:miFiltro')
+                                td {{item.idProyecto}}
+                                td {{item.nombre}}
+                                td {{item.empresa.nombre}}
+                                td {{item.usuario.nombre}}
+                                td {{item.fechaCreacion | date:'MM/dd/yyyy h:mma'}}
+                                td {{item.etapa.nombre}}
+                                td {{item.estadoProyecto.nombre}}
+                                td
+                                    a.btn.btn-primary(ng-show='item.idEstadoProyecto==1', href='/#/app/proyecto/aprobarIniciativa/{{item.idProyecto}}')
+                                        i.fa.fa-pencil-square-o
+                                    a.btn.btn-info(ng-show='item.idEstadoProyecto==2', href='/#/app/proyecto/verIniciativa/{{item.idProyecto}}')
+                                        em.icon-eye.fa-1x
+                                    a.btn.btn-info(ng-show='item.idEtapaProyecto>1', href='/#/app/proyecto/verProyecto/{{item.idProyecto}}')
+                                        em.icon-doc.fa-1x
+                                    a.btn.btn-default(href='/#/app/proyecto/verHistorial/{{item.idProyecto}}')
+                                        em.icon-book-open
+                                    a.btn.btn-warning(href='/#/app/proyecto/versiones/{{item.idProyecto}}')
+                                        em.icon-layers
+
+
+

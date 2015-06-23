@@ -11,7 +11,7 @@ App.controller('incidente.crearIncidente', ['$scope','Auth','$http','FileUploade
 
 $scope.cerrarPagina = function (){
     
-     $state.go('app.homeKu',null, {notify:true});
+     $state.go($rootScope.user.dashboard,null, {notify:true});
 }
 
 uploader.onBeforeUploadItem = function(item) {

@@ -40,9 +40,13 @@ h3
       fieldset
        .col-sm-10
         label.checkbox.checkbox-inline(ng-repeat='item in roles')
-          input(type='checkbox', ng-model='arrayRoles[item.rolId]')
+          input(type='checkbox', ng-model='arrayRoles[item.rolId]' ng-click='actualizaListaDashboard(null)')
           i
           | {{item.nombre}}
+      fieldset
+        .col-sm-5
+          label {{'administracion.usuarios.campos.home' | translate}}
+          select.form-control(ng-model="home",ng-options="item as item.nombre  for item in dashboard")
       .panel-footer
         .pull-right
           .form-group

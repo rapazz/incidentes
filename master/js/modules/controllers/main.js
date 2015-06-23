@@ -4,10 +4,42 @@
  =========================================================*/
 
 App.controller('AppController',
-  ['$rootScope', '$scope', '$state', '$translate', '$window', '$localStorage', '$timeout', 'toggleStateService', 'colors', 'browser', 'cfpLoadingBar',
-  function($rootScope, $scope, $state, $translate, $window, $localStorage, $timeout, toggle, colors, browser, cfpLoadingBar) {
+  ['$rootScope', '$scope', '$state', '$translate', '$window', '$localStorage', '$timeout', 'toggleStateService', 'colors', 'browser', 'cfpLoadingBar','$http','Auth',
+  function($rootScope, $scope, $state, $translate, $window, $localStorage, $timeout, toggle, colors, browser, cfpLoadingBar,$http,Auth) {
     "use strict";
 
+      $scope.getCurrentUser = Auth.getCurrentUser();
+      $scope.notificacionActiva==false;
+      // Carga notificacion del servidor
+      $http.get('/api/notificaciones/'+$scope.getCurrentUser.usuarioId).
+          success(function(data) {
+              $scope.listadoNotificaciones = data;
+              var totalNoficacion=0;
+              for (var i=0;i<=data.length-1;i++)
+                totalNoficacion +=data[i].cantidad;
+              if (totalNoficacion>0)
+                $scope.notificacion = totalNoficacion;
+
+          });
+
+
+      $scope.abrirNotificacion = function(e){
+          $rootScope.cancel(e);
+          $scope.notificacionActiva=true;
+
+      }
+
+      $scope.marcarLeida =function(){
+          $scope.notificacion='';
+          $scope.notificacionActiva=false;
+          /*
+          $http.post('/api/notificaciones/marcarLeida',{usuarioId:$scope.getCurrentUser.usuarioId}).
+              success(function(data) {
+                  $scope.notificacion='';
+                  $scope.notificacionActiva=false;
+              })
+*/
+      }
 
 
     // Loading bar transition
@@ -99,7 +131,7 @@ console.log($scope.miBusqueda)
       // list of available languages
       available: {
         'en':       'English',
-        'es_CL':    'chileno'
+        'es_CL':    'Español'
       },
       // display always the current ui language
       init: function () {
@@ -117,10 +149,18 @@ console.log($scope.miBusqueda)
       }
     };
 
+
+    $scope.cargarPrivado =true;
+
     $scope.language.init();
 
     // Restore application classes state
     toggle.restoreState( $(document.body) );
+      $(document.body).click(function(e) {
+         if ($scope.notificacionActiva)
+                 $scope.marcarLeida();
+
+      });
 
     // Applies animation to main view for the next pages to load
     $timeout(function(){
@@ -129,6 +169,7 @@ console.log($scope.miBusqueda)
 
     // cancel click event easily
     $rootScope.cancel = function($event) {
+
       $event.stopPropagation();
     };
 

@@ -1,0 +1,79 @@
+h3
+    .pull-right
+        .btn-group(dropdown='', is-open='language.listIsOpen')
+            button.btn.btn-default(type='button', dropdown-toggle="")
+                | {{language.selected}}
+                span.caret
+            ul.dropdown-menu.dropdown-menu-right.animated.fadeInUpShort(role='menu')
+                li(ng-repeat='(localeId, langName) in language.available')
+                    a(ng-click='language.set(localeId, $event)') {{langName}}
+    | {{'proyecto.avance.titulo' | translate}}
+    small {{'proyecto.avance.tituloDescripcion' | translate}}
+form(method='post',id='formAvance',name ='formAvance', validate-form='', novalidate='',ng-submit='actualizarAvance()' )
+ .panel.panel-default
+    .panel-body
+        h1.lead.text-muted.text-center {{proyecto.nombre}}
+        hr
+        fieldset
+            .panel.panel-info
+                .panel-body
+                    .col-xs-6.col-md-4
+                        .form-group
+                            label.control-label
+                                | {{'proyecto.avance.campos.saludProyecto' | translate}}
+                            select.form-control(ng-model="proyecto.idSaludProyecto",required, data-parsley-error-message="{{'proyecto.avance.campos.errorSalud' | translate}}",ng-options="item.id as item.nombre  for item in listas.saludProyecto",ng-change="cargaModulo()")
+                             option(value='') -- Seleccione Salud --
+
+                    .col-xs-6.col-md-2
+                        label.control-label
+                            | {{'proyecto.avance.campos.avance' | translate}}
+                        input.form-control(type='number',ng-model="proyecto.avance",required, data-parsley-error-message="{{'proyecto.avance.campos.errorAvance' | translate}}")
+
+                fieldset
+                     .col-xs-12.col-md-12
+                         .form-group
+                             label.control-label
+                                 | {{'proyecto.avance.campos.comentarios' | translate}}
+                             textarea.form-control(rows="4",ng-model="proyecto.comentarioAvance",required, data-parsley-error-message="{{'proyecto.avance.campos.errorComentarios' | translate}}")
+                fieldset
+                    .col-xs-12.col-md-12
+                        .panel.panel-default
+                            .panel-heading
+                                | {{' proyecto.avance.tabla.titulo' | translate}}
+                                // START table-responsive
+                                .table-responsive
+                                    table#table-ext-3.table.table-striped.table-bordered.table-hover
+                                        thead
+                                            tr
+                                                th {{' proyecto.avance.tabla.tipoEntregable' | translate}}
+                                                th {{' proyecto.avance.tabla.fechaEstimada' | translate}}
+                                                th {{' proyecto.avance.tabla.semanaEntrega' | translate}}
+                                                th {{' proyecto.avance.tabla.adjunto' | translate}}
+                                                th {{' proyecto.avance.tabla.estado' | translate}}
+                                                th {{' proyecto.avance.tabla.acciones' | translate}}
+                                        tbody
+                                            tr(ng-repeat='item in proyecto.entregableProyecto')
+                                                td {{item.tipoEntregable.nombre}}
+                                                td {{item.fechaEstimada | date:'MM/dd/yyyy'}}
+                                                td {{item.semanaEntrega}}
+                                                td
+                                                    a(href='/api/adjunto/proyecto/obtenerarchivo/{{item.urlArchivo}}') {{item.nombreAdjunto}}
+                                                td(ng-show='item.estado==0')
+                                                 div.label.label-warning Pendiente
+                                                td(ng-show='item.estado==1')
+                                                 div.label.label-success Entregado
+                                                td
+                                                 span.btn.btn-default.btn-file Subir
+                                                     input(type='file', nv-file-select,uploader="uploader",options='{id:item.tipoEntregable.id,idEntregable:item.idEntregable}')
+ .panel-footer
+    fieldset
+        .pull-right
+            .form-group
+                .col-lg-offset-2.col-lg-10
+                    button.btn.btn-primary(type='submit') {{'proyecto.avance.botones.actualizar' | translate}}
+script(type="text/ng-template", id="dialogWithNestedConfirmDialogId")
+    .ngdialog-message
+        h3.mt0 {{'proyecto.avance.mensajeExito' | translate}}
+        p
+            | {{'proyecto.avance.mensajeDetalle' | translate}}
+        button.btn.btn-primary(type='button', ng-click="confirm(1)") Ok

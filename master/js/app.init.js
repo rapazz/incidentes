@@ -49,7 +49,26 @@ var App = angular.module('angle', ['ngRoute', 'ngAnimate', 'ngStorage', 'ngCooki
     
         // If logged out and transitioning to a logged in page: kljklj
         e.preventDefault();
-        $state.go('app.homeConsultor',null, {notify:true});
+
+        var user =Auth.getCurrentUser();
+
+        var roles = JSON.parse(user.rolesMenu);
+        var dashboard = '';
+        dashboard= user.dashboard;
+/*
+        if (roles.indexOf(80)>0)
+            dashboard ='app.homeSuperConsultor';
+        else
+        if (roles.indexOf(40)>0)
+            dashboard ='app.homeKu';
+        else
+        if (roles.indexOf(20)>0)
+            dashboard ='app.homeJefeProyecto';
+        else
+            dashboard ='app.homeConsultor';
+*/
+
+        $state.go(dashboard,null, {notify:true});
     }
     
      if (toState.module==='private' && !Auth.isLoggin() ) {
@@ -64,27 +83,42 @@ var App = angular.module('angle', ['ngRoute', 'ngAnimate', 'ngStorage', 'ngCooki
              
               if (Auth.isLoggin())  {
                 
-                 mySocket.emit('registarUsuario', Auth.getCurrentUser() );
+         //        mySocket.emit('registarUsuario', Auth.getCurrentUser() );
 //VALIDAR
 
 
                 var user =Auth.getCurrentUser();
-                  $rootScope.user = {
-                  name:     user.nombre,
-                  email:user.email,
-                  usuarioId:user.usuarioId,
-                  picture:  user.foto,
-                  empresa:user.empresa
-                  };
-             var roles = JSON.parse(user.rolesMenu)
+
+             var roles = JSON.parse(user.rolesMenu);
+             var dashboard = '';
+/*
              if (roles.indexOf(80)>0)
-                $state.go('app.homeSuperConsultor',null, {notify:true});
-                else 
+              dashboard ='app.homeSuperConsultor';
+                else
              if (roles.indexOf(40)>0)
-                $state.go('app.homeKu',null, {notify:true});
-             else 
-                $state.go('app.homeConsultor',null, {notify:true});
-              } 
-              
+                 dashboard ='app.homeKu';
+             else
+             if (roles.indexOf(20)>0)
+                 dashboard ='app.homeJefeProyecto';
+             else
+             if (roles.indexOf(50)>0)
+                 dashboard ='app.homeBp';
+                  else
+                 dashboard ='app.homeConsultor';
+
+*/              dashboard= user.dashboard;
+                  $rootScope.user = {
+                      name:     user.nombre,
+                      email:user.email,
+                      usuarioId:user.usuarioId,
+                      picture:  user.foto,
+                      empresa:user.empresa,
+                      dashboard:user.dashboard
+                  };
+console.log(dashboard);
+                  $state.go(dashboard,null, {notify:true});
+              }
+
+
             }
           ]);

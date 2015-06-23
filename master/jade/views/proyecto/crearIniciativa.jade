@@ -1,0 +1,85 @@
+//
+   Created by mbravo on 05-05-15.
+h3
+    .pull-right
+    | {{'proyecto.crearIniciativa.titulo' | translate}}
+    small {{'proyecto.crearIniciativa.tituloDescripcion' | translate}}
+.panel.panel-default
+    form(method='post',id='formCrearIncidente',name ='formCrearIniciativa', validate-form='', novalidate='',ng-submit='crearIniciativa()' )
+        .panel-body
+            fieldset
+                .col-sm-6
+                    .form-group
+                        label.control-label
+                            | {{'proyecto.crearIniciativa.campos.titulo' | translate}}
+                        input.form-control(type='text',ng-model="proyecto.titulo",required, data-parsley-error-message="{{'proyecto.crearIniciativa.campos.errorTitulo' | translate}}")
+            fieldset
+                .col-sm-3
+                    .form-group
+                        label.control-label
+                            | {{'proyecto.crearIniciativa.campos.empresa' | translate}}
+                        select.form-control(ng-model="proyecto.idEmpresa",required, data-parsley-error-message="{{'proyecto.crearIniciativa.campos.errorEmpresa' | translate}}",ng-options="item.idEmpresa as item.nombre  for item in listas.empresa",ng-change="cargaModulo()")
+                         option(value='') -- Seleccione Empresa --
+                .col-sm-3
+                    .form-group
+                        label.control-label
+                            | {{'proyecto.crearIniciativa.campos.departamento' | translate}}
+                        select.form-control(ng-model="proyecto.idDepartamento",required, data-parsley-error-message="{{'proyecto.crearIniciativa.campos.errorDepartamento' | translate}}",ng-options="item.idDepartamento as item.nombre  for item in listas.departamento")
+                         option(value='') -- Seleccione Departamento --
+            fieldset
+                .col-sm-10
+                    .form-group
+                        label.control-label
+                            | {{'proyecto.crearIniciativa.campos.resumenEjecutivo' | translate}}
+                        textarea.form-control(rows="4",ng-model="proyecto.resumenEjecutivo",required, data-parsley-error-message="{{'proyecto.crearIniciativa.campos.errorResumenEjecutivo' | translate}}")
+            fieldset
+                .col-md-10
+                    .panel
+                        .panel-body
+                            h4.page-header.mt0 {{'proyecto.crearIniciativa.campos.tituloArchivo' | translate}}
+                            div(nv-file-drop='', uploader='uploader')
+                                .box-placeholder.my-drop-zone(nv-file-over='', uploader='uploader', over-class='bg-purple')
+                                    | {{'proyecto.crearIniciativa.campos.descripcionArchivo' | translate}}
+                            // Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}"
+                            fieldset
+                                p.lead.text-center(ng-if="!uploader.queue.length")  {{'proyecto.crearIniciativa.campos.mensajeArchivo' | translate}}
+                                div(ng-if="uploader.queue.length")
+                                    table.table(ng-if="uploader.queue.length")
+                                        thead
+                                            tr
+                                                th(width='50%') {{'proyecto.crearIniciativa.campos.tabla.archivoNombre' | translate}}
+                                                th(ng-show='uploader.isHTML5') {{'proyecto.crearIniciativa.campos.tabla.archivoTamano' | translate}}
+                                                th(ng-show='uploader.isHTML5') {{'proyecto.crearIniciativa.campos.tabla.progreso' | translate}}
+                                                th {{'proyecto.crearIniciativa.campos.tabla.status' | translate}}
+                                                th {{'proyecto.crearIniciativa.campos.tabla.acciones' | translate}}
+                                        tbody
+                                            tr(ng-repeat='item in uploader.queue')
+                                                td
+                                                    strong {{ item.file.name }}
+                                                td(ng-show='uploader.isHTML5', nowrap='') {{ item.file.size/1024/1024|number:2 }} MB
+                                                td(ng-show='uploader.isHTML5')
+                                                    .progress.progress-xs(style='margin-bottom: 0;')
+                                                        .progress-bar(role='progressbar', ng-style="{ 'width': item.progress + '%' }")
+                                                td.text-center
+                                                    span(ng-show='item.isSuccess')
+                                                        em.fa.fa-check.fa-fw
+                                                    span(ng-show='item.isCancel')
+                                                        em.fa.fa-ban-circle.fa-fw
+                                                    span(ng-show='item.isError')
+                                                        em.fa.fa-times.fa-fw
+                                                td(nowrap='')
+                                                    button.btn.btn-danger.btn-xs(type='button', ng-click='item.remove()')
+                                                        span.icon-trash.mr
+                                                        |  {{'proyecto.crearIniciativa.campos.tabla.remover' | translate}}
+        .panel-footer
+            fieldset
+                .pull-right
+                    .form-group
+                        .col-lg-offset-2.col-lg-10
+                            button.btn.btn-primary(type='submit') {{'proyecto.crearIniciativa.botones.crear' | translate}}
+    script(type="text/ng-template", id="dialogWithNestedConfirmDialogId")
+     .ngdialog-message
+        h3.mt0 {{'proyecto.crearIniciativa.mensajeExito' | translate}} N° {{idProyecto}}
+        p
+            | {{'proyecto.crearIniciativa.mensajeDetalle' | translate}}
+        button.btn.btn-primary(type='button', ng-click="confirm(1)") Ok

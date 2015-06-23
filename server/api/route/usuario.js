@@ -13,5 +13,5 @@ router.post('/update', controller.update);
 //router.get('/menu/:id', auth.isAuthenticated(),controller.getMenu);
 router.get('/menu/:id',controller.getMenu);
 router.get('/:id',controller.get);
-
+//router.get('/elastic/:id',controller.buscaryCrear)
 module.exports = router;

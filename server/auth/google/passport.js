@@ -15,14 +15,10 @@ passport.use(new GoogleStrategy({
     },
 
   function(accessToken, refreshToken, profile, done) {
-var user = usuario.buscarUsuarioEmail(profile, function(x){ 
-    
+var user = usuario.buscaryCrear(profile.emails[0].value,profile._json.picture, function(x){
+   console.log(x)
      return done(null,x);
 })
-
-
-
-
 
 
     }

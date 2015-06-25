@@ -41,37 +41,23 @@ nav.navbar.topnavbar(role='navigation')
             em.icon-bell
             .label.label-danger {{notificacion}}
           // START Dropdown menu
-          ul.dropdown-menu(class="animated flipInX",ng-show="notificacion!=''")
+          ul.dropdown-menu(class="animated flipInX")
             li
               // START list group
-              .list-group
+              .list-group(ng-repeat="item in listadoNotificaciones")
                 // list item
-                a.list-group-item(href='#')
+                a.list-group-item(ng-click='actualizarNotificacion(item.tipoNotificacion)')
                   .media-box
 
                     .media-box-body.clearfix
-                        p.m0 New followers
-                        p.m0.text-muted: small 1 new follower
+                        span.label.label-warning.pull-left {{item.cantidad}}
+                        p.m0.text-muted.pull-right: small  {{item.tipo.nombre}}
+              .list-group(ng-show='listadoNotificaciones.length==0')
                 // list item
-                a.list-group-item(href='#')
-                  .media-box
-
-                    .media-box-body.clearfix
-                        p.m0 New e-mails
-                        p.m0.text-muted: small You have 10 new emails
-                // list item
-                a.list-group-item(href='#')
-                  .media-box
-                    .pull-left
-                      em.fa.fa-tasks.fa-2x.text-success
-                    .media-box-body.clearfix
-                        p.m0 Pending Tasks
-                        p.m0.text-muted: small 11 pending task
-
-                // last list item 
-                a.list-group-item(href='#')
-                  small(translate="topbar.notification.MORE") More notifications
-                  span.label.label-danger.pull-right 14
+                a.list-group-item
+                    .media-box
+                        .media-box-body.clearfix
+                            p.m0.text-muted.pull-right  SIN NOTIFICACIONES PENDIENTES
               // END list group
           // END Dropdown menu
         // END Alert menu

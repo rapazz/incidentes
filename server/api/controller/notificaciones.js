@@ -1,4 +1,5 @@
 var models  = require('../model');
+var clients = require('../sockets/variables.js');
 exports.crearNotificacion=function(email,tipo){
     //buscar  si  existe sumar si no Agregar el registro.
 
@@ -13,7 +14,7 @@ exports.crearNotificacion=function(email,tipo){
 
 
                 }).success(function(notificar) {
-
+                    enviarNotificacion(email)
                     return notificar;
 
                 });
@@ -22,8 +23,10 @@ exports.crearNotificacion=function(email,tipo){
                     cantidad: notificacion.cantidad +1
 
                 }).success(function(x){
+                    enviarNotificacion(email)
                     return x;
                 })
+
 
         })
 
@@ -33,7 +36,7 @@ exports.crearNotificacion=function(email,tipo){
 
 exports.cargarNotificaciones = function(req,res){
 
-    models.notificaciones.findAll({where:{usuarioId:req.params.id}
+    models.notificaciones.findAll({where:{usuarioId:req.params.id}, include :[{model:models.parametros, as :'tipo'}]
 
     }).then(function(n) {
         return res.json(200, n);
@@ -42,11 +45,29 @@ exports.cargarNotificaciones = function(req,res){
 
 }
 
+
+function enviarNotificacion(usuario){
+
+
+        models.notificaciones.findAll({where:{usuarioId:usuario}, include :[{model:models.parametros, as :'tipo'}]
+
+        }).then(function(n) {
+
+            clients[usuario].emit("notificar", JSON.stringify(n))
+
+        });
+
+
+
+}
+
+
 exports.marcarLeida=function (req,res){
 
-    console.log(usuarioId);
-    models.notificaciones.destroy({where:{usuarioId:req.body.usuarioId} }).success(function(t) {
 
+    models.notificaciones.destroy({where:{usuarioId:req.body.notificacion.usuarioId,tipoNotificacion:req.body.notificacion.tipoNotificacion} }).success(function(t) {
+
+        enviarNotificacion(req.body.notificacion.usuarioId)
        return  res.json(200, t);
     })
 

@@ -83,7 +83,7 @@ var App = angular.module('angle', ['ngRoute', 'ngAnimate', 'ngStorage', 'ngCooki
              
               if (Auth.isLoggin())  {
                 
-         //        mySocket.emit('registarUsuario', Auth.getCurrentUser() );
+                 mySocket.emit('registarUsuario', Auth.getCurrentUser() );
 //VALIDAR
 
 

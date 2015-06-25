@@ -10,7 +10,19 @@ module.exports = function(sequelize, DataTypes) {
 
 
         },
+        {
+            classMethods: {
+                associate: function(models) {
 
+                    notificaciones.belongsTo(models.parametros,{foreignKey:'tipoNotificacion', as:'tipo'})
+
+
+
+
+                }
+            }
+
+        },
         {
             createdAt: false,
 

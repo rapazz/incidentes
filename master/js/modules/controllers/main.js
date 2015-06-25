@@ -4,31 +4,48 @@
  =========================================================*/
 
 App.controller('AppController',
-  ['$rootScope', '$scope', '$state', '$translate', '$window', '$localStorage', '$timeout', 'toggleStateService', 'colors', 'browser', 'cfpLoadingBar','$http','Auth',
-  function($rootScope, $scope, $state, $translate, $window, $localStorage, $timeout, toggle, colors, browser, cfpLoadingBar,$http,Auth) {
+  ['$rootScope', '$scope', '$state', '$translate', '$window', '$localStorage', '$timeout', 'toggleStateService', 'colors', 'browser', 'cfpLoadingBar','$http','Auth','mySocket',
+  function($rootScope, $scope, $state, $translate, $window, $localStorage, $timeout, toggle, colors, browser, cfpLoadingBar,$http,Auth,mySocket) {
     "use strict";
 
       $scope.getCurrentUser = Auth.getCurrentUser();
       $scope.notificacionActiva==false;
-      // Carga notificacion del servidor
-      $http.get('/api/notificaciones/'+$scope.getCurrentUser.usuarioId).
-          success(function(data) {
-              $scope.listadoNotificaciones = data;
-              var totalNoficacion=0;
-              for (var i=0;i<=data.length-1;i++)
-                totalNoficacion +=data[i].cantidad;
-              if (totalNoficacion>0)
+
+function cargarNotificaciones() {
+    // Carga notificacion del servidor
+    $http.get('/api/notificaciones/' + $scope.getCurrentUser.usuarioId).
+        success(function (data) {
+            console.log(data);
+            $scope.listadoNotificaciones = data;
+            var totalNoficacion = 0;
+            for (var i = 0; i <= data.length - 1; i++)
+                totalNoficacion += data[i].cantidad;
+            if (totalNoficacion > 0)
                 $scope.notificacion = totalNoficacion;
 
-          });
+        });
 
+}
+      cargarNotificaciones();
 
       $scope.abrirNotificacion = function(e){
           $rootScope.cancel(e);
           $scope.notificacionActiva=true;
 
-      }
+      };
 
+
+      $scope.actualizarNotificacion=function(tipo){
+
+          var notificacion = {}
+          notificacion.usuarioId =$scope.getCurrentUser.usuarioId
+          notificacion.tipoNotificacion = tipo
+          $http.post('/api/notificaciones/marcarLeida',{notificacion:notificacion}).
+              success(function(data) {
+
+              })
+
+      };
       $scope.marcarLeida =function(){
           $scope.notificacion='';
           $scope.notificacionActiva=false;
@@ -39,7 +56,22 @@ App.controller('AppController',
                   $scope.notificacionActiva=false;
               })
 */
-      }
+      };
+
+
+      mySocket.on('notificar', function (data) {
+
+
+          data = JSON.parse(data);
+          $scope.listadoNotificaciones = data;
+          var totalNoficacion=0;
+          for (var i=0;i<=data.length-1;i++)
+              totalNoficacion +=data[i].cantidad;
+          if (totalNoficacion>0)
+              $scope.notificacion = totalNoficacion;
+
+      });
+
 
 
     // Loading bar transition

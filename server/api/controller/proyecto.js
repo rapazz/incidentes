@@ -34,7 +34,7 @@ exports.crearIniciativa = function(req, res) {
             historial.idEtapaProyecto = 1;
             historial.descripcion  =''
             historialProyecto.insertarHistorial(historial)
-notificacion.crearNotificacion(proyecto.idBp,1)
+notificacion.crearNotificacion(proyecto.idBp,25)
             //Enviar Email
 /*
             models.proyecto.find({where:{idProyecto:proyecto.idProyecto},
@@ -226,9 +226,10 @@ exports.crearPreEvaluacion = function (req,res ){
             proyecto.idEstadoProyecto =4
 
         }
-        else
-            proyecto.idEstadoProyecto =2
-
+        else {
+            proyecto.idEstadoProyecto = 2
+            notificacion.crearNotificacion(req.body.proyecto.idJefeProyecto,26)
+        }
         proyecto.idJefeProyecto = req.body.proyecto.idJefeProyecto
 
         proyecto.save(['idEstadoProyecto','idEtapaProyecto','idJefeProyecto']).success(function(p){
